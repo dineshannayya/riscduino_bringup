@@ -16,22 +16,22 @@ NET "line_clk" LOC = P126;
 #                                                 LEDs                                                                                            #
 ################################################################################################################################################### 
 
-#NET "LED[0]" 			  LOC = P119	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-#NET "LED[1]" 			  LOC = P118	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-#NET "LED[2]" 			  LOC = P117	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-#NET "LED[3]" 			  LOC = P116	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-#NET "LED[4]" 			  LOC = P115	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-#NET "LED[5]" 			  LOC = P114	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-#NET "LED[6]" 			  LOC = P112	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-#NET "LED[7]" 			  LOC = P111	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "LED[0]" 			  LOC = P119	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "LED[1]" 			  LOC = P118	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "LED[2]" 			  LOC = P117	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "LED[3]" 			  LOC = P116	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "LED[4]" 			  LOC = P115	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "LED[5]" 			  LOC = P114	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "LED[6]" 			  LOC = P112	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "LED[7]" 			  LOC = P111	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
 ###################################################################################################################################################
 #                                                Push Button Switches                                                                             #
 ################################################################################################################################################### 
 
-#NET "SW0" 			  LOC = P124	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-#NET "SW1" 			  LOC = P123	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-#NET "SW2" 			  LOC = P121	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-#NET "SW3" 			  LOC = P120	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "Switch[0]" 			  LOC = P124	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "Switch[1]" 			  LOC = P123	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "Switch[2]" 			  LOC = P121	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "Switch[3]" 			  LOC = P120	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
 
 ###################################################################################################################################################
 #                                                   HEADER P1                                                                                     #

@@ -110,12 +110,12 @@ input          rx_wr               ; // Valid RXD Data
 // Control Unit interface
 // --------------------------------------
 
-output  [15:0] reg_addr           ; // Operend-1
-output  [31:0]  reg_wdata          ; // Operend-2
-output         reg_req            ; // Register Request
-output         reg_wr             ; // 1 -> write; 0 -> read
-input          reg_ack            ; // Register Ack
-input   [31:0] reg_rdata          ;
+output  [7:0] reg_addr           ; // Operend-1
+output  [31:0]  reg_wdata        ; // Operend-2
+output         reg_req           ; // Register Request
+output         reg_wr            ; // 1 -> write; 0 -> read
+input          reg_ack           ; // Register Ack
+input   [31:0] reg_rdata         ;
 
 // Local Wire/Register Decleration
 //
@@ -128,8 +128,8 @@ reg  [4:0]      RxMsgCnt           ; // Count the Receive Message Count
 reg  [3:0]      State              ;
 reg  [3:0]      NextState          ;
 reg  [15:0]     cmd                ; // command
-reg  [15:0]     reg_addr           ; // reg_addr
-reg  [31:0]      reg_wdata          ; // reg_addr
+reg  [7:0]      reg_addr           ; // reg_addr
+reg  [31:0]     reg_wdata          ; // reg_addr
 reg             reg_wr             ; // 1 -> Reg Write request, 0 -> Read Requestion
 reg             reg_req            ; // 1 -> Register request
 

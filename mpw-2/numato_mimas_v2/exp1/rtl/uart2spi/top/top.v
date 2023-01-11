@@ -58,7 +58,10 @@ module top (
         spi_sck,
         spi_so,
         spi_si,
-        spi_csn  
+        spi_csn  ,
+
+        Switch,
+        LED  
 
      );
 
@@ -67,6 +70,8 @@ module top (
 //---------------------------------
 // Global Dec
 // ---------------------------------
+input [3:0]  Switch;
+output [7:0] LED   ;
 
 input        line_reset_n         ; // line reset
 input        line_clk             ; // line clock
@@ -88,12 +93,12 @@ output [3:0]        spi_csn            ; // cs_n
 // Control Unit interface
 // --------------------------------------
 
-wire  [15:0]       reg_addr        ; // Register Address
-wire  [31:0]       reg_wdata       ; // Register Wdata
-wire               reg_req         ; // Register Request
-wire               reg_wr          ; // 1 -> write; 0 -> read
-wire               reg_ack         ; // Register Ack
-wire   [31:0]      reg_rdata       ;
+wire  [7:0]        reg_addr            ; // Register Address
+wire  [31:0]       reg_wdata           ; // Register Wdata
+wire               reg_cs              ; // Register Request
+wire               reg_wr              ; // 1 -> write; 0 -> read
+wire               reg_ack             ; // Register Ack
+wire   [31:0]      reg_rdata           ;
 //--------------------------------------
 // TXD Path
 // -------------------------------------
@@ -118,6 +123,18 @@ wire         cfg_stop_bit         ; // 0 -> 1 Stop, 1 -> 2 Stop
 wire   [1:0] cfg_pri_mod          ; // priority mode, 0 -> nop, 1 -> Even, 2 -> Odd
 wire   [11:0] cfg_baud_16x        ; // 16x Baud clock generation
 
+// SPI Reg Interface
+wire       reg_spi_cs;
+wire       reg_spi_wr;
+wire [7:0] reg_spi_addr;
+wire [7:0] reg_spi_wdata;
+wire [7:0] reg_spi_rdata;
+
+// LED Reg Interface
+wire       reg_led_cs;
+wire       reg_led_wr;
+wire [7:0] reg_led_wdata;
+wire [7:0] reg_led_rdata;
 //--------------------------------------
 // ERROR Indication
 // -------------------------------------
@@ -132,21 +149,39 @@ assign  cfg_stop_bit   = 1'b1; // 0 -> 1 Start , 1 -> 2 Stop Bits
 assign  cfg_pri_mod    = 2'b0; // priority mode, 0 -> nop, 1 -> Even, 2 -> Odd
 assign 	cfg_baud_16x   = 'h0;
 
+
+//-------------------------------------------
+// Register Bus Decoding
+// Reg[7] = 0   SPI
+//        = 1   LED
+//-------------------------------------------
+assign reg_led_cs = (reg_cs && reg_addr[7] == 1'b1);
+assign reg_spi_cs = (reg_cs && reg_addr[7] == 1'b0);
+
+assign reg_led_wr = reg_wr;
+assign reg_spi_wr = reg_wr;
+
+assign reg_spi_addr = reg_addr;
+
+assign reg_rdata   = (reg_led_cs) ? reg_led_rdata: reg_spi_rdata;
+assign reg_ack     = (reg_led_cs) ? 1'b1 : reg_spi_ack;
+
+
 spi_core  u_spi (
 
              .clk                (baud_clk_16x),
              .reset_n            (line_reset_n),
                
         // Reg Bus Interface Signal
-             .reg_cs             (reg_req      ),
-             .reg_wr             (reg_wr       ),
-             .reg_addr           (reg_addr[5:2]),
-             .reg_wdata          (reg_wdata    ),
-             .reg_be             (4'b1111      ),
+             .reg_cs             (reg_spi_cs       ),
+             .reg_wr             (reg_spi_wr       ),
+             .reg_addr           (reg_spi_addr[5:2]),
+             .reg_wdata          (reg_spi_wdata    ),
+             .reg_be             (4'b1111          ),
 
             // Outputs
-            .reg_rdata           (reg_rdata    ),
-            .reg_ack             (reg_ack      ),
+            .reg_rdata           (reg_spi_rdata    ),
+            .reg_ack             (reg_spi_ack      ),
 
           // line interface
                .sck              (spi_sck      ),
@@ -212,10 +247,30 @@ uart_msg_handler u_msg (
           .reg_addr          (reg_addr),
           .reg_wr            (reg_wr),
           .reg_wdata         (reg_wdata),
-          .reg_req           (reg_req),
+          .reg_req           (reg_cs),
           .reg_ack           (reg_ack),
 	  .reg_rdata         (reg_rdata) 
 
      );
+
+led_driver u_led (
+
+    // Assuming 100MHz input clock. May need to adjust the counter below
+    // if any other input frequency is used
+         .Clk          (line_clk),
+            	 
+    // Inputs from the Push Buttons.
+         .Switch       (Switch),
+
+   // Reg Interface
+         .reg_cs      (reg_led_cs),
+         .reg_wr      (reg_led_wr),
+         .reg_wdata   (reg_led_wdata),
+         .reg_rdata   (reg_led_rdata),
+    
+    // Output is shown on LED with different functionality.
+         .LED         (LED)
+);
+
 
 endmodule
