@@ -133,7 +133,6 @@ def exec_data_flash(test, test_name, config_stream):
     test.apply_reset()
     test.powerup_sequence()
     erase()
-    verify_mem(f"{test_name}.hex")
     # test.flash(f"{test_name}.hex")
     flash(f"{test_name}.hex")
     data_flash(test_name, config_stream )
