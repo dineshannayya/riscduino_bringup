@@ -33,10 +33,15 @@ JEDEC = 0xef4016 is corresponding to Winbond Serial Flash (0xeF) + 25Q32JV-IQ/JQ
 
 https://www.st.com/resource/en/user_manual/um1974-stm32-nucleo144-boards-mb1137-stmicroelectronics.pdf
 
+#MicriPython SPI
+https://docs.micropython.org/en/latest/library/machine.SPI.html
+
 #MicrpPython Example
 https://youtu.be/a_G3WqjfPBA
 
 #Winbond Flash Data sheet
 https://www.winbond.com/resource-files/w25q32jv%20revg%2003272018%20plus.pdf
 
+# Caravel Nucleo Schematic
+https://raw.githubusercontent.com/efabless/caravel_board/main/hardware/caravel_Nucleo/caravel_Nucleo.pdf
 
