@@ -1,0 +1,10 @@
+Use Saleas Logic analyzer tool to view these data
+These waveform capture with Logic-2 version 2.4.4
+{"Environment":"production",
+ "Branch":"master",
+ "Commit":"cb8a0e52870be5f56d9ab15fba44fcdd562d59a9",
+ "Version":"2.4.4",
+ "AutomationVersion":"1.0.0",
+ "MachineID":"66e9eff2-a9ee-4034-9ab4-98e378112957",
+ "PID":6440,
+ "LaunchId":"27f2155b-ce7d-418d-b11d-e72a9642e1a9"}

@@ -1,0 +1,35 @@
+1. Debug Anlysis: "Winbond SRAM not found" Error message while running the IO configuration test
+
+Date: 15th Jan 2022
+    Initial Debug shows 
+    1. The Caravel Flash first access only working fine. 
+    2. Flash access recover only with Power up sequence.
+    3. Caravel Flash JEDEC Return value 
+         JEDEC = 0xef4016 is corresponding to Winbond Serial Flash (0xeF) + 25Q32JV-IQ/JQ (0x4016). 
+         It means caravel able to read the flash JEDEC
+
+Date: 17th Jan 2022
+
+  Waveform Review:
+    Logic Analyser capture at SPI Interface at Caravel Flash
+    Capture-1: 1.BackToBack-JedecReadBurst.jpg
+       1. First JEDEC command ( 3 Byte Response) is sucessfull
+       2. At the end of JEDEC command, flash SO pin does not de-assert on CS# de-assetion
+       3. Subsequent JEDEC command is not sucessful.
+
+   Capture-2: 2.BackToBack-JedecSingleRead.jpg
+       1. First JEDEC command ( 1 Byte Response) is sucessfull
+       2. At the end of JEDEC command, flash SO pin does not de-assert on CS# de-assetion
+       3. Second JEDEC Command ( 1 Byte Response) - Flash is responding in Command Phase it self
+       4. Subsequent byte matches with JEDEC
+
+  Summary: From above capture it looks like Flash CS# struck at zero and it does not recoginse the CS# de-assertion.
+
+  Board Connectivity Review:
+      Cross check the Flash singal connectivity from connector to caravel flash looks to good.
+
+  Possibility: WinBond Pin #1 CS is faulty and detecting as Active low.
+  Next Action: Try replaceing the caravel flash
+
+       
+    
