@@ -1,0 +1,995 @@
+>>> %Run -c $EDITOR_CONTENT
+ 
+===================================================================
+== Beginning IO configuration test.  Testing LOW IO chain...     ==
+===================================================================
+ 
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[1] >> Passed
+gpio[2] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> Passed
+gpio[5] >> Passed
+gpio[6] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 248
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 248
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> Passed
+gpio[5] >> Passed
+gpio[6] >> Passed
+gpio[7] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 248
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 248
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> Passed
+gpio[5] >> Passed
+gpio[6] >> Passed
+gpio[7] >> Passed
+gpio[8] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 248
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 248
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> Passed
+gpio[5] >> Passed
+gpio[6] >> Passed
+gpio[7] >> Passed
+gpio[8] >> Passed
+gpio[9] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 248
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 248
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> Passed
+gpio[5] >> Passed
+gpio[6] >> Passed
+gpio[7] >> Passed
+gpio[8] >> Passed
+gpio[9] >> Passed
+gpio[10] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 248
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 248
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> Passed
+gpio[5] >> Passed
+gpio[6] >> Passed
+gpio[7] >> Passed
+gpio[8] >> Passed
+gpio[9] >> Passed
+gpio[10] >> TIMED OUT
+ 
+===================================================================
+== LOW IO chain test complete.  Testing HIGH IO chain...         ==
+===================================================================
+ 
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[37] >> Passed
+gpio[36] >> Passed
+gpio[35] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[37] >> Passed
+gpio[36] >> Passed
+gpio[35] >> Passed
+gpio[34] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3072
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3072
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[37] >> Passed
+gpio[36] >> Passed
+gpio[35] >> Passed
+gpio[34] >> TIMED OUT
+ 
+===================================================================
+== HIGH IO chain test complete. IO configuration test complete.  ==
+===================================================================
+ 
+ 
+===================================================================
+===================================================================
+== LOW chain FAILED.   Valid IO = 0 thur 10.                      ==
+== HIGH chain FAILED.  Valid IO = 34 thur 37.                    ==
+===================================================================
+ 
+*** Run 'make get_confg' to retrieve IO configure file (gpio_config_def.py)
+
+
