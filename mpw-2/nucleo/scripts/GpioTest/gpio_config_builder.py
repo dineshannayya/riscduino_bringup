@@ -81,43 +81,7 @@ def build_stream_none():
 
 
 
-def correct_dd_holds(stream, bpos):
-    stream = stream | (1 << bpos);
-    return stream
 
 # ------------------------------------------
 
-
-def build_config(arg_gpio_h, arg_gpio_l):
-    stream_h = arg_gpio_h.channel_status
-    stream_l = arg_gpio_l.channel_status
-    config_stream = []
-
-    config_stream.append(stream_l & 0xFF)
-    config_stream.append((stream_l >> 8) & 0xFF)
-    config_stream.append((stream_l >> 16) & 0xFF)
-    config_stream.append((stream_l >> 24) & 0xFF)
-
-    config_stream.append(stream_h & 0xFF)
-    config_stream.append((stream_h >> 8) & 0xFF)
-    config_stream.append((stream_h >> 16) & 0xFF)
-    config_stream.append((stream_h >> 24) & 0xFF)
-
-    config_stream.append(arg_gpio_l.fail_count & 0xFF)
-    config_stream.append(arg_gpio_h.fail_count & 0xFF)
-
-
-    config_stream.append(0x08)
-    config_stream.append(0x00)
-    config_stream.append(0x00)
-    config_stream.append(0x00)
-
-    config_stream.append(0x08)
-    config_stream.append(0x00)
-    config_stream.append(0x00)
-    config_stream.append(0x00)
-
-    print("Config Stream : {}".format(config_stream))
-
-    return config_stream
 

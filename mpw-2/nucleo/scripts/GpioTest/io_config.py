@@ -146,13 +146,13 @@ def choose_test(
 
 
 def run():
-    test = Test()
+    test = Test(voltage=1.8)
     gpio_l = Gpio()
     gpio_h = Gpio()
 
     print(" ")
     print("===================================================================")
-    print("== Beginning YIFIVE Boot test...                                 ==")
+    print("== Beginning IO configuration test.  Testing LOW IO chain...     ==")
     print("===================================================================")
     print(" ")
     led_green.blink(short=3, long=2)

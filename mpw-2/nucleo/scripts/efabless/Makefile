@@ -65,7 +65,7 @@ run:
 	mpremote connect ${DEV} exec "import machine; machine.reset()"
 
 get_config:
-	mpremote connect ${DEV} cp :gpio_config_def.py .
+	cp ${FLASH}/gpio_config_def.py .
 
 # enter repl on nucleo
 repl:

@@ -1,0 +1,1089 @@
+mpremote connect /dev/ttyACM0 exec "import machine; machine.reset()"
+ 
+===================================================================
+== Beginning IO configuration test.  Testing LOW IO chain...     ==
+===================================================================
+ 
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x00
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3060
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3060
+Writting config_io_o-tmp.hex
+@00000C00
+e6 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 66 06 06 06 06 06
+06 06 06 06 06 66 66 06 06 06 06 06 06 06 06 06
+06 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 66 06 06 06 06 06
+06 06 06 06 06 66 66 06 06 06 06 06 06 06 06 06
+06 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 66 06 06 06 06 06
+06 06 06 06 06 66 66 06 06 06 06 06 06 06 06 06
+06 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 66 06 06 06 06 06
+06 06 06 06 06 66 66 06 06 06 06 06 06 06 06 06
+06 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 66 06 06 06 06 06
+06 06 06 06 06 66 00 00 E6 00 00 00 00 00 00 00 
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x00
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3060
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3060
+Writting config_io_o-tmp.hex
+@00000C00
+e7 26 66 66 06 06 06 06 06 06 06 06 06 26 66 66
+06 06 06 06 06 06 06 06 06 26 66 66 06 06 06 06
+06 06 06 06 06 26 66 66 06 06 06 06 06 06 06 06
+06 26 66 66 06 06 06 06 06 06 06 06 06 26 66 66
+06 06 06 06 06 06 06 06 06 26 66 66 06 06 06 06
+06 06 06 06 06 26 66 66 06 06 06 06 06 06 06 06
+06 26 66 66 06 06 06 06 06 06 06 06 06 26 66 66
+06 06 06 06 06 06 06 06 06 26 66 66 06 06 06 06
+06 06 06 06 06 26 66 66 06 06 06 06 06 06 06 06
+06 26 66 66 06 06 06 06 06 06 06 06 06 26 66 66
+06 06 06 06 06 06 06 06 06 26 66 66 06 06 06 06
+06 06 06 06 06 26 66 66 06 06 06 06 06 06 06 06
+06 26 66 66 06 06 06 06 06 06 06 06 06 06 66 66
+06 06 06 06 06 06 06 06 06 06 66 66 06 06 06 06
+06 06 06 06 06 06 66 00 E7 00 00 00 00 00 00 00 
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x00
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3060
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3060
+Writting config_io_o-tmp.hex
+@00000C00
+e8 26 26 66 66 06 06 06 06 06 06 06 06 26 26 66
+66 06 06 06 06 06 06 06 06 26 26 66 66 06 06 06
+06 06 06 06 06 26 26 66 66 06 06 06 06 06 06 06
+06 26 26 66 66 06 06 06 06 06 06 06 06 26 26 66
+66 06 06 06 06 06 06 06 06 26 26 66 66 06 06 06
+06 06 06 06 06 26 26 66 66 06 06 06 06 06 06 06
+06 26 26 66 66 06 06 06 06 06 06 06 06 26 26 66
+66 06 06 06 06 06 06 06 06 26 26 66 66 06 06 06
+06 06 06 06 06 26 26 66 66 06 06 06 06 06 06 06
+06 26 26 66 66 06 06 06 06 06 06 06 06 26 26 66
+66 06 06 06 06 06 06 06 06 26 26 66 66 06 06 06
+06 06 06 06 06 26 26 66 66 06 06 06 06 06 06 06
+06 06 26 66 66 06 06 06 06 06 06 06 06 06 06 66
+66 06 06 06 06 06 06 06 06 06 06 66 66 06 06 06
+06 06 06 06 06 06 06 66 E8 00 00 00 00 00 00 00 
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> Passed
+gpio[5] >> Passed
+gpio[6] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x00
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3060
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3060
+Writting config_io_o-tmp.hex
+@00000C00
+e9 26 26 26 66 66 06 06 06 06 06 06 06 26 26 26
+66 66 06 06 06 06 06 06 06 26 26 26 66 66 06 06
+06 06 06 06 06 26 26 26 66 66 06 06 06 06 06 06
+06 26 26 26 66 66 06 06 06 06 06 06 06 26 26 26
+66 66 06 06 06 06 06 06 06 26 26 26 66 66 06 06
+06 06 06 06 06 26 26 26 66 66 06 06 06 06 06 06
+06 26 26 26 66 66 06 06 06 06 06 06 06 26 26 26
+66 66 06 06 06 06 06 06 06 26 26 26 66 66 06 06
+06 06 06 06 06 26 26 26 66 66 06 06 06 06 06 06
+06 26 26 26 66 66 06 06 06 06 06 06 06 26 26 26
+66 66 06 06 06 06 06 06 06 06 26 26 66 66 06 06
+06 06 06 06 06 06 26 26 66 66 06 06 06 06 06 06
+06 06 06 26 66 66 06 06 06 06 06 06 06 06 06 06
+66 66 06 06 06 06 06 06 06 06 06 06 66 66 06 06
+06 06 06 06 06 06 06 06 66 00 00 00 00 00 00 00
+E9 00 00 00 00 00 00 00 
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 248
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 248
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> Passed
+gpio[5] >> Passed
+gpio[6] >> Passed
+gpio[7] >> Passed
+gpio[8] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x00
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3060
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3060
+Writting config_io_o-tmp.hex
+@00000C00
+ea 26 26 26 26 66 66 06 06 06 06 06 06 26 26 26
+26 66 66 06 06 06 06 06 06 26 26 26 26 66 66 06
+06 06 06 06 06 26 26 26 26 66 66 06 06 06 06 06
+06 26 26 26 26 66 66 06 06 06 06 06 06 26 26 26
+26 66 66 06 06 06 06 06 06 26 26 26 26 66 66 06
+06 06 06 06 06 26 26 26 26 66 66 06 06 06 06 06
+06 26 26 26 26 66 66 06 06 06 06 06 06 26 26 26
+26 66 66 06 06 06 06 06 06 26 26 26 26 66 66 06
+06 06 06 06 06 26 26 26 26 66 66 06 06 06 06 06
+06 06 26 26 26 66 66 06 06 06 06 06 06 06 26 26
+26 66 66 06 06 06 06 06 06 06 06 26 26 66 66 06
+06 06 06 06 06 06 06 26 26 66 66 06 06 06 06 06
+06 06 06 06 26 66 66 06 06 06 06 06 06 06 06 06
+06 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 00 00 00 00 00 00
+EA 00 00 00 00 00 00 00 
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 248
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 248
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> Passed
+gpio[5] >> Passed
+gpio[6] >> Passed
+gpio[7] >> Passed
+gpio[8] >> Passed
+gpio[9] >> Passed
+gpio[10] >> Passed
+gpio[11] >> Passed
+gpio[12] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x00
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3060
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3060
+Writting config_io_o-tmp.hex
+@00000C00
+eb 26 26 26 26 26 66 66 06 06 06 06 06 26 26 26
+26 26 66 66 06 06 06 06 06 26 26 26 26 26 66 66
+06 06 06 06 06 26 26 26 26 26 66 66 06 06 06 06
+06 26 26 26 26 26 66 66 06 06 06 06 06 26 26 26
+26 26 66 66 06 06 06 06 06 26 26 26 26 26 66 66
+06 06 06 06 06 26 26 26 26 26 66 66 06 06 06 06
+06 06 26 26 26 26 66 66 06 06 06 06 06 06 26 26
+26 26 66 66 06 06 06 06 06 06 26 26 26 26 66 66
+06 06 06 06 06 06 26 26 26 26 66 66 06 06 06 06
+06 06 06 26 26 26 66 66 06 06 06 06 06 06 06 26
+26 26 66 66 06 06 06 06 06 06 06 06 26 26 66 66
+06 06 06 06 06 06 06 06 26 26 66 66 06 06 06 06
+06 06 06 06 06 26 66 66 06 06 06 06 06 06 06 06
+06 06 66 66 06 06 06 06 06 06 06 06 06 06 66 66
+06 06 06 06 06 06 06 06 06 06 66 00 00 00 00 00
+EB 00 00 00 00 00 00 00 
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 248
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 248
+gpio[1] >> Passed
+gpio[2] >> Passed
+gpio[3] >> Passed
+gpio[4] >> Passed
+gpio[5] >> Passed
+gpio[6] >> Passed
+gpio[7] >> Passed
+gpio[8] >> Passed
+gpio[9] >> Passed
+gpio[10] >> Passed
+gpio[11] >> Passed
+gpio[12] >> TIMED OUT
+##### Updating Config into file ############
+# voltage: 1.6
+# configuration failed in gpio[12], anything after is invalid
+gpio_l = [
+['IO[0]', H_NONE],
+['IO[1]', H_INDEPENDENT],
+['IO[2]', H_INDEPENDENT],
+['IO[3]', H_DEPENDENT],
+['IO[4]', H_DEPENDENT],
+['IO[5]', H_INDEPENDENT],
+['IO[6]', H_DEPENDENT],
+['IO[7]', H_INDEPENDENT],
+['IO[8]', H_DEPENDENT],
+['IO[9]', H_INDEPENDENT],
+['IO[10]', H_INDEPENDENT],
+['IO[11]', H_INDEPENDENT],
+['IO[12]', H_UNKNOWN],
+['IO[13]', H_UNKNOWN],
+['IO[14]', H_UNKNOWN],
+['IO[15]', H_UNKNOWN],
+['IO[16]', H_UNKNOWN],
+['IO[17]', H_UNKNOWN],
+['IO[18]', H_UNKNOWN],
+]
+ 
+===================================================================
+== LOW IO chain test complete.  Testing HIGH IO chain...         ==
+===================================================================
+ 
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x00
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3060
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3060
+Writting config_io_o-tmp.hex
+@00000C00
+e6 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 66 06 06 06 06 06
+06 06 06 06 06 66 66 06 06 06 06 06 06 06 06 06
+06 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 66 06 06 06 06 06
+06 06 06 06 06 66 66 06 06 06 06 06 06 06 06 06
+06 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 66 06 06 06 06 06
+06 06 06 06 06 66 66 06 06 06 06 06 06 06 06 06
+06 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 66 06 06 06 06 06
+06 06 06 06 06 66 66 06 06 06 06 06 06 06 06 06
+06 66 66 06 06 06 06 06 06 06 06 06 06 66 66 06
+06 06 06 06 06 06 06 06 06 66 66 06 06 06 06 06
+06 06 06 06 06 66 00 00 E6 00 00 00 00 00 00 00 
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[37] >> Passed
+gpio[36] >> Passed
+gpio[35] >> Passed
+gpio[34] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x00
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3060
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3060
+Writting config_io_o-tmp.hex
+@00000C00
+e7 46 66 66 06 06 06 06 06 06 06 06 06 46 66 66
+06 06 06 06 06 06 06 06 06 46 66 66 06 06 06 06
+06 06 06 06 06 46 66 66 06 06 06 06 06 06 06 06
+06 46 66 66 06 06 06 06 06 06 06 06 06 46 66 66
+06 06 06 06 06 06 06 06 06 46 66 66 06 06 06 06
+06 06 06 06 06 46 66 66 06 06 06 06 06 06 06 06
+06 46 66 66 06 06 06 06 06 06 06 06 06 46 66 66
+06 06 06 06 06 06 06 06 06 46 66 66 06 06 06 06
+06 06 06 06 06 46 66 66 06 06 06 06 06 06 06 06
+06 46 66 66 06 06 06 06 06 06 06 06 06 46 66 66
+06 06 06 06 06 06 06 06 06 46 66 66 06 06 06 06
+06 06 06 06 06 46 66 66 06 06 06 06 06 06 06 06
+06 46 66 66 06 06 06 06 06 06 06 06 06 06 66 66
+06 06 06 06 06 06 06 06 06 06 66 66 06 06 06 06
+06 06 06 06 06 06 66 00 E7 00 00 00 00 00 00 00 
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[37] >> Passed
+gpio[36] >> Passed
+gpio[35] >> Passed
+gpio[34] >> Passed
+gpio[33] >> Passed
+gpio[32] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x00
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3060
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3060
+Writting config_io_o-tmp.hex
+@00000C00
+e8 46 46 66 66 06 06 06 06 06 06 06 06 46 46 66
+66 06 06 06 06 06 06 06 06 46 46 66 66 06 06 06
+06 06 06 06 06 46 46 66 66 06 06 06 06 06 06 06
+06 46 46 66 66 06 06 06 06 06 06 06 06 46 46 66
+66 06 06 06 06 06 06 06 06 46 46 66 66 06 06 06
+06 06 06 06 06 46 46 66 66 06 06 06 06 06 06 06
+06 46 46 66 66 06 06 06 06 06 06 06 06 46 46 66
+66 06 06 06 06 06 06 06 06 46 46 66 66 06 06 06
+06 06 06 06 06 46 46 66 66 06 06 06 06 06 06 06
+06 46 46 66 66 06 06 06 06 06 06 06 06 46 46 66
+66 06 06 06 06 06 06 06 06 46 46 66 66 06 06 06
+06 06 06 06 06 06 46 66 66 06 06 06 06 06 06 06
+06 06 46 66 66 06 06 06 06 06 06 06 06 06 06 66
+66 06 06 06 06 06 06 06 06 06 06 66 66 06 06 06
+06 06 06 06 06 06 06 66 E8 00 00 00 00 00 00 00 
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 240
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 240
+gpio[37] >> Passed
+gpio[36] >> Passed
+gpio[35] >> Passed
+gpio[34] >> Passed
+gpio[33] >> Passed
+gpio[32] >> Passed
+gpio[31] >> Passed
+gpio[30] >> Passed
+gpio[29] >> TIMED OUT
+
+*** flashing Caravel
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+status = 0x00
+ 
+JEDEC = b'ef4016'
+Erasing chip...
+done
+status = 0x0
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000000
+addr 0x0: flash page write successful (1)
+addr 0x100: flash page write successful (1)
+addr 0x200: flash page write successful (1)
+addr 0x300: flash page write successful (1)
+addr 0x400: flash page write successful (1)
+addr 0x500: flash page write successful (1)
+addr 0x600: flash page write successful (1)
+addr 0x700: flash page write successful (1)
+addr 0x800: flash page write successful (1)
+addr 0x900: flash page write successful (1)
+addr 0xa00: flash page write successful (1)
+addr 0xb00: flash page write successful (1)
+setting address to 00000c00
+
+total_bytes = 3060
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000000
+addr 0x0: read compare successful
+addr 0x100: read compare successful
+addr 0x200: read compare successful
+addr 0x300: read compare successful
+addr 0x400: read compare successful
+addr 0x500: read compare successful
+addr 0x600: read compare successful
+addr 0x700: read compare successful
+addr 0x800: read compare successful
+addr 0x900: read compare successful
+addr 0xa00: read compare successful
+addr 0xb00: read compare successful
+setting address to 00000c00
+
+total_bytes = 3060
+Writting config_io_o-tmp.hex
+@00000C00
+e9 46 46 46 66 66 06 06 06 06 06 06 06 46 46 46
+66 66 06 06 06 06 06 06 06 46 46 46 66 66 06 06
+06 06 06 06 06 46 46 46 66 66 06 06 06 06 06 06
+06 46 46 46 66 66 06 06 06 06 06 06 06 46 46 46
+66 66 06 06 06 06 06 06 06 46 46 46 66 66 06 06
+06 06 06 06 06 46 46 46 66 66 06 06 06 06 06 06
+06 46 46 46 66 66 06 06 06 06 06 06 06 46 46 46
+66 66 06 06 06 06 06 06 06 46 46 46 66 66 06 06
+06 06 06 06 06 46 46 46 66 66 06 06 06 06 06 06
+06 06 46 46 66 66 06 06 06 06 06 06 06 06 46 46
+66 66 06 06 06 06 06 06 06 06 46 46 66 66 06 06
+06 06 06 06 06 06 06 46 66 66 06 06 06 06 06 06
+06 06 06 46 66 66 06 06 06 06 06 06 06 06 06 06
+66 66 06 06 06 06 06 06 06 06 06 06 66 66 06 06
+06 06 06 06 06 06 06 06 66 00 00 00 00 00 00 00
+E9 00 00 00 00 00 00 00 
+Flashing data:
+ 
+Caravel data:
+   mfg        = 0456
+   product    = 11
+   project ID = 00000000
+ 
+Resetting Flash...
+ 
+JEDEC = b'ef4016'
+setting address to 00000c00
+addr 0xc00: flash page write successful (2)
+
+total_bytes = 248
+^^^^^^^^ verifying  ^^^^^^^^
+setting address to 00000c00
+addr 0xc00: read compare successful
+
+total_bytes = 248
+gpio[37] >> Passed
+gpio[36] >> Passed
+gpio[35] >> Passed
+gpio[34] >> Passed
+gpio[33] >> Passed
+gpio[32] >> Passed
+gpio[31] >> Passed
+gpio[30] >> Passed
+gpio[29] >> TIMED OUT
+##### Updating Config into file ############
+# voltage: 1.6
+# configuration failed in gpio[29], anything before is invalid
+['IO[37]', H_NONE],
+['IO[36]', H_INDEPENDENT],
+['IO[35]', H_INDEPENDENT],
+['IO[34]', H_DEPENDENT],
+['IO[33]', H_INDEPENDENT],
+['IO[32]', H_DEPENDENT],
+['IO[31]', H_INDEPENDENT],
+['IO[30]', H_INDEPENDENT],
+['IO[29]', H_UNKNOWN],
+['IO[28]', H_UNKNOWN],
+['IO[27]', H_UNKNOWN],
+['IO[26]', H_UNKNOWN],
+['IO[25]', H_UNKNOWN],
+['IO[24]', H_UNKNOWN],
+['IO[23]', H_UNKNOWN],
+['IO[22]', H_UNKNOWN],
+['IO[21]', H_UNKNOWN],
+['IO[20]', H_UNKNOWN],
+['IO[19]', H_UNKNOWN],
+]
+ 
+===================================================================
+== HIGH IO chain test complete. IO configuration test complete.  ==
+===================================================================
+ 
+ 
+===================================================================
+===================================================================
+== LOW chain FAILED.   Valid IO = 0 thru 11.                      ==
+== HIGH chain FAILED.  Valid IO = 30 thru 37.                    ==
+===================================================================
+ 
+*** Run 'make get_confg' to retrieve IO configure file (gpio_config_def.py)
+

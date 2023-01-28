@@ -2,7 +2,6 @@ from nucleo_api import *
 import os
 import gpio_config_builder
 from flash import flash_mem
-from flash import verify_mem
 import sys
 import pyb
 from machine import Pin
@@ -71,6 +70,7 @@ def run_builder(gpio_l, gpio_h):
 
 def data_flash(test_name, hex_data, first_line=1):
     
+    print(f"Writting {test_name}-tmp.hex")
     new_hex_file = open(f"{test_name}-tmp.hex", "w")
     new_hex_data = ""
     hex_out = []
@@ -114,6 +114,7 @@ def data_flash(test_name, hex_data, first_line=1):
         hex_out.append(f"{str(hex(int(n_bits)))[2:].upper()} 00 00 00 00 00 00 00 ")
     for i in hex_out:
         new_hex_file.write(f"{i}\n")
+        print(f"{i}")
     new_hex_file.close()
 
     flash(f"{test_name}-tmp.hex")
@@ -195,22 +196,28 @@ def change_config(channel, gpio_l, gpio_h, voltage, test):
             gpio_h.set_config(37 - channel, "H_INDEPENDENT")
             gpio_h.increment_fail_count(37 - channel)
         if gpio_h.get_fail_count(37 - channel) > 1:
+            print("##### Updating Config into file ############")
             gpio_h.gpio_failed()
-            f = open(config_filename, "a")
-            f.write(f"# voltage: {voltage}\n")
-            f.write(
-                f"# configuration failed in gpio[{channel}], anything before is invalid\n"
-            )
-            io = 37
-            f.write('gpio_h = [\n')
-            for i in gpio_h.array:
-                if io > channel:
-                    f.write(f'[\'IO[{io}]\', {i}],\n')
-                else:
-                    f.write(f'[\'IO[{io}]\', H_UNKNOWN],\n')
-                io = io - 1
-            f.write(']\n')
-            f.close()
+            with open(config_filename, 'a+') as f:
+                f.write(f"# voltage: {voltage}\n")
+                print(f"# voltage: {voltage}")
+                f.write(
+                    f"# configuration failed in gpio[{channel}], anything before is invalid\n"
+                )
+                print(f"# configuration failed in gpio[{channel}], anything before is invalid")
+                io = 37
+                f.write('gpio_h = [\n')
+                for i in gpio_h.array:
+                    if io > channel:
+                        f.write(f'[\'IO[{io}]\', {i}],\n')
+                        print(f'[\'IO[{io}]\', {i}],')
+                    else:
+                        f.write(f'[\'IO[{io}]\', H_UNKNOWN],\n')
+                        print(f'[\'IO[{io}]\', H_UNKNOWN],')
+                    io = io - 1
+                f.write(']\n')
+                print(']')
+                f.close()
             test.turn_off_devices()
 
     else:
@@ -221,22 +228,30 @@ def change_config(channel, gpio_l, gpio_h, voltage, test):
             gpio_l.set_config(channel, "H_INDEPENDENT")
             gpio_l.increment_fail_count(channel)
         if gpio_l.get_fail_count(channel) > 1:
+            print("##### Updating Config into file ############")
             gpio_l.gpio_failed()
-            f = open(config_filename, "a")
-            f.write(f"# voltage: {voltage}\n")
-            f.write(
-                f"# configuration failed in gpio[{channel}], anything after is invalid\n"
-            )
-            io = 00
-            f.write('gpio_l = [\n')
-            for i in gpio_l.array:
-                if io < channel:
-                    f.write(f'[\'IO[{io}]\', {i}],\n')
-                else:
-                    f.write(f'[\'IO[{io}]\', H_UNKNOWN],\n')
-                io = io + 1
-            f.write(']\n')
-            f.close()
+            with open(config_filename, 'a+') as f:
+                f = open(config_filename, "a")
+                f.write(f"# voltage: {voltage}\n")
+                print(f"# voltage: {voltage}")
+                f.write(
+                    f"# configuration failed in gpio[{channel}], anything after is invalid\n"
+                )
+                print(f"# configuration failed in gpio[{channel}], anything after is invalid")
+                io = 00
+                f.write('gpio_l = [\n')
+                print('gpio_l = [')
+                for i in gpio_l.array:
+                    if io < channel:
+                        f.write(f'[\'IO[{io}]\', {i}],\n')
+                        print(f'[\'IO[{io}]\', {i}],')
+                    else:
+                        f.write(f'[\'IO[{io}]\', H_UNKNOWN],\n')
+                        print(f'[\'IO[{io}]\', H_UNKNOWN],')
+                    io = io + 1
+                f.write(']\n')
+                print(']')
+                f.close()
             test.turn_off_devices()
     return gpio_l, gpio_h
 
@@ -305,7 +320,7 @@ def run():
         f.write(f"\n")
         f.close()
 
-    test = Test()
+    test = Test(voltage=1.8)
     gpio_l = Gpio()
     gpio_h = Gpio()
 
@@ -338,14 +353,14 @@ def run():
     print("===================================================================")
 
     if low_chain_passed:
-        print("== LOW chain PASSED.   Valid IO = 0 thur 18.                      ==")
+        print("== LOW chain PASSED.   Valid IO = 0 thru 18.                      ==")
     else:
-        print("== LOW chain FAILED.   Valid IO = 0 thur {:02}.                      ==".format(low_chain_io_failed))
+        print("== LOW chain FAILED.   Valid IO = 0 thru {:02}.                      ==".format(low_chain_io_failed-1))
 
     if high_chain_passed:
-        print("== HIGH chain PASSED.  Valid IO = 19 thur 37.                     ==")
+        print("== HIGH chain PASSED.  Valid IO = 19 thru 37.                     ==")
     else:
-        print("== HIGH chain FAILED.  Valid IO = {:02} thur 37.                    ==".format(high_chain_io_failed))
+        print("== HIGH chain FAILED.  Valid IO = {:02} thru 37.                    ==".format(high_chain_io_failed+1))
 
     print("===================================================================")
     print(" ")
@@ -358,6 +373,8 @@ def run():
         elif low_chain_passed:
             led_red.blink(short=2)
             led_green.blink(short=0, long=2)
-        else:
+        elif high_chain_passed:
             led_red.blink(short=2)
             led_green.blink(short=0, long=4)
+        else:
+            led_red.blink(short=2, long=4)

@@ -14,20 +14,31 @@ def accurate_delay(delay):
 class Gpio:
     def __init__(self):
         self.array = []
-        self.fail_count = []
+        self.channel_status = 0 # each bit indicate failing channel
+        self.fail_count =0
         self.failed = False
         self.init_array()
         self.init_fail_count()
 
-    def get_fail_count(self, channel):
-        return self.fail_count[channel]
+    def get_fail_count(self):
+        return self.fail_count
+    
+    def get_channel_status(self):
+        return self.channel_status
 
     def init_fail_count(self):
-        for i in range(0, 19):
-            self.fail_count.append(0)
+        self.channel_status = 0
+        self.fail_count   = 0
+
+    def init_fail_count(self):
+        self.channel_status = 0
 
     def increment_fail_count(self, channel):
-        self.fail_count[channel] = self.fail_count[channel] + 1
+        #Skip, if the failure already detected on same channel
+        if(self.channel_status & (1 << channel) == 0):
+            self.channel_status = self.channel_status | (1 << channel)
+            self.fail_count = self.fail_count + 1
+        print("Failed at Ch :{}".format(channel),"Status:{}".format(self.channel_status),"Count:{}".format(self.fail_count))
 
     def init_array(self):
         for i in range(0, 19):
@@ -63,8 +74,10 @@ class Dio:
 
     def set_state(self, state):
         if state:
+            #print("Setting Channel : {} as output".format(self.channel))
             self.pin = Pin(self.channel, Pin.OUT)
         else:
+            #print("Setting Channel : {} as input".format(self.channel))
             self.pin = Pin(self.channel, Pin.IN)
 
     def set_value(self, value):

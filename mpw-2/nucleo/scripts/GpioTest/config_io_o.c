@@ -1,11 +1,7 @@
-#include "../defs.h"
+#include "defs.h"
 #include "gpio_config_io.c"
 #include "send_packet.c"
-//#include "../local_defs.h"
-//#include "../stub.c"
 
-//#include "../config_io.h"
-//#include "../defs_mpw-two-mfix.h"
 
 void set_registers() {
 
@@ -110,8 +106,6 @@ void main()
 {
 	int i,j;
     int num_pulses = 4;
-    //int num_bits = 19;
-    //configure_io0_37();
 
     reg_gpio_mode1 = 1;
     reg_gpio_mode0 = 0;

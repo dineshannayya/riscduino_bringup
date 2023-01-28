@@ -27,6 +27,15 @@ https://thonny.org/
 JEDEC = 0xef4016 is corresponding to Winbond Serial Flash (0xeF) + 25Q32JV-IQ/JQ (0x4016)
 
 
+## Working with Linix
+
+#PStep-1: Python IDE for development and debug(Available in ubuntu)
+  sudo apt install python3-tk thonny
+  thonny
+#PStep-2: Link the ST-Link at thonny
+  ./Docs/Thonny-Image1.png 
+
+
 # Documentation
 
 #Nucleo F746ZG Board Documentation

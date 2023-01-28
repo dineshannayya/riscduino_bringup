@@ -2,11 +2,12 @@
 export PATH=$PATH:/bin:/usr/local/bin/:../../venv/bin:/usr/bin/:.
 
 #DEV=/dev/cu.usbmodem3103
-DEV=/dev/cu.usbmodem34203
+#DEV=/dev/cu.usbmodem34203
+DEV=/dev/ttyACM0
 #DEV=/dev/cu.usbmodem34103
 #FILES=main.py flash.mpy i2c.py gpio_config_builder.py config_io_o_h.hex config_io_o_l.hex
-#FLASH=/media/efabless/PYBFLASH/
-FLASH=//Volumes/PYBFLASH/
+FLASH=/media/dinesha/PYBFLASH/
+#FLASH=//Volumes/PYBFLASH/
 NUCLEO_CMD=
 
 
@@ -90,7 +91,8 @@ F413ZH:
 # ---- targets for building hex file
 
 #TOOLCHAIN_PATH=/foss/tools/riscv-gnu-toolchain-rv32i/217e7f3debe424d61374d31e33a091a630535937/bin/
-TOOLCHAIN_PATH=/usr/local/bin/
+TOOLCHAIN_PATH=/opt/riscv64i/bin/
+SCRIPTS_PATH=/home/dinesha/workarea/opencore/git/mpw_bringup/mpw-2/nucleo/scripts
 #TOOLCHAIN_PATH=/opt/riscv32imc/bin/
 
 # Set the prefix for `riscvXX-unknown-elf-*`
@@ -98,8 +100,8 @@ TOOLCHAIN_PATH=/usr/local/bin/
 TOOLCHAIN_PREFIX=riscv64-unknown-elf
 #TOOLCHAIN_PREFIX=riscv32-unknown-linux-gnu
 
-SED_CMD=sed -i '.orig' -e
-#SED_CMD=sed -ie
+#SED_CMD=sed -i '.orig' -e
+SED_CMD=sed -ie
 
 .SUFFIXES:
 
@@ -107,19 +109,20 @@ PATTERN = config_io_o
 
 hex:  ${PATTERN:=.hex}
 
-%.elf: %.c ../sections.lds ../crt0_vex.S ./gpio_config_data.c ./send_packet.c
+%.elf: %.c $(SCRIPTS_PATH)/common/sections.lds $(SCRIPTS_PATH)/common/crt0_vex.S ./send_packet.c
 	#$(TOOLCHAIN_PATH)riscv32-unknown-linux-gnu-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c ../gpio_program.c $<
 
-	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-gcc -I../ -I../generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../crt0_vex.S ../isr.c $<
+	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-gcc -I$(SCRIPTS_PATH) -I$(SCRIPTS_PATH)/common -I$(SCRIPTS_PATH)/generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,$(SCRIPTS_PATH)/common/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $(SCRIPTS_PATH)/common/crt0_vex.S $(SCRIPTS_PATH)/common/isr.c $<
 	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-objdump -s  config_io_o.elf > config_io_o.lst
 
 %.hex: %.elf
 	#$(TOOLCHAIN_PATH)riscv32-unknown-linux-gnu-objcopy -O verilog $< $@
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-objcopy -O verilog $< $@
+	cp $@ $@.org
 	$(SED_CMD) 's/@10/@00/g' $@
-	$(SED_CMD) '1,/@00/!d' $@
+	#$(SED_CMD) '1,/@00/!d' $@
 
 clean:
-	rm -f *.elf config_io_o.hex
+	rm -f *.elf *.lst *.hexe config_io_o.hex config_io_o.hex.org
 
 .PHONY: clean image hex copy repl run

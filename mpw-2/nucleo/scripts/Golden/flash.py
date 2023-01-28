@@ -102,7 +102,7 @@ class SPI:
             self.sck = Pin('SPI5_SCK', mode=Pin.OUT, value=0)
             self.mosi = Pin('SPI5_MISO', mode=Pin.OUT)  # PF9 = IO[2] = caravel input
             self.miso = Pin('SPI5_MOSI', mode=Pin.IN)  # PF8 = IO[1] = caravel output
-            self.spi = SoftSPI(baudrate=400000, polarity=0, phase=0, sck=self.sck, mosi=self.mosi, miso=self.miso)
+            self.spi = SoftSPI(baudrate=1000000, polarity=0, phase=0, sck=self.sck, mosi=self.mosi, miso=self.miso)
         else:
             self.cs = Pin('SPI5_CS', mode=Pin.IN)
             self.sck = Pin('SPI5_SCK', mode=Pin.IN)
@@ -227,18 +227,40 @@ def erase(debug=True):
     time.sleep(1.0)
     led.toggle()
 
-    if debug:
-        print(" ")
-        print("Resetting Flash...")
-    slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
+    #if debug:
+    #    print(" ")
+    #    print("Resetting Flash...")
+    #slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
 
-    if debug:
-        print("status = 0x{:02x}".format(slave.get_status(), '02x'))
+    #if debug:
+    #    print("status = 0x{:02x}".format(slave.get_status(), '02x'))
+    
+    #addr = 0x00;
+    #nbytes = 16;
+    #read_cmd = bytearray((CARAVEL_PASSTHRU, CMD_READ_LO_SPEED,(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff))
+    #print(binascii.hexlify(read_cmd))
+    #buf2 = slave.exchange(read_cmd, nbytes)
+    #print(binascii.hexlify(buf2))
 
     jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
     if debug:
         print(" ")
         print("JEDEC = {}".format(binascii.hexlify(jedec)))
+       
+    jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
+    if debug:
+        print(" ")
+        print("JEDEC = {}".format(binascii.hexlify(jedec)))
+      
+    jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
+    if debug:
+        print(" ")
+        print("JEDEC = {}".format(binascii.hexlify(jedec)))
+        
+    jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
+    if debug:
+        print(" ")
+        print("JEDEC = {}".format(binascii.hexlify(jedec)))        
 
     if jedec[0:1] != bytes.fromhex('ef'):
     # if jedec[0:1] != bytes.fromhex('e6'):
@@ -267,7 +289,6 @@ def erase(debug=True):
 
 
 def flash(file_path, debug=True):
-    print("Flashing data:")
     # machine.reset()
 
     led = Led()
@@ -306,18 +327,27 @@ def flash(file_path, debug=True):
     time.sleep(1.0)
     led.toggle()
 
-    if debug:
-        print(" ")
-        print("Resetting Flash...")
-    slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
+    #if debug:
+    #    print(" ")
+    #    print("Resetting Flash...")
+    #slave.write([CARAVEL_PASSTHRU, CMD_RESET_CHIP])
 
     # print("status = 0x{:02x}".format(slave.get_status(), '02x'))
-
 
     jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
     if debug:
         print(" ")
         print("JEDEC = {}".format(binascii.hexlify(jedec)))
+        
+    jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
+    if debug:
+        print(" ")
+        print("JEDEC = {}".format(binascii.hexlify(jedec)))
+        
+    jedec = slave.exchange([CARAVEL_PASSTHRU, CMD_JEDEC_DATA], 3)
+    if debug:
+        print(" ")
+        print("JEDEC = {}".format(binascii.hexlify(jedec)))        
 
     if jedec[0:1] != bytes.fromhex('ef'):
     # if jedec[0:1] != bytes.fromhex('e6'):

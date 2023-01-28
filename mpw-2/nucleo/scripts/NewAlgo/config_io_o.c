@@ -157,10 +157,12 @@ void main()
     int num_pulses = 4;
 
     reg_hkspi_disable = 1;
-    reg_gpio_mode1 = 1;
-    reg_gpio_mode0 = 0;
-    reg_gpio_ien = 1;
-    reg_gpio_oe = 1;
+    //reg_spi_enable = 0;
+    //reg_wb_enable = 1;
+    //reg_gpio_mode1 = 1;
+    //reg_gpio_mode0 = 0;
+    //reg_gpio_ien = 1;
+    //reg_gpio_oe = 1;
     set_registers();
     reg_mprj_datah = 0;
     reg_mprj_datal = 0;
