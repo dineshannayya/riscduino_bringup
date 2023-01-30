@@ -141,7 +141,7 @@ void main()
 
     //reg_mprj_wbhost_clk_ctrl1 = 0x084868c2;
     //reg_mprj_wbhost_clk_ctrl1 = 0x08--6-c-;
-    reg_mprj_wbhost_clk_ctrl1 = 0x084868F2;
+    reg_mprj_wbhost_clk_ctrl1 =   0x084868C2;
 
     reg_mprj_wbhost_clk_ctrl2 = 0x00;
     reg_mprj_wbhost_reg0 = 0xEE00E00; // WBS Clk/RISCV/SDRAM Div-4
@@ -151,20 +151,20 @@ void main()
     //reg_mprj_wbhost_reg0 = 0x000001F;
 
 
-    while (1){
-        reg_gpio_out = 0; // ON
-        send_packet_io0(2); // send 4 pulses at gpio[j]
-        for (i = 0; i < num_pulses; i++){
-            reg_mprj_datal = 0xFFFFFFFF;
-            reg_mprj_datah = 0x3F;
-            count_down(PULSE_WIDTH);  
-            reg_mprj_datah = 0x0;
-            reg_mprj_datal = 0x0;  
-            count_down(PULSE_WIDTH); 
-        }
-        reg_gpio_out = 1; // OFF
-        delay(4000000);
-    }
+    //while (1){
+    //    reg_gpio_out = 0; // ON
+    //    send_packet_io0(2); // send 4 pulses at gpio[j]
+    //    for (i = 0; i < num_pulses; i++){
+    //        reg_mprj_datal = 0xFFFFFFFF;
+    //        reg_mprj_datah = 0x3F;
+    //        count_down(PULSE_WIDTH);  
+    //        reg_mprj_datah = 0x0;
+    //        reg_mprj_datal = 0x0;  
+    //        count_down(PULSE_WIDTH); 
+    //    }
+    //    reg_gpio_out = 1; // OFF
+    //    delay(4000000);
+    //}
 
 }
 

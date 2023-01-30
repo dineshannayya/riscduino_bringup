@@ -142,6 +142,12 @@ class Test:
         if self.voltage == 1.8:
             print("Configuring Core voltage with 1.8v")
             self.supply.write_1v8(0x0b)
+        if self.voltage == 1.9:
+            print("Configuring Core voltage with 1.9v")
+            self.supply.write_1v8(0x06)
+        if self.voltage == 2.0:
+            print("Configuring Core voltage with 2.0v")
+            self.supply.write_1v8(0x02)
         if self.voltage == 1.6:
             print("Configuring Core voltage with 1.6v")
             self.supply.write_1v8(0x1f)
