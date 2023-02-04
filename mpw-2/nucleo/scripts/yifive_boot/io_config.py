@@ -146,7 +146,7 @@ def choose_test(
 
 
 def run():
-    test = Test(voltage=1.8)
+    test = Test(voltage=1.6)
     gpio_l = Gpio()
     gpio_h = Gpio()
 

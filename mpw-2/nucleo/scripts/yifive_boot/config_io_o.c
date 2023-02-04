@@ -1,4 +1,6 @@
-#include "defs.h"
+#include <defs.h>
+#include <stub.c>
+
 #include "gpio_config_io.c"
 #include "send_packet.c"
 
@@ -118,9 +120,28 @@ void set_registers() {
 
 
 */
+
+// --------------------------------------------------------
+
+void print_reg(int iData) {
+
+   putchar((iData) & 0xFF);       // [7:0]
+   delay(40000);
+   putchar((iData >> 8) & 0xFF);  // [15:0]
+   delay(40000);
+   putchar((iData >> 16) & 0xFF); // [23:16]
+   delay(40000);
+   putchar((iData >> 24) & 0xFF); // [31:23]
+   delay(40000);
+
+
+}
+
 void main()
 {
 	int i,j;
+    int clk_ctrl ;
+    int delay_adjust = 0x01;
     int num_pulses = 4;
 
     //reg_hkspi_disable = 1;
@@ -138,18 +159,75 @@ void main()
     gpio_config_io();
 
     reg_gpio_out = 1; // OFF
+    reg_uart_enable = 1;
+
+    // Configure LA probes [63:32] and [127:96] as inputs to the cpu 
+	// Configure LA probes [31:0] and [63:32] as input from the cpu
+    reg_la0_oenb = reg_la0_iena = 0000000000;    // [31:0]
+	reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
+	reg_la2_oenb = reg_la2_iena = 0x000000000;    // [95:64]
+	reg_la3_oenb = reg_la3_iena = 0x00000000;    // [127:96]
+
 
     //reg_mprj_wbhost_clk_ctrl1 = 0x084868c2;
     //reg_mprj_wbhost_clk_ctrl1 = 0x08--6-c-;
-    reg_mprj_wbhost_clk_ctrl1 =   0x084868C2;
+    // bit[3:0] - Wishbone Interconnect
+    // bit[7:4] - Riscv
+    // bit[11:8] - Uart
+    // bit[15:12] - SPI
+    // bit[19:16] - SDRAM
+    // bit[23:20] - Global
+    // bit[27:24] - Wish host
+    clk_ctrl = 0x08480800;
+
+    //reg_mprj_wbhost_clk_ctrl1 =   0x084868C2;
+    reg_mprj_wbhost_clk_ctrl1 = clk_ctrl |  (delay_adjust & 0xFF) | ((delay_adjust << 4) & 0xF000);
 
     reg_mprj_wbhost_clk_ctrl2 = 0x00;
-    reg_mprj_wbhost_reg0 = 0xEE00E00; // WBS Clk/RISCV/SDRAM Div-4
+    reg_mprj_wbhost_reg0 = 0x0000E00; // WBS Clk/RISCV/SDRAM Div-4
+    reg_gpio_out = 1; // OFF
 
     // Remove All Reset
-    reg_mprj_wbhost_reg0 = 0xEE00E1F;
+    reg_mprj_wbhost_reg0 = 0x0000E1F;
     //reg_mprj_wbhost_reg0 = 0x000001F;
 
+
+    while (reg_la0_data_in == 0x04000140 && reg_la1_data_in == 0x84000000) {
+     reg_mprj_wbhost_reg0 = 0x0000E00; // Apply Reset
+     //reg_mprj_wbhost_reg0 = 0x00; // Apply Reset
+     //delay_adjust++;
+     //delay_adjust = delay_adjust & 0xFFF; // 12 bit counter 
+     //reg_mprj_wbhost_clk_ctrl1 = clk_ctrl |  (delay_adjust & 0xFF) | ((delay_adjust << 4) & 0xF000);
+     reg_mprj_wbhost_clk_ctrl1 =   0x084868C2;
+     print_reg(delay_adjust);
+    // Remove All Reset
+     reg_mprj_wbhost_reg0 = 0x0000E1F;
+     //reg_mprj_wbhost_reg0 = 0x1F;
+     delay(40000);
+
+   }
+
+    while(1) {
+       reg_gpio_out = 0; // ON
+	   reg_uart_data = 0xAA;
+       print_reg(delay_adjust);
+       delay(4000000);
+       reg_mprj_datal = 0xFFFFFFFF;
+       reg_mprj_datah = 0x3F;
+
+       print_reg(reg_la0_data_in);
+       print_reg(reg_la1_data_in);
+       print_reg(reg_la2_data_in);
+       print_reg(reg_la3_data_in);
+
+
+       delay(4000000);
+	   reg_uart_data = 0x55;
+       reg_mprj_datal = 0x0;
+       reg_mprj_datah = 0x0;
+       reg_gpio_out = 1; // ON
+       delay(4000000);
+    }
 
     //while (1){
     //    reg_gpio_out = 0; // ON

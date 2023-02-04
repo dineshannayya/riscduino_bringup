@@ -1,46 +1,14 @@
-
 export PATH=$PATH:/bin:/usr/local/bin/:../../venv/bin:/usr/bin/:.
 
-#DEV=/dev/cu.usbmodem3103
-#DEV=/dev/cu.usbmodem34203
-DEV=/dev/ttyACM0
-#DEV=/dev/cu.usbmodem34103
-#FILES=main.py flash.mpy i2c.py gpio_config_builder.py config_io_o_h.hex config_io_o_l.hex
+# --- automatically set ---
+#DEV=/dev/cu.usbmodem33203
+#DEV=/dev/ttyACM0
+
+#FLASH=/media/efabless/PYBFLASH/
 FLASH=/media/dinesha/PYBFLASH/
-#FLASH=//Volumes/PYBFLASH/
-NUCLEO_CMD=
-
-
-boot:
-	rshell --port ${DEV} cp boot.py /flash
-
-# pip install rshell to use this target
-copy: compile
-	mpremote connect ${DEV} cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy gpio_config_def.mpy :
-	mpremote connect ${DEV} cp config_io_o.hex :
-	mpremote connect ${DEV} cp io_config.mpy :
-	mpremote connect ${DEV} cp main.py :
-	mpremote connect ${DEV} ls :
-
-#copy: compile
-#	rshell --port ${DEV} cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy gpio_config_def.mpy /flash
-#	rshell --port ${DEV} cp config_io_o.hex /flash
-#	rshell --port ${DEV} cp io_config.mpy /flash
-#	rshell --port ${DEV} cp main.py /flash
-#	rshell --port ${DEV} ls /flash
-
-# copies scripts to nucleo
-copy2: compile
-	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
-	cp config_io_o.hex ${FLASH}
-	cp main.py ${FLASH}
-	ls ${FLASH}
-
-copy3:
-	cp flash.py i2c.py gpio_config_builder.py nucleo_api.py io_config.py ${FLASH}
-	cp config_io_o.hex ${FLASH}
-	cp main.py ${FLASH}
-	ls ${FLASH}
+DEV=$(shell mpremote connect list | grep STLink | cut -f 1 -d ' ')
+#COPY_CMD=rshell --port ${DEV} cp
+COPY_CMD=cp
 
 # cross compile python to micropython bin.
 
@@ -56,16 +24,49 @@ compile:
 	mpy-cross boot.py
 
 # runs script from the local filesystem
-reset:
+reset: check_device
 	#mpremote connect ${DEV} soft-reset
 	mpremote connect ${DEV} exec "import machine; machine.reset()"
 
-# alternate -- mpremote connect ${DEV} exec "import io_config; io_config.run()"
-run:
-	mpremote connect ${DEV} exec "import machine; machine.reset()"
+# runs script from the local filesystem
+version: check_device
+	@mpremote connect ${DEV} exec "import io_config; io_config.version()"
 
-get_config:
-	cp ${FLASH}/gpio_config_def.py .
+# run io_config test to characterize a new part
+# alternate -- mpremote connect ${DEV} exec "import io_config; io_config.run()"
+# alternate -- mpremote connect ${DEV} exec "import machine; machine.reset()"
+run: check_device check_part
+	mpremote connect ${DEV} exec "import io_config; io_config.run('$(PART)', $(VOLTAGE))"
+
+# copy the definition file for a part after running io_config
+get_config: check_device
+	mpremote connect ${DEV} cp :gpio_config_def.py .
+
+# run a sanity check using the gpio_config_def.py file on the nucleo
+sanity_check: check_device
+ifndef FILE
+	$(error FILE is undefined, please export it before running make flash)
+else
+	$(COPY_CMD) ${FILE} ${FLASH}/gpio_config_def.py
+	sync
+	sleep 2
+	mpremote connect ${DEV} exec "import io_config; io_config.run_sanity_check($(VOLTAGE))"
+endif
+
+# power up the caravel hat while mounted to Nucleo
+poweron: check_device
+	mpremote connect ${DEV} exec "import io_config; io_config.run_poweron()"
+
+# flash firmware on caravel hat while mounted to Nucleo
+flash: check_volume check_device
+ifndef FILE
+	$(error FILE is undefined, please export it before running make flash)
+else
+	$(COPY_CMD) ${FILE} ${FLASH}/firmware.hex
+	sync
+	sleep 2
+	mpremote connect ${DEV} exec "import io_config; io_config.run_flash_caravel()"
+endif
 
 # enter repl on nucleo
 repl:
@@ -75,18 +76,53 @@ repl:
 F746ZG: compile
 	st-flash --connect-under-reset --format ihex write F746ZG_firmware.hex
 	sleep 5
-	cp flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
-	cp config_io_o.hex ${FLASH}
-	cp main.py ${FLASH}
-	ls ${FLASH}
+	make F746ZG-copy
 
 F413ZH:
 	st-flash --connect-under-reset --format ihex write F413ZH_firmware.hex
 	sleep 7
-	cp flash.py i2c.py gpio_config_builder.py nucleo_api.py io_config.py ${FLASH}
-	cp config_io_o.hex ${FLASH}
-	cp main.py ${FLASH}
+	make F413ZH-copy
+
+# copies scripts to nucleo
+copy2 F746ZG-copy: compile check_volume
+	$(COPY_CMD) flash.mpy i2c.mpy gpio_config_builder.mpy nucleo_api.mpy io_config.mpy ${FLASH}
+	$(COPY_CMD) config_io_o.hex ${FLASH}
+	$(COPY_CMD) main.py ${FLASH}
+	sync
 	ls ${FLASH}
+
+copy3 F413ZH-copy: check_volume
+	$(COPY_CMD) flash.py i2c.py gpio_config_builder.py nucleo_api.py io_config.py ${FLASH}
+	$(COPY_CMD) config_io_o.hex ${FLASH}
+	$(COPY_CMD) main.py ${FLASH}
+	sync
+	ls ${FLASH}
+
+check_volume:
+	@if [ ! -d "$(FLASH)" ]; then \
+		echo "Nucleo volume not found.  Please export FLASH=/<my_path>/PYBFLASH"; \
+		exit 1; \
+	fi
+
+check_device:
+ifndef DEV
+	$(error "Nucleo device file not found")
+endif
+
+check_part:
+ifndef PART
+	$(error "PART not defined.  Please use 'make run PART=<part_id>'")
+endif
+
+check-python:
+ifeq ($(shell which python3),)
+$(error Please install python 3.6+)
+endif
+
+setup: check-python
+	python3 -m pip install rshell
+	python3 -m pip install mpy-cross
+	python3 -m pip install mpremote
 
 # ---- targets for building hex file
 
