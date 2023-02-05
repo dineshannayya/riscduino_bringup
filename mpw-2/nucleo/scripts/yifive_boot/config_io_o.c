@@ -181,27 +181,28 @@ void main()
     clk_ctrl = 0x08480800;
 
     //reg_mprj_wbhost_clk_ctrl1 =   0x084868C2;
-    reg_mprj_wbhost_clk_ctrl1 = clk_ctrl |  (delay_adjust & 0xFF) | ((delay_adjust << 4) & 0xF000);
+    reg_mprj_wbhost_clk_ctrl1 =   0x0848F8C2;
+    //reg_mprj_wbhost_clk_ctrl1 = clk_ctrl |  (delay_adjust & 0xFF) | ((delay_adjust << 4) & 0xF000);
 
     reg_mprj_wbhost_clk_ctrl2 = 0x00;
-    reg_mprj_wbhost_reg0 = 0x0000E00; // WBS Clk/RISCV/SDRAM Div-4
+    reg_mprj_wbhost_reg0 = 0x00000A00; // WBS Clk/RISCV/SDRAM Div-4
     reg_gpio_out = 1; // OFF
 
     // Remove All Reset
-    reg_mprj_wbhost_reg0 = 0x0000E1F;
+    reg_mprj_wbhost_reg0 = 0x00000A1F;
     //reg_mprj_wbhost_reg0 = 0x000001F;
 
 
     while (reg_la0_data_in == 0x04000140 && reg_la1_data_in == 0x84000000) {
-     reg_mprj_wbhost_reg0 = 0x0000E00; // Apply Reset
+     reg_mprj_wbhost_reg0 = 0x00000A00; // Apply Reset
      //reg_mprj_wbhost_reg0 = 0x00; // Apply Reset
-     //delay_adjust++;
-     //delay_adjust = delay_adjust & 0xFFF; // 12 bit counter 
+     delay_adjust++;
+     delay_adjust = delay_adjust & 0xFFF; // 12 bit counter 
      //reg_mprj_wbhost_clk_ctrl1 = clk_ctrl |  (delay_adjust & 0xFF) | ((delay_adjust << 4) & 0xF000);
      reg_mprj_wbhost_clk_ctrl1 =   0x084868C2;
      print_reg(delay_adjust);
     // Remove All Reset
-     reg_mprj_wbhost_reg0 = 0x0000E1F;
+     reg_mprj_wbhost_reg0 = 0x00000A1F;
      //reg_mprj_wbhost_reg0 = 0x1F;
      delay(40000);
 

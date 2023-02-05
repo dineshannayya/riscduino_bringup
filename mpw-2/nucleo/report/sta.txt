@@ -1,0 +1,14 @@
+MPW-2 chip timing observation
+  RISCV: 0xE and WI = 0x2 SPI:0x6
+
+   MAX - F-Min - [LIB: ff_n40C_1v95] [Spef: MAX ] - RISCV => INTERCON => Vio 178ps
+   MAX - S-Min - [LIB: ss_100C_1v60] [Spef: MAX ] - INTERCON => RISCV => Vio 320ps
+   MAX - T-Min - [LIB: tt_025C_1v80] [Spef: MAX ] - No Violation
+
+   MIN - F-MIn - [LIB: ff_n40C_1v95] [Spef: MIN] - INTERCON => RISCV => Vio 24ps
+   MIN - S-Min - [LIB: ss_100C_1v60] [Spef: MIN ] - INTERCON => RISCV => Vio 1.211 ns
+   Min - T-Min - [LIB: tt_025C_1v80] [Spef: MIN ] - INTERCON => RISCV => VIO 320ps
+
+   NOM - F-Min - [LIB: ff_n40C_1v95 ] [Spef: NOM] - No Violation
+   NOM - S-Min - [LIB: ss_100C_1v60]  [Spef: NOM ] - INTERCON => RISCV => 730ps Violation
+   NOM - T-Min - [LIB: tt_025C_1v80 ] [Spef: NOM ] - No Violation
