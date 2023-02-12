@@ -107,7 +107,7 @@
     <property xil_pn:name="Configuration Rate spartan6" xil_pn:value="2" xil_pn:valueState="default"/>
     <property xil_pn:name="Correlate Output to Input Design" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Create ASCII Configuration File" xil_pn:value="false" xil_pn:valueState="default"/>
-    <property xil_pn:name="Create Binary Configuration File" xil_pn:value="false" xil_pn:valueState="default"/>
+    <property xil_pn:name="Create Binary Configuration File" xil_pn:value="true" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Create Bit File" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Create I/O Pads from Ports" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Create IEEE 1532 Configuration File spartan6" xil_pn:value="false" xil_pn:valueState="default"/>
@@ -374,7 +374,7 @@
     <property xil_pn:name="Wait for DCM and PLL Lock (Output Events) spartan6" xil_pn:value="Default (NoWait)" xil_pn:valueState="default"/>
     <property xil_pn:name="Wakeup Clock spartan6" xil_pn:value="Startup Clock" xil_pn:valueState="default"/>
     <property xil_pn:name="Watchdog Timer Value spartan6" xil_pn:value="0xFFFF" xil_pn:valueState="default"/>
-    <property xil_pn:name="Working Directory" xil_pn:value="../reports" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Working Directory" xil_pn:value="." xil_pn:valueState="non-default"/>
     <property xil_pn:name="Write Timing Constraints" xil_pn:value="false" xil_pn:valueState="default"/>
     <!--                                                                                  -->
     <!-- The following properties are for internal use only. These should not be modified.-->
@@ -390,8 +390,8 @@
     <property xil_pn:name="PROP_PreSynthesis" xil_pn:value="PreSynthesis" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_intProjectCreationTimestamp" xil_pn:value="2023-01-11T05:35:27" xil_pn:valueState="non-default"/>
     <property xil_pn:name="PROP_intWbtProjectID" xil_pn:value="7E4B40D17E801F899853B727070D228C" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="PROP_intWorkingDirLocWRTProjDir" xil_pn:value="Parallel" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="PROP_intWorkingDirUsed" xil_pn:value="Yes" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="PROP_intWorkingDirLocWRTProjDir" xil_pn:value="Same" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="PROP_intWorkingDirUsed" xil_pn:value="No" xil_pn:valueState="non-default"/>
   </properties>
 
   <bindings/>
