@@ -125,7 +125,7 @@ reg [1:0]   cfg_spi_dmode      ; // Data Transmit Mode
 reg         cfg_wren           ; // Allow Write
 reg         dummy_enb          ; // Insert Dummy cycle
 reg         addr_inc           ; // Increment address by 4
-reg  [3:0] sdin_l             ;
+reg  [3:0]  sdin_l             ;
 
 
 wire cmd_phase     = (spi_if_st == S_CMD );
@@ -145,13 +145,6 @@ reg  sck_pdetect_d;
 reg  sck_ndetect_d;
 
 
-initial begin
-   sck_l0 = 1'b1;
-   sck_l1 = 1'b1;
-   sck_l2 = 1'b1;
-   sck_pdetect_d = 1'b0;
-   sck_ndetect_d = 1'b0;
-end
 
 always @ (posedge sys_clk or negedge rst_n) begin
 if (!rst_n) begin
@@ -176,10 +169,6 @@ wire    ssn_ss;
 
 assign ssn_ss = ssn_l1;
 
-initial begin
-   ssn_l0 = 1'b1;
-   ssn_l1 = 1'b1;
-end
 
 
 always @ (posedge sys_clk or negedge rst_n) begin
@@ -195,8 +184,9 @@ end
 
 
 // Latch the Input at scl low phase
-always @(posedge sclk) begin
-      sdin_l <= sdin;
+always @ (sclk or sdin) begin
+      if(sclk == 1'b0)
+         sdin_l <= sdin;
 end
 
 
@@ -204,12 +194,6 @@ end
 assign reg_be = 4'hF; // Need to cross-check Dinesh?
 
 
-initial begin
-   cmd_reg[7:0] = 8'b0;
-   reg_addr[23:0] = 24'b0;
-   reg_wdata[31:0] = 32'b0;
-   sdout          = 4'b0;
-end
 always @(negedge rst_n or posedge sys_clk)
 begin
   if (!rst_n)
@@ -296,18 +280,6 @@ end
 
 
 
-initial begin
-    dummy_enb    = 1'b0;
-    reg_wr       = 1'b0;
-    reg_rd       = 1'b0;
-    addr_inc     = 1'b0;
-    sdout_oen    = 1'b1;
-    bitcnt       = 6'b000111;
-    cfg_wren     = 1'b0;
-    spi_cpol     = 1'b0;
-    spi_if_st    = S_IDLE;
-end
-
 // SPI State Machine
 
 always @(negedge rst_n or posedge sys_clk)
@@ -322,6 +294,9 @@ begin
       cfg_wren     <= 1'b0;
       spi_cpol     <= 1'b0;
       spi_if_st    <= S_IDLE;
+      cfg_spi_amode <= P_SINGLE; // Address Single Bit Mode
+      cfg_spi_dmode <= P_SINGLE; // Data Single Bit Mode
+      cfg_spi_phase <= P_READ; 
    end else if(ssn_ss)    begin
       dummy_enb     <= 1'b0;
       reg_wr        <= 1'b0;
@@ -329,7 +304,10 @@ begin
       sdout_oen     <= 1'b1;
       bitcnt        <= 6'b000111;
       spi_cpol      <= sck_l1; // Hold the last sck inactive phase
-	  spi_if_st     <= S_IDLE; 
+      cfg_spi_amode <= P_SINGLE; // Address Single Bit Mode
+      cfg_spi_dmode <= P_SINGLE; // Data Single Bit Mode
+      spi_if_st     <= S_IDLE; 
+      cfg_spi_phase <= P_READ; 
    end else begin
        case (spi_if_st)
           S_IDLE  : begin // Idle State

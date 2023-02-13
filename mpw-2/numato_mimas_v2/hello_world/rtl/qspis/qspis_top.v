@@ -47,6 +47,7 @@ module qspis_top (
          output wire  [3:0]   sdout           ,
          output wire          sdout_oen       ,
 
+
          // WB Master Port
          output  wire         wbm_cyc_o       ,  // strobe/request
          output  wire         wbm_stb_o       ,  // strobe/request

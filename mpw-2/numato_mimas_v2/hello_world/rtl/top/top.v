@@ -9,6 +9,8 @@ module top (
         spi_csn  ,
         spi_sio,
 
+
+
         Switch,
         LED  
 
@@ -27,10 +29,10 @@ output [7:0] LED   ;
 //-------------------------------------
 // Spi I/F
 //-------------------------------------
-output              spi_sck            ; // clock out
-output              spi_csn            ; // cs_n
+input               spi_sck            ; // clock out
+input               spi_csn            ; // cs_n
 inout  [3:0]        spi_sio            ;
-
+ 
 
 
 wire  [3:0]        spi_si             ; // serial data in
@@ -87,17 +89,29 @@ qspis_top u_qspis(
 
 wire [3:0] mem_wr = {4{wbm_we_o}};
 
- bram_bank #(
-          .AW(12),
-          .filename    ("data.hex")
-            ) u_ram (
 
-             .CLK      (sys_clk),
-             .WREN     (mem_wr),
-             .ADDR     (wbm_adr_o[11:2]),
-             .WDATA    (wbm_dat_o),
-             .RDATA    (wbm_dat_i)
-       );
+
+   BRAM_SINGLE_MACRO #(
+      .BRAM_SIZE("18Kb"), // Target BRAM, "9Kb" or "18Kb" 
+      .DEVICE("SPARTAN6"), // Target Device: "VIRTEX5", "VIRTEX6", "SPARTAN6" 
+      .DO_REG(0), // Optional output register (0 or 1)
+      .INIT(36'h000000000), // Initial values on output port
+      .INIT_FILE ("NONE"),
+      .WRITE_WIDTH(32), // Valid values are 1-36 (19-36 only valid when BRAM_SIZE="18Kb")
+      .READ_WIDTH(32),  // Valid values are 1-36 (19-36 only valid when BRAM_SIZE="18Kb")
+      .SRVAL(36'h000000000), // Set/Reset value for port output
+      .WRITE_MODE("NO_CHANGE") // "WRITE_FIRST", "READ_FIRST", or "NO_CHANGE" 
+
+   ) BRAM_SINGLE_MACRO_inst (
+      .DO(wbm_dat_i),       // Output data, width defined by READ_WIDTH parameter
+      .ADDR(wbm_adr_o[10:2]),   // Input address, width defined by read/write port depth
+      .CLK(sys_clk),     // 1-bit input clock
+      .DI(wbm_dat_o),       // Input data port, width defined by WRITE_WIDTH parameter
+      .EN(wbm_stb_o),       // 1-bit input RAM enable
+      .REGCE('b0), // 1-bit input output register enable
+      .RST(!reset_n),     // 1-bit input reset
+      .WE(mem_wr)        // Input write enable, width defined by write port depth
+   );
 
 
 initial
@@ -125,9 +139,9 @@ led_driver u_led (
          .Switch       (Switch),
 
    // Reg Interface
-         .reg_cs      ('b0),
-         .reg_wr      ('b0),
-         .reg_wdata   ('b0),
+         .reg_cs      (1'b0),
+         .reg_wr      (1'b0),
+         .reg_wdata   (32'b0),
          .reg_rdata   (),
     
     // Output is shown on LED with different functionality.
