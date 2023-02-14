@@ -145,7 +145,7 @@ wire [3:0] mem_wr = {4{wbm_we_o}};
       .CLK(sys_clk),     // 1-bit input clock
       .DI(wbm_dat_o),       // Input data port, width defined by WRITE_WIDTH parameter
       .EN(wbm_stb_o),       // 1-bit input RAM enable
-      .REGCE('b0), // 1-bit input output register enable
+      .REGCE(1'b0), // 1-bit input output register enable
       .RST(!reset_n),     // 1-bit input reset
       .WE(mem_wr)        // Input write enable, width defined by write port depth
    );
@@ -178,7 +178,7 @@ led_driver u_led (
    // Reg Interface
          .reg_cs      (1'b0),
          .reg_wr      (1'b0),
-         .reg_wdata   (32'b0),
+         .reg_wdata   (8'b0),
          .reg_rdata   (),
     
     // Output is shown on LED with different functionality.
