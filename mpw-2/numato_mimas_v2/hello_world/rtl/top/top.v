@@ -175,11 +175,6 @@ led_driver u_led (
     // Inputs from the Push Buttons.
          .Switch       (Switch),
 
-   // Reg Interface
-         .reg_cs      (1'b0),
-         .reg_wr      (1'b0),
-         .reg_wdata   (8'b0),
-         .reg_rdata   (),
     
     // Output is shown on LED with different functionality.
          .LED         (LED)

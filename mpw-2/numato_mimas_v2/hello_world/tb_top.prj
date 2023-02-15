@@ -1,7 +1,0 @@
-verilog work "rtl/qspis/qspis_wb.v"
-verilog work "rtl/qspis/qspis_if.v"
-verilog work "rtl/qspis/qspis_top.v"
-verilog work "rtl/lib/reset_sync.v"
-verilog work "rtl/lib/led_driver.v"
-verilog work "rtl/top/top.v"
-verilog work "tb/tb_top.v"

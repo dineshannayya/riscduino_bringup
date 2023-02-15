@@ -30,17 +30,23 @@ NET "LED[7]" 			  LOC = P111	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST |
 #                                                Push Button Switches                                                                             #
 ################################################################################################################################################### 
 
-NET "Switch[0]" 			  LOC = P124	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-NET "Switch[1]" 			  LOC = P123	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-NET "Switch[2]" 			  LOC = P121	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
-NET "Switch[3]" 			  LOC = P120	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "Switch[0]" 		 LOC = P124	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "Switch[1]" 		 LOC = P123	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "Switch[2]" 		 LOC = P121	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
+NET "Switch[3]" 		 LOC = P120	| IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST | PULLUP;
 
 ###################################################################################################################################################
 #                                                   HEADER P1                                                                                     #
 ###################################################################################################################################################
-NET "spi_csn"                    LOC = P34      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L2N_3           		    Sch = GPIO-N17 
-#NET "spi_sio[3]"                 LOC = P33      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L36P_3          	       Sch = GPIO-P16 
-#NET "spi_sio[2]"                 LOC = P32      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L36N_3          		    Sch = GPIO-N16 
-#NET "spi_sio[1]"                 LOC = P30      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L37P_3	   		       Sch = GPIO-P15 
-#NET "spi_sio[0]"                 LOC = P29      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L37N_3          		    Sch = GPIO-N15 
-NET "spi_sck"                    LOC = P24      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L41P_GCLK27_3   	       Sch = GPIO-P14 
+NET "spi_sio[3]"                 LOC = P32      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L2N_3          Sch = GPIO-N17 
+NET "spi_sio[2]"                 LOC = P30      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L36P_3         Sch = GPIO-P16 
+NET "spi_sio[1]"                 LOC = P29      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L36N_3         Sch = GPIO-N16 
+NET "spi_sio[0]"                 LOC = P27      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L37P_3	   Sch = GPIO-P15 
+NET "spi_csn"                    LOC = P26      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L37N_3         Sch = GPIO-N15 
+NET "spi_sck"                    LOC = P24      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L41P_GCLK27_3   	        Sch = GPIO-P14 
+
+
+NET "sys_clk" TNM_NET=sys_clk;
+TIMESPEC TS_sys_clk= PERIOD "sys_clk" 10 ns HIGH 50%;
+NET "spi_sck" TNM_NET=spi_sck;
+TIMESPEC TS_spi_sck= PERIOD "spi_sck" 100 ns HIGH 50%;
