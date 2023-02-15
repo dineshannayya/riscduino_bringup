@@ -58,6 +58,10 @@ module qspis_if (
          input   [3:0]      sdin            ,
          output reg [3:0]   sdout           ,
          output reg         sdout_oen       ,
+			
+			// Debug
+			output reg [2:0]   spi_if_st       ,
+			output reg         sck_toggle      ,
 
          //spi_sm Interface
          output reg         reg_wr          , // write request
@@ -77,7 +81,7 @@ module qspis_if (
 reg  [5:0]     bitcnt           ;
 reg  [7:0]     cmd_reg          ;
 reg  [31:0]    RegSdOut         ;
-reg [2:0]      spi_if_st        ;
+//reg [2:0]      spi_if_st        ;
 
 parameter    S_IDLE     = 3'b000,
              S_CMD      = 3'b001,
@@ -137,29 +141,34 @@ wire rd_phase      = (spi_if_st == S_READ);
 
 
 // sclk pos and ned edge generation
-reg     sck_l0,sck_l1,sck_l2;
+reg     sck_l0,sck_l1,sck_l2,sck_l3;
 
-wire sck_pdetect = (!sck_l2 && sck_l1) ? 1'b1: 1'b0;
-wire sck_ndetect = (sck_l2 && !sck_l1) ? 1'b1: 1'b0;
+wire sck_pdetect = (!sck_l3 && sck_l2 && sck_l1) ? 1'b1: 1'b0;
+wire sck_ndetect = (sck_l3 && !sck_l2 && !sck_l1) ? 1'b1: 1'b0;
 reg  sck_pdetect_d;
 reg  sck_ndetect_d;
 
-
+//reg sck_toggle;
 
 always @ (posedge sys_clk or negedge rst_n) begin
 if (!rst_n) begin
       sck_l0 <= 1'b1;
       sck_l1 <= 1'b1;
       sck_l2 <= 1'b1;
+		sck_l3 <= 1'b1;
       sck_pdetect_d <= 1'b0;
       sck_ndetect_d <= 1'b0;
+		sck_toggle   <= 1'b0;
    end
    else begin
       sck_l0 <= sclk;
       sck_l1 <= sck_l0; // double sync
       sck_l2 <= sck_l1;
+      sck_l3 <= sck_l2;
       sck_pdetect_d <= sck_pdetect;
       sck_ndetect_d <= sck_ndetect;
+		
+		if(sck_pdetect_d)  sck_toggle <= ~sck_toggle;
    end
 end
 

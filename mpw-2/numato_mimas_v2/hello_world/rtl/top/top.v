@@ -7,7 +7,11 @@ module top (
       // Spi I/F
         spi_sck,
         spi_csn  ,
-        spi_sio,
+        spi_sio  ,
+		  
+		  spi_sck_la,
+        spi_csn_la,
+        spi_sio_la,
 
 
 
@@ -32,6 +36,10 @@ output [7:0] LED   ;
 input               spi_sck            ; // clock out
 input               spi_csn            ; // cs_n
 inout  [3:0]        spi_sio            ;
+
+output              spi_sck_la         ; // clock out
+output              spi_csn_la         ; // cs_n
+output  [3:0]       spi_sio_la         ;
  
 
 
@@ -51,8 +59,18 @@ wire  [31:0] wbm_dat_i       ;  // data input
 reg          wbm_ack_i       ;  // acknowlegement
 wire         wbm_err_i       ;  // error
 
+wire [2:0]    spi_if_st      ;
+wire          sck_toggle     ;
+
 assign      spi_sio = (spi_oen == 1'b0) ? spi_so : 4'hz;
 assign      spi_si =  (spi_oen == 1'b1) ? spi_sio: 4'b0;
+
+assign spi_sck_la = spi_sck;
+assign spi_csn_la = spi_csn;
+//assign spi_sio_la = spi_sio;
+assign spi_sio_la[0] = spi_sio[0];
+assign spi_sio_la[2:1] = spi_if_st[1:0];
+assign spi_sio_la[3] =  sck_toggle;
 
 
 reset_sync u_reset_sync (
@@ -73,6 +91,10 @@ qspis_top u_qspis(
          .sdin            (spi_si),
          .sdout           (spi_so),
          .sdout_oen       (spi_oen),
+			
+			// Debug 
+			.spi_if_st        (spi_if_st),
+			.sck_toggle       (sck_toggle),
 
          // WB Master Port
          .wbm_cyc_o       (wbm_cyc_o ),  // strobe/request

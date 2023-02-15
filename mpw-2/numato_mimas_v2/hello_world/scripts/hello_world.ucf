@@ -45,6 +45,14 @@ NET "spi_sio[0]"                 LOC = P27      | IOSTANDARD = LVCMOS33 | DRIVE 
 NET "spi_csn"                    LOC = P26      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L37N_3         Sch = GPIO-N15 
 NET "spi_sck"                    LOC = P24      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L41P_GCLK27_3   	        Sch = GPIO-P14 
 
+NET "spi_sio_la[3]"              LOC = P6       | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L52P_3        Header-1: 25  
+NET "spi_sio_la[2]"              LOC = P7       | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L51N_3        Header-1: 24 
+NET "spi_sio_la[1]"              LOC = P8       | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L51P_3        Header-1: 23  
+NET "spi_sio_la[0]"              LOC = P9       | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L50N_3	     Header-1: 22
+NET "spi_csn_la"                 LOC = P10      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L49N_3        Header-1: 21 
+NET "spi_sck_la"                 LOC = P11      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L49N_3   	  Header-1: 20     
+
+
 
 NET "sys_clk" TNM_NET=sys_clk;
 TIMESPEC TS_sys_clk= PERIOD "sys_clk" 10 ns HIGH 50%;

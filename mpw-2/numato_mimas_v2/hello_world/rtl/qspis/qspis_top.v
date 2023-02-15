@@ -46,6 +46,10 @@ module qspis_top (
          input        [3:0]   sdin            ,
          output wire  [3:0]   sdout           ,
          output wire          sdout_oen       ,
+			
+			// Debug
+			output wire [2:0]    spi_if_st       ,
+			output wire          sck_toggle      ,
 
 
          // WB Master Port
@@ -82,6 +86,9 @@ qspis_if u_if (
              .sdin            (sdin            ),
              .sdout           (sdout           ),
              .sdout_oen       (sdout_oen       ),
+				 
+				 .spi_if_st       (spi_if_st       ),
+				 .sck_toggle      (sck_toggle      ),
 
              //spi_sm Interface
              .reg_wr          (reg_wr          ), // write request
