@@ -3,9 +3,11 @@ export PATH=$PATH:/bin:/usr/local/bin/:../../venv/bin:/usr/bin/:.
 # --- automatically set ---
 #DEV=/dev/cu.usbmodem33203
 #DEV=/dev/ttyACM0
+DEV=/dev/ttyACM0
 
 #FLASH=/media/efabless/PYBFLASH/
-FLASH=/media/dinesha/PYBFLASH/
+#FLASH=/media/dinesha/PYBFLASH/
+FLASH=/media/PYBFLASH/
 DEV=$(shell mpremote connect list | grep STLink | cut -f 1 -d ' ')
 #COPY_CMD=rshell --port ${DEV} cp
 COPY_CMD=cp
@@ -127,13 +129,14 @@ setup: check-python
 # ---- targets for building hex file
 
 #TOOLCHAIN_PATH=/foss/tools/riscv-gnu-toolchain-rv32i/217e7f3debe424d61374d31e33a091a630535937/bin/
-TOOLCHAIN_PATH=/opt/riscv64i/bin/
-SCRIPTS_PATH=/home/dinesha/workarea/opencore/git/mpw_bringup/mpw-2/nucleo/scripts
+#TOOLCHAIN_PATH=/opt/riscv64i/bin/
+TOOLCHAIN_PATH=/opt/riscv/bin/
+SCRIPTS_PATH=../
 #TOOLCHAIN_PATH=/opt/riscv32imc/bin/
 
 # Set the prefix for `riscvXX-unknown-elf-*`
 # On installations using `multilib`, this will be `riscv64` even for compiling to 32-bit targets
-TOOLCHAIN_PREFIX=riscv64-unknown-elf
+TOOLCHAIN_PREFIX=riscv64-unknown-linux-gnu
 #TOOLCHAIN_PREFIX=riscv32-unknown-linux-gnu
 
 #SED_CMD=sed -i '.orig' -e

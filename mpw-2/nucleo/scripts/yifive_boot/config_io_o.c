@@ -199,8 +199,9 @@ void main()
      delay_adjust++;
      delay_adjust = delay_adjust & 0xFFF; // 12 bit counter 
      //reg_mprj_wbhost_clk_ctrl1 = clk_ctrl |  (delay_adjust & 0xFF) | ((delay_adjust << 4) & 0xF000);
-     reg_mprj_wbhost_clk_ctrl1 =   0x084868C2;
-     print_reg(delay_adjust);
+     //reg_mprj_wbhost_clk_ctrl1 =   0x084868C2;
+     reg_mprj_wbhost_clk_ctrl1 =   0x0848F8C2;
+     //print_reg(delay_adjust);
     // Remove All Reset
      reg_mprj_wbhost_reg0 = 0x00000A1F;
      //reg_mprj_wbhost_reg0 = 0x1F;
@@ -210,7 +211,7 @@ void main()
 
     while(1) {
        reg_gpio_out = 0; // ON
-	   reg_uart_data = 0xAA;
+       reg_uart_data = 0xAA;
        print_reg(delay_adjust);
        delay(4000000);
        reg_mprj_datal = 0xFFFFFFFF;
@@ -223,7 +224,7 @@ void main()
 
 
        delay(4000000);
-	   reg_uart_data = 0x55;
+       reg_uart_data = 0x55;
        reg_mprj_datal = 0x0;
        reg_mprj_datah = 0x0;
        reg_gpio_out = 1; // ON

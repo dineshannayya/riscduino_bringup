@@ -92,7 +92,7 @@ F413ZH:
 
 #TOOLCHAIN_PATH=/foss/tools/riscv-gnu-toolchain-rv32i/217e7f3debe424d61374d31e33a091a630535937/bin/
 TOOLCHAIN_PATH=/opt/riscv64i/bin/
-SCRIPTS_PATH=/home/dinesha/workarea/opencore/git/mpw_bringup/mpw-2/nucleo/scripts
+SCRIPTS_PATH=../
 #TOOLCHAIN_PATH=/opt/riscv32imc/bin/
 
 # Set the prefix for `riscvXX-unknown-elf-*`

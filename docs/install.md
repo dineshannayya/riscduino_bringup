@@ -5,17 +5,14 @@
 
 ## Installing GCC  
 
-git clone https://github.com/gcc-mirror/gcc.git
-cd gcc
-git checkout releases/gcc-12.2.0
+wget https://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz --no-check-certificate
+tar -xvf gcc-9.2.0.tar.gz
+cd gcc-9.2.0
 ./contrib/download_prerequisites
-cd ..
-mkdir objdir
-cd objdir
-$PWD/../gcc/configure --prefix=$HOME/GCC-12.2.0 --enable-languages=c,c++,fortran,go
-make -j
-make install
- 
+./configure --disable-multilib
+make
+sudo make install
+
 ###
 ### Installing python 3.6.5 on OEL 6.1 from source
 ###
@@ -47,30 +44,29 @@ sudo yum update -y
 sudo yum search python3
 
 
-## Install Riscv64
-  sudo yum install autoconf automake libmpc-devel mpfr-devel gmp-devel gawk bison flex \
-                 texinfo patchutils gcc gcc-c++ zlib-devel expat-devel git
-  
-  mkdir riscv64-linux
-  cd riscv64-linux
+### Install bison
 
-  git clone https://github.com/qemu/qemu
-  git clone https://github.com/torvalds/linux
+ wget http://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.xz
+ tar -xvf bison-3.8.2.tar.xz
+ ./configure --prefix=/usr/local/bison --with-libiconv-prefix=/usr/local/libiconv/
+ make
+ sudo make install
 
-  
-  cd qemu
-  git checkout v5.0.0
-  ./configure --target-list=riscv64-softmmu
-  make -j $(nproc)
-  sudo make install
+## Install latest gmake
+wget https://ftp.gnu.org/gnu/make/make-4.4.tar.gz --no-check-certificate
+tar -xvf make-4.4.tar.gz
+cd make-4.4
+./configure --prefix=/usr
+make
+sudo make install
+gmake --version
 
-  cd linux
-  git checkout v5.4.0
-  make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- defconfig
-
-
-  make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-gnu- -j $(nproc)
-
+#
+git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
+sudo yum install autoconf automake libmpc-devel mpfr-devel gmp-devel gawk bison flex texinfo patchutils gcc gcc-c++ zlib-devel expat-devel
+./configure --prefix=/opt/riscv
+make linux
+sudo make install
 
 ## To Install mprmote
    pip3 install mprmote

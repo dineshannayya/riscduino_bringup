@@ -61,6 +61,8 @@ wire         wbm_err_i       ;  // error
 
 wire [2:0]    spi_if_st      ;
 wire          sck_toggle     ;
+wire [5:0]    bitcnt         ;
+
 
 assign      spi_sio = (spi_oen == 1'b0) ? spi_so : 4'hz;
 assign      spi_si =  (spi_oen == 1'b1) ? spi_sio: 4'b0;
@@ -69,8 +71,9 @@ assign spi_sck_la = spi_sck;
 assign spi_csn_la = spi_csn;
 //assign spi_sio_la = spi_sio;
 assign spi_sio_la[0] = spi_sio[0];
-assign spi_sio_la[2:1] = spi_if_st[1:0];
-assign spi_sio_la[3] =  sck_toggle;
+assign spi_sio_la[3:1] = spi_if_st[2:0];
+//assign spi_sio_la[3:1] = bitcnt[2:0];
+//assign spi_sio_la[3] =  sck_toggle;
 
 
 reset_sync u_reset_sync (
@@ -95,6 +98,7 @@ qspis_top u_qspis(
 			// Debug 
 			.spi_if_st        (spi_if_st),
 			.sck_toggle       (sck_toggle),
+			.bitcnt           (bitcnt),
 
          // WB Master Port
          .wbm_cyc_o       (wbm_cyc_o ),  // strobe/request

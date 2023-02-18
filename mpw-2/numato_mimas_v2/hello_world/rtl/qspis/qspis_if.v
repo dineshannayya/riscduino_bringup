@@ -62,6 +62,7 @@ module qspis_if (
 			// Debug
 			output reg [2:0]   spi_if_st       ,
 			output reg         sck_toggle      ,
+			output reg [5:0]   bitcnt          ,
 
          //spi_sm Interface
          output reg         reg_wr          , // write request
@@ -78,7 +79,7 @@ module qspis_if (
 // Wire and reg definitions
 // -------------------------------------------------------
 
-reg  [5:0]     bitcnt           ;
+//reg  [5:0]     bitcnt           ;
 reg  [7:0]     cmd_reg          ;
 reg  [31:0]    RegSdOut         ;
 //reg [2:0]      spi_if_st        ;
