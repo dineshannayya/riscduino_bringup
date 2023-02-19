@@ -56,14 +56,14 @@ module tb_top;
 		.LED(LED)
 	);
 
-   always #12.5 sys_clk <= (sys_clk === 1'b0);
+   always #5.0 sys_clk <= (sys_clk === 1'b0);
 	
 	initial begin
 		// Initialize Inputs
 		sys_clk = 0;
 		SCK = 0;
 		CSB = 1;
-                spi_oeb = 0;
+      spi_oeb = 0;
 		Switch = 0;
 
 		// Wait 100 ns for global reset to finish

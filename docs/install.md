@@ -70,3 +70,10 @@ sudo make install
 
 ## To Install mprmote
    pip3 install mprmote
+
+### If you have you have below error: 
+
+failed to access /dev/ttyACM0 (it may be in use by another program)
+
+They try with : sudo chmod 666 /dev/ttyACM0
+

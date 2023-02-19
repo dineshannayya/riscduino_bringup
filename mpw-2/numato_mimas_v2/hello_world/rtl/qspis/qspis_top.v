@@ -51,6 +51,7 @@ module qspis_top (
 			output wire [2:0]    spi_if_st       ,
 			output wire          sck_toggle      ,
 			output wire [5:0]    bitcnt          ,
+			output wire          inst_trg        ,
 
 
          // WB Master Port
@@ -91,6 +92,7 @@ qspis_if u_if (
 				 .spi_if_st       (spi_if_st       ),
 				 .sck_toggle      (sck_toggle      ),
 				 .bitcnt          (bitcnt          ),
+				 .inst_trg        (inst_trg        ),
 
              //spi_sm Interface
              .reg_wr          (reg_wr          ), // write request

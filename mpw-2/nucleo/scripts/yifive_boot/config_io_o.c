@@ -159,6 +159,7 @@ void main()
     gpio_config_io();
 
     reg_gpio_out = 1; // OFF
+    delay(400000);
     reg_uart_enable = 1;
 
     // Configure LA probes [63:32] and [127:96] as inputs to the cpu 
@@ -200,8 +201,9 @@ void main()
      delay_adjust = delay_adjust & 0xFFF; // 12 bit counter 
      //reg_mprj_wbhost_clk_ctrl1 = clk_ctrl |  (delay_adjust & 0xFF) | ((delay_adjust << 4) & 0xF000);
      //reg_mprj_wbhost_clk_ctrl1 =   0x084868C2;
-     reg_mprj_wbhost_clk_ctrl1 =   0x0848F8C2;
-     //print_reg(delay_adjust);
+     //reg_mprj_wbhost_clk_ctrl1 =   0x0848F882; // 0x0200 - 0x1C0
+     reg_mprj_wbhost_clk_ctrl1 =   0x0848C882; // 0x0200 - 0x1C0
+     print_reg(reg_la0_data_in);
     // Remove All Reset
      reg_mprj_wbhost_reg0 = 0x00000A1F;
      //reg_mprj_wbhost_reg0 = 0x1F;
@@ -209,27 +211,27 @@ void main()
 
    }
 
-    while(1) {
-       reg_gpio_out = 0; // ON
-       reg_uart_data = 0xAA;
-       print_reg(delay_adjust);
-       delay(4000000);
-       reg_mprj_datal = 0xFFFFFFFF;
-       reg_mprj_datah = 0x3F;
+    //while(1) {
+    //   reg_gpio_out = 0; // ON
+    //   reg_uart_data = 0xAA;
+    //   print_reg(delay_adjust);
+    //   delay(4000000);
+    //   reg_mprj_datal = 0x000FFFFF;
+    //   reg_mprj_datah = 0x00;
 
-       print_reg(reg_la0_data_in);
-       print_reg(reg_la1_data_in);
-       print_reg(reg_la2_data_in);
-       print_reg(reg_la3_data_in);
+    //   print_reg(reg_la0_data_in);
+    //   print_reg(reg_la1_data_in);
+    //   print_reg(reg_la2_data_in);
+    //   print_reg(reg_la3_data_in);
 
 
-       delay(4000000);
-       reg_uart_data = 0x55;
-       reg_mprj_datal = 0x0;
-       reg_mprj_datah = 0x0;
-       reg_gpio_out = 1; // ON
-       delay(4000000);
-    }
+    //   delay(4000000);
+    //   reg_uart_data = 0x55;
+    //   reg_mprj_datal = 0x0;
+    //   reg_mprj_datah = 0x0;
+    //   reg_gpio_out = 1; // ON
+    //   delay(4000000);
+    //}
 
     //while (1){
     //    reg_gpio_out = 0; // ON

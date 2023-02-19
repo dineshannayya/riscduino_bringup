@@ -52,6 +52,7 @@ NET "spi_sio_la[0]"              LOC = P9       | IOSTANDARD = LVCMOS33 | DRIVE 
 NET "spi_csn_la"                 LOC = P10      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L49N_3        Header-1: 21 
 NET "spi_sck_la"                 LOC = P11      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L49N_3   	  Header-1: 20     
 
+NET "inst_trg"                   LOC = P14      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;    # IO_L44N_GCLK20_3  Header-1: 18
 
 
 NET "sys_clk" TNM_NET=sys_clk;

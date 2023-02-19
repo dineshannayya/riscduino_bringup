@@ -63,6 +63,7 @@ module qspis_if (
 			output reg [2:0]   spi_if_st       ,
 			output reg         sck_toggle      ,
 			output reg [5:0]   bitcnt          ,
+			output  reg        inst_trg        ,
 
          //spi_sm Interface
          output reg         reg_wr          , // write request
@@ -174,10 +175,10 @@ if (!rst_n) begin
 end
 
 // SSN double sync
-reg     ssn_l0,ssn_l1;
-wire    ssn_ss;
+reg     ssn_l0,ssn_l1,ssn_l2;
+reg    ssn_ss;
 
-assign ssn_ss = ssn_l1;
+
 
 
 
@@ -185,10 +186,15 @@ always @ (posedge sys_clk or negedge rst_n) begin
 if (!rst_n) begin
       ssn_l0 <= 1'b1;
       ssn_l1 <= 1'b1;
+      ssn_l2 <= 1'b1;
+		ssn_ss <= 1'b1;
    end
    else begin
       ssn_l0 <= ssn;
       ssn_l1 <= ssn_l0; // double sync
+      ssn_l2 <= ssn_l1; // double sync
+		ssn_ss <= (ssn_l1==1'b0 && ssn_l2 == 1'b0) ? 1'b0 : 
+                (ssn_l1==1'b1 && ssn_l2 == 1'b1) ? 1'b1 : ssn_ss;
    end
 end
 
@@ -257,7 +263,7 @@ begin
 	  if(reg_ack) begin
           RegSdOut <= reg_rdata;
       end else begin
-         if((rd_phase && sck_ndetect)) begin
+         if((rd_phase && sck_ndetect_d)) begin
             case(cfg_spi_dmode) // data mode
             P_SINGLE: begin
                sdout[0]   <= RegSdOut[31];
@@ -303,6 +309,7 @@ begin
       bitcnt       <= 6'b000111;
       cfg_wren     <= 1'b0;
       spi_cpol     <= 1'b0;
+		inst_trg     <= 1'b0;
       spi_if_st    <= S_IDLE;
       cfg_spi_amode <= P_SINGLE; // Address Single Bit Mode
       cfg_spi_dmode <= P_SINGLE; // Data Single Bit Mode
@@ -313,6 +320,7 @@ begin
       reg_rd        <= 1'b0;
       sdout_oen     <= 1'b1;
       bitcnt        <= 6'b000111;
+		inst_trg      <= 1'b0;
       spi_cpol      <= sck_l1; // Hold the last sck inactive phase
       cfg_spi_amode <= P_SINGLE; // Address Single Bit Mode
       cfg_spi_dmode <= P_SINGLE; // Data Single Bit Mode
@@ -324,6 +332,7 @@ begin
              reg_wr       <= 1'b0;
              reg_rd       <= 1'b0;
              sdout_oen    <= 1'b1;
+				 inst_trg     <= 1'b0;
              bitcnt       <= 6'b000111;
              if (ssn_ss == 1'b0 && !spi_cpol) begin // SCLK Active Low inactive phase
                 spi_if_st <= S_CMD ;
@@ -405,6 +414,7 @@ begin
                        spi_if_st     <= S_ADDR;
     	            end
     	            C_FRQIO: begin // Fast Read Quad IO - 0xEB
+						   inst_trg      <= 1'b1;
     	               dummy_enb     <= 1'b1;
     	               cfg_spi_phase <= P_READ; 
     	               cfg_spi_amode <= P_QUAD; // Address Dual Bit Mode
