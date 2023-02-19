@@ -1,0 +1,13 @@
+
+#When ever there is change in config_io.c
+
+1, make make config_io_o.hex
+2. make copy2
+3. sudo chmod 666 /dev/ttyACM0
+4. make run
+
+#When ever there is change in FPGA
+1. Implement the FPGA
+2. Create top.bin file
+3. Burn through: mimasv2_configuration_tool_windows.exe
+
