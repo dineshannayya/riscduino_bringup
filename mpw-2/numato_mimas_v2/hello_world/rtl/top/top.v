@@ -14,6 +14,7 @@ module top (
         spi_sio_la,
 
         inst_trg,
+		  addr_trg,
 
         Switch,
         LED  
@@ -41,6 +42,7 @@ output              spi_sck_la         ; // clock out
 output              spi_csn_la         ; // cs_n
 output  [3:0]       spi_sio_la         ;
 output              inst_trg           ;
+output              addr_trg           ;
 
 
 wire  [3:0]        spi_si             ; // serial data in
@@ -99,7 +101,8 @@ qspis_top u_qspis(
 			.spi_if_st        (spi_if_st),
 			.sck_toggle       (sck_toggle),
 			.bitcnt           (bitcnt),
-			.inst_trg         (inst_trg),     
+			.inst_trg         (inst_trg),  
+         .addr_trg         (addr_trg),			
 
          // WB Master Port
          .wbm_cyc_o       (wbm_cyc_o ),  // strobe/request

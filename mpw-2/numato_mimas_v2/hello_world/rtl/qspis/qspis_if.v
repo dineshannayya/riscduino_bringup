@@ -64,6 +64,7 @@ module qspis_if (
 			output reg         sck_toggle      ,
 			output reg [5:0]   bitcnt          ,
 			output  reg        inst_trg        ,
+			output reg         addr_trg        ,
 
          //spi_sm Interface
          output reg         reg_wr          , // write request
@@ -234,9 +235,19 @@ begin
    end else if(addr_inc) begin
       reg_addr[23:0] <= reg_addr+4;
    end
+
      
 end 
 
+always @(posedge sys_clk)
+begin
+	if((reg_addr != 24'h200 && reg_addr != 24'h1c0) && dummy_phase)
+	    addr_trg <= 1'b1;
+	else 
+	    addr_trg <= 1'b0;
+end
+		 
+		 
 // write data accumation at posedge sclk
 always @(negedge rst_n or posedge sys_clk)
 begin
