@@ -1,0 +1,111 @@
+
+(rules PCB riscduino_board
+  (snap_angle 
+    fortyfive_degree
+  )
+  (autoroute_settings
+    (fanout off)
+    (autoroute on)
+    (postroute on)
+    (vias on)
+    (via_costs 50)
+    (plane_via_costs 5)
+    (start_ripup_costs 100)
+    (start_pass_no 1621)
+    (layer_rule F.Cu
+      (active on)
+      (preferred_direction vertical)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 2.0)
+    )
+    (layer_rule B.Cu
+      (active on)
+      (preferred_direction horizontal)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 2.0)
+    )
+  )
+  (rule
+    (width 254.0)
+    (clear 152.6)
+    (clear 76.2 (type smd_to_turn_gap))
+    (clear 38.2 (type smd_smd))
+  )
+  (padstack "Via[0-1]_500:250_um"
+    (shape
+      (circle F.Cu 500.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 500.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_500:250_um" "Via[0-1]_500:250_um" default
+  )
+  (via 
+    "Via[0-1]_500:250_um-kicad_default" "Via[0-1]_500:250_um" "kicad_default"
+  )
+  (via_rule
+    default "Via[0-1]_500:250_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_500:250_um-kicad_default"
+  )
+  (class default
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 254.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+      (length -1.0 152.4)
+    )
+  )
+  (class "kicad_default"
+    "Net-(U2-ADJ)" "~{MEM_WP}" ~{RST} "TIM3_CH2" "Caravel_CSB" "Caravel_SCK" "Net-(D1-A)" "Net-(D2-A)"
+    gpio "I2C4_SCL" "Net-(D3-A)" "~{MEM_HOLD}" ~{MR} "Net-(D4-A)" "Net-(D5-A)" "Caravel_MISO"
+    "Caravel_MOSI" "mprj_io_37" "mprj_io_36" "Net-(D6-A)" "unconnected-(J1-Pin_8-Pad8)" "unconnected-(J3-Pin_1-Pad1)" "unconnected-(J3-Pin_2-Pad2)" "unconnected-(J3-Pin_3-Pad3)"
+    "EN_VOUT2" "EN_VOUT1" "I2C4_SDA" "mprj_io_35" "mprj_io_34" "mprj_io_33" "mprj_io_32" "mprj_io_31"
+    "mprj_io_30" "mprj_io_29" "mprj_io_28" "mprj_io_27" "mprj_io_26" "mprj_io_25" "mprj_io_24" "mprj_io_23"
+    "mprj_io_22" "mprj_io_21" "mprj_io_20" "mprj_io_19" "mprj_io_18" "mprj_io_17" "mprj_io_16" "mprj_io_15"
+    "mprj_io_14" "mprj_io_13" "mprj_io_12" "mprj_io_11" "mprj_io_10" "mprj_io_9" "mprj_io_8" "mprj_io_7"
+    "mprj_io_6_ser_tx" "unconnected-(J3-Pin_6-Pad6)" "unconnected-(J5-Pin_7-Pad7)" "unconnected-(J5-Pin_8-Pad8)" "unconnected-(P2-Pad17)" "unconnected-(P2-Pad18)" "Net-(U1-ADJ)" "unconnected-(U3-VDD-Pad5)"
+    "unconnected-(U3-E5V-Pad6)" "unconnected-(U3-~{BOOT0}-Pad7)" "unconnected-(U3-NC-Pad10)" "unconnected-(U3-IOREF-Pad12)" "unconnected-(U3-TMS{slash}PA13-Pad13)" "unconnected-(U3-~{RST}-Pad14)" "unconnected-(U3-TCK{slash}PA14-Pad15)" "unconnected-(U3-+3V3-Pad16)"
+    "mprj_io_5_ser_rx" "unconnected-(U3-LD2{slash}PB7-Pad21)" "mprj_io_4_SCK" "unconnected-(U3-VIN-Pad24)" "unconnected-(U3-RTC_CRYSTAL{slash}PC14-Pad25)" "unconnected-(U3-NC-Pad26)" "unconnected-(U3-RTC_CRYSTAL{slash}PC15-Pad27)" "unconnected-(U3-PH0-Pad29)"
+    "unconnected-(U3-ETH_MDIO{slash}PA1-Pad30)" "unconnected-(U3-PH1-Pad31)" "unconnected-(U3-VBAT-Pad33)" "unconnected-(U3-PB0-Pad34)" "unconnected-(U3-ETH_MDC{slash}PC1-Pad36)" "unconnected-(U3-PE2-Pad46)" "unconnected-(U3-PE4-Pad48)" "unconnected-(U3-PE5-Pad50)"
+    "unconnected-(U3-PF1-Pad51)" "unconnected-(U3-PF0-Pad53)" "unconnected-(U3-PD1-Pad55)" "unconnected-(U3-PD0-Pad57)" "unconnected-(U3-PE6-Pad62)" "unconnected-(U3-NC-Pad67)" "unconnected-(U3-PG13{slash}ETH_TXD0-Pad68)" "unconnected-(U3-STLINK_RX{slash}PD9-Pad69)"
+    "unconnected-(U3-PG11{slash}ETH_TX_EN-Pad70)" "unconnected-(U3-ETH_RXD1{slash}PC5-Pad78)" "unconnected-(U3-AVDD-Pad79)" "unconnected-(U3-U5V-Pad80)" "unconnected-(U3-STLINK_TX{slash}PD8-Pad82)" "unconnected-(U3-PA5-Pad83)" "unconnected-(U3-USB_DP{slash}PA12-Pad84)" "unconnected-(U3-PA6-Pad85)"
+    "unconnected-(U3-USB_DM{slash}PA11-Pad86)" "unconnected-(U3-ETH_CRS_DV{slash}PA7-Pad87)" "unconnected-(U3-PB11-Pad90)" "unconnected-(U3-PC7-Pad91)" "unconnected-(U3-USB_VBUS{slash}PA9-Pad93)" "unconnected-(U3-USB_SOF{slash}PA8-Pad95)" "unconnected-(U3-PB10-Pad97)" "unconnected-(U3-LD3{slash}PB14-Pad100)"
+    "unconnected-(U3-ETH_TXD1{slash}PB13-Pad102)" "unconnected-(U3-SWO{slash}PB3-Pad103)" "unconnected-(U3-USB_ID{slash}PA10-Pad105)" "unconnected-(U3-ETH_RXD0{slash}PC4-Pad106)" "unconnected-(U3-PA2-Pad107)" "unconnected-(U3-PF5-Pad108)" "unconnected-(U3-PA3-Pad109)" "unconnected-(U3-PF4-Pad110)"
+    "unconnected-(U3-PE8-Pad112)" "unconnected-(U3-PF10-Pad114)" "unconnected-(U3-PE7-Pad116)" "unconnected-(U3-PD11-Pad117)" "unconnected-(U3-PD14-Pad118)" "unconnected-(U3-PE10-Pad119)" "unconnected-(U3-PD15-Pad120)" "unconnected-(U3-PF14-Pad122)"
+    "mprj_io_3_CSB" "mprj_io_2_SDI" "unconnected-(U3-PE9-Pad124)" "unconnected-(U3-PE15-Pad125)" xclk "unconnected-(U3-PF13-Pad129)" "unconnected-(U3-PF3-Pad130)" "NU_5V"
+    "unconnected-(U3-PF12-Pad131)" "unconnected-(U3-PF15-Pad132)" "unconnected-(U3-PG14-Pad133)" "unconnected-(U3-PF11-Pad134)" "unconnected-(U3-PD10-Pad137)" "unconnected-(U3-PG8-Pad138)" "unconnected-(U3-PG7{slash}USB_GPIO_IN-Pad139)" "unconnected-(U3-PG5-Pad140)"
+    "unconnected-(U3-PG4-Pad141)" "unconnected-(U3-PG6{slash}USB_GPIO_OUT-Pad142)" "mprj_io_1_SDO" "mprj_io_0" "unconnected-(P1-Pad03)" "unconnected-(P1-Pad04)" "unconnected-(P1-Pad14)" "unconnected-(P1-Pad23)"
+    "unconnected-(P1-Pad24)" "unconnected-(P1-Pad33)" "unconnected-(P1-Pad34)" "unconnected-(P1-Pad37)" "unconnected-(P2-Pad13)" "unconnected-(P2-Pad14)" "unconnected-(P2-Pad33)" "unconnected-(P2-Pad34)"
+    "unconnected-(P2-Pad37)" "unconnected-(P2-Pad38)"
+    (clearance_class "kicad_default")
+    (via_rule kicad_default)
+    (rule
+      (width 254.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+      (length -1.0 152.4)
+    )
+  )
+  (class POWER
+    GND vccd1 vdda "+3.3V_F" "+1V8_U" "+1V8_C" vddio vdda2
+    vccd2 vdda1 vccd
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 508.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+      (length -1.0 152.4)
+    )
+  )
+)
