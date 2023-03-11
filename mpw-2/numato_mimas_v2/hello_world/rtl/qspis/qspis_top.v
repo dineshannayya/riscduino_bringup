@@ -47,12 +47,12 @@ module qspis_top (
          output wire  [3:0]   sdout           ,
          output wire          sdout_oen       ,
 			
-			// Debug
-			output wire [2:0]    spi_if_st       ,
-			output wire          sck_toggle      ,
-			output wire [5:0]    bitcnt          ,
-			output wire          inst_trg        ,
-			output wire          addr_trg        ,
+	// Debug
+	output wire [2:0]    spi_if_st       ,
+	output wire          sck_toggle      ,
+	output wire [5:0]    bitcnt          ,
+	output wire          inst_trg        ,
+	output wire          addr_trg        ,
 
 
          // WB Master Port
