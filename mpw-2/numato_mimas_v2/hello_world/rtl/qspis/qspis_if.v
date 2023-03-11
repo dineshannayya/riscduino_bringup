@@ -50,30 +50,30 @@
 
 module qspis_if (
 
-	     input               sys_clk         ,
-	     input               rst_n           ,
+	     input              sys_clk         ,
+	     input              rst_n           ,
 
-         input              sclk            ,
-         input              ssn             ,
-         input   [3:0]      sdin            ,
-         output reg [3:0]   sdout           ,
-         output reg         sdout_oen       ,
+             input              sclk            ,
+             input              ssn             ,
+             input   [3:0]      sdin            ,
+             output reg [3:0]   sdout           ,
+             output reg         sdout_oen       ,
 			
-			// Debug
-			output reg [2:0]   spi_if_st       ,
-			output reg         sck_toggle      ,
-			output reg [5:0]   bitcnt          ,
-			output  reg        inst_trg        ,
-			output reg         addr_trg        ,
+	     // Debug
+	     output reg [2:0]   spi_if_st       ,
+	     output reg         sck_toggle      ,
+	     output reg [5:0]   bitcnt          ,
+	     output  reg        inst_trg        ,
+	     output reg         addr_trg        ,
 
          //spi_sm Interface
-         output reg         reg_wr          , // write request
-         output reg         reg_rd          , // read request
-         output reg [23:0]  reg_addr        , // address
-         output wire  [3:0] reg_be          , // Byte enable
-         output reg [31:0]  reg_wdata       , // write data
-         input      [31:0]  reg_rdata       , // read data
-         input              reg_ack           // read valid
+             output reg         reg_wr          , // write request
+             output reg         reg_rd          , // read request
+             output reg [23:0]  reg_addr        , // address
+             output wire  [3:0] reg_be          , // Byte enable
+             output reg [31:0]  reg_wdata       , // write data
+             input      [31:0]  reg_rdata       , // read data
+             input              reg_ack           // read valid
              );
 
 
@@ -241,7 +241,7 @@ end
 
 always @(posedge sys_clk)
 begin
-	if((reg_addr != 24'h200 && reg_addr != 24'h1c0) && dummy_phase)
+	if((reg_addr == 24'h200) && dummy_phase)
 	    addr_trg <= 1'b1;
 	else 
 	    addr_trg <= 1'b0;
@@ -273,6 +273,7 @@ begin
   end else begin
 	  if(reg_ack) begin
           RegSdOut <= reg_rdata;
+			 //RegSdOut <= reg_addr;
       end else begin
          if((rd_phase && sck_ndetect_d)) begin
             case(cfg_spi_dmode) // data mode

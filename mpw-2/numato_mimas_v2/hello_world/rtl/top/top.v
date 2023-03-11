@@ -2,22 +2,16 @@
 
 module top ( 
         sys_clk ,	
-        reset_n ,
-
-      // Spi I/F
-        spi_sck,
-        spi_csn  ,
-        spi_sio  ,
 		  
-		  spi_sck_la,
-        spi_csn_la,
-        spi_sio_la,
+		  mrn,    
+		  tim3_ch2,
+ 
+        mprj_io,
 
-        inst_trg,
-		  addr_trg,
 
         Switch,
-        LED  
+        LED,
+        trigger		  
 
      );
 
@@ -26,23 +20,17 @@ module top (
 // Global Dec
 // ---------------------------------
 input        sys_clk ;	
-output       reset_n ;
+output       mrn ;  // Reset Out
+output       tim3_ch2; // Clock
 
 input [3:0]  Switch;
 output [7:0] LED   ;
+output       trigger;
 
-//-------------------------------------
-// Spi I/F
-//-------------------------------------
-input               spi_sck            ; // clock out
-input               spi_csn            ; // cs_n
-inout  [3:0]        spi_sio            ;
+inout [37:0]  mprj_io;
 
-output              spi_sck_la         ; // clock out
-output              spi_csn_la         ; // cs_n
-output  [3:0]       spi_sio_la         ;
-output              inst_trg           ;
-output              addr_trg           ;
+
+wire                inst_trg           ;
 
 
 wire  [3:0]        spi_si             ; // serial data in
@@ -64,19 +52,26 @@ wire         wbm_err_i       ;  // error
 wire [2:0]    spi_if_st      ;
 wire          sck_toggle     ;
 wire [5:0]    bitcnt         ;
+wire          reset_n        ;
+
+reg           clk_1Mhz       ; // 1Mhz clock
+reg [7:0]     clk_dcnt       ; // clock div count
+wire          addr_trg       ;
 
 
-assign      spi_sio = (spi_oen == 1'b0) ? spi_so : 4'hz;
-assign      spi_si =  (spi_oen == 1'b1) ? spi_sio: 4'b0;
+assign      mprj_io[29:0]  = 30'hz;
+assign      mprj_io[37:36] = 2'hz;
+assign      tim3_ch2       =  clk_1Mhz;    
 
-assign spi_sck_la = spi_sck;
-assign spi_csn_la = spi_csn;
-assign spi_sio_la = spi_sio;
-//assign spi_sio_la[0] = spi_sio[0];
-//assign spi_sio_la[3:1] = spi_if_st[2:0];
-//assign spi_sio_la[3:1] = bitcnt[2:0];
-//assign spi_sio_la[3] =  sck_toggle;
+assign      mprj_io[35:32] = (spi_oen == 1'b0) ? spi_so : 4'hz;
+assign      spi_si =  (spi_oen == 1'b1) ? mprj_io[35:32]: 4'b0;
 
+assign spi_sck = mprj_io[30];
+assign spi_csn = mprj_io[31];
+
+assign mrn = reset_n;
+
+assign trigger = addr_trg; // inst_trg;
 
 reset_sync u_reset_sync (
     .mclk        (sys_clk),
@@ -179,6 +174,26 @@ wire [3:0] mem_wr = {4{wbm_we_o}};
       .RST(!reset_n),     // 1-bit input reset
       .WE(mem_wr)        // Input write enable, width defined by write port depth
    );
+	
+	
+// Clock 1Mhz Generation
+initial
+begin
+   clk_1Mhz <= 1'b0;
+	clk_dcnt <= 8'h0;
+end
+
+always @(posedge sys_clk)
+begin
+   if(clk_dcnt == 8'd49) begin
+	    clk_1Mhz <= ~clk_1Mhz;
+		 clk_dcnt <= 0;
+	end else begin
+		 clk_dcnt <= clk_dcnt +1;
+	end	 
+
+end
+		 
 
 
 initial

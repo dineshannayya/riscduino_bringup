@@ -28,12 +28,12 @@ module tb_top;
 	reg sys_clk;
 	reg SCK;
 	reg CSB;
-        reg [3:0] SDI;
-        wire [3:0] SDO;
-        reg spi_oeb;
+   reg [3:0] SDI;
+   wire [3:0] SDO;
+   reg spi_oeb;
 	reg [3:0] Switch;
 
-        reg [7:0] Rdata;
+   reg [7:0] Rdata;
 
 	// Outputs
 	wire reset_n;
@@ -41,17 +41,21 @@ module tb_top;
 
 	// Bidirs
 	tri [3:0] spi_sio;
+	tri [37:0] mprj_io;
 
-        assign SDO = spi_sio;
-        assign spi_sio = (spi_oeb) ? SDI : 4'bz;
-
+  assign SDO = mprj_io[35:32];
+  assign mprj_io[30] = SCK;
+  assign mprj_io[31] = CSB;
+  assign mprj_io[35:32] = (spi_oeb) ? SDI : 4'bz;
+  
 	// Instantiate the Unit Under Test (UUT)
 	top uut (
 		.sys_clk(sys_clk), 
-		.reset_n(reset_n), 
-		.spi_sck(SCK), 
-		.spi_csn(CSB), 
-		.spi_sio(spi_sio), 
+		.mrn(reset_n), 
+		.mprj_io(mprj_io),
+		//.spi_sck(SCK), 
+		//.spi_csn(CSB), 
+		//.spi_sio(spi_sio), 
 		.Switch(Switch), 
 		.LED(LED)
 	);
@@ -121,7 +125,7 @@ module tb_top;
    integer i;
 	begin
 		SCK = 1'b0;
-                spi_oeb = 1;
+      spi_oeb = 1;
 		for (i=7; i >= 0; i=i-step) begin
 		    #50;
                  case(mode)
