@@ -53,6 +53,8 @@ module qspis_top (
 	output wire [5:0]    bitcnt          ,
 	output wire          inst_trg        ,
 	output wire          addr_trg        ,
+	output wire          spi_st_trans    ,
+	output wire          spi_trig        ,
 
 
          // WB Master Port
@@ -95,6 +97,8 @@ qspis_if u_if (
 				 .bitcnt          (bitcnt          ),
 				 .inst_trg        (inst_trg        ),
 				 .addr_trg        (addr_trg        ),
+				 .spi_st_trans    (spi_st_trans    ),
+				 .spi_trig        (spi_trig        ),
 
              //spi_sm Interface
              .reg_wr          (reg_wr          ), // write request

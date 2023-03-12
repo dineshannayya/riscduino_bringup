@@ -63,8 +63,10 @@ module qspis_if (
 	     output reg [2:0]   spi_if_st       ,
 	     output reg         sck_toggle      ,
 	     output reg [5:0]   bitcnt          ,
+		  output wire        spi_trig        ,
 	     output  reg        inst_trg        ,
 	     output reg         addr_trg        ,
+		  output reg         spi_st_trans    ,
 
          //spi_sm Interface
              output reg         reg_wr          , // write request
@@ -84,6 +86,7 @@ module qspis_if (
 //reg  [5:0]     bitcnt           ;
 reg  [7:0]     cmd_reg          ;
 reg  [31:0]    RegSdOut         ;
+reg            load_rdata       ;
 //reg [2:0]      spi_if_st        ;
 
 parameter    S_IDLE     = 3'b000,
@@ -141,17 +144,36 @@ wire dummy_phase   = (spi_if_st == S_DUMMY );
 wire wr_phase      = (spi_if_st == S_WRITE);
 wire rd_phase      = (spi_if_st == S_READ);
 
-
+assign spi_trig = addr_trg;  // load_rdata;
 
 // sclk pos and ned edge generation
-reg     sck_l0,sck_l1,sck_l2,sck_l3;
+reg     sck_l0,sck_l1,sck_l2,sck_l3,sck_l4;
 
-wire sck_pdetect = (!sck_l3 && sck_l2 && sck_l1) ? 1'b1: 1'b0;
-wire sck_ndetect = (sck_l3 && !sck_l2 && !sck_l1) ? 1'b1: 1'b0;
+wire sck_pdetect = (!sck_l4 &&!sck_l3 && sck_l2 && sck_l1) ? 1'b1: 1'b0;
+wire sck_ndetect = (sck_l4 && sck_l3 && !sck_l2 && !sck_l1) ? 1'b1: 1'b0;
 reg  sck_pdetect_d;
 reg  sck_ndetect_d;
 
 //reg sck_toggle;
+
+// To handle glitch in spiclk; we are generating 500ns sampling edge
+reg [3:0] spcnt;
+reg       sample_edge;
+always @ (posedge sys_clk or negedge rst_n) begin
+if (!rst_n) begin
+      spcnt <= 4'b0;
+      sample_edge <= 1'b1;
+end else begin
+      if(spcnt == 1) begin
+        spcnt <= 0;
+        sample_edge <= 1'b1;
+      end else begin
+        spcnt       <= spcnt + 1;
+        sample_edge <= 1'b0;
+      end
+   end
+end
+           
 
 always @ (posedge sys_clk or negedge rst_n) begin
 if (!rst_n) begin
@@ -159,19 +181,21 @@ if (!rst_n) begin
       sck_l1 <= 1'b1;
       sck_l2 <= 1'b1;
 		sck_l3 <= 1'b1;
+		sck_l4 <= 1'b1;
       sck_pdetect_d <= 1'b0;
       sck_ndetect_d <= 1'b0;
 		sck_toggle   <= 1'b0;
    end
    else begin
-      sck_l0 <= sclk;
-      sck_l1 <= sck_l0; // double sync
-      sck_l2 <= sck_l1;
-      sck_l3 <= sck_l2;
+		 sck_l0 <= sclk;
+		 sck_l1 <= sck_l0; // double sync
+		 sck_l2 <= sck_l1;
+		 sck_l3 <= sck_l2;
+		 sck_l4 <= sck_l3;
       sck_pdetect_d <= sck_pdetect;
       sck_ndetect_d <= sck_ndetect;
 		
-		if(sck_pdetect_d)  sck_toggle <= ~sck_toggle;
+      if(sck_pdetect_d)  sck_toggle <= ~sck_toggle;
    end
 end
 
@@ -264,48 +288,91 @@ begin
 end
 
 
+// drive sdout at negedge sclk 
+reg [31:0] RegRData;
+always @(negedge rst_n or posedge sys_clk)
+begin
+   if (!rst_n) begin
+      RegRData        <= 32'b0;
+   end else if(reg_ack) begin
+      RegRData <= {reg_rdata[7:0],reg_rdata[15:8],reg_rdata[23:16],reg_rdata[31:24]}; // LSB Byte Need to send first
+   end
+end
+  
 
 // drive sdout at negedge sclk 
 always @(negedge rst_n or posedge sys_clk)
 begin
   if (!rst_n) begin
-     sdout          <= 4'b0;
+      sdout          <= 4'b0;
+	   RegSdOut      <= 32'b0;
   end else begin
-	  if(reg_ack) begin
-          RegSdOut <= {reg_rdata[7:0],reg_rdata[15:8],reg_rdata[23:26],reg_rdata[31:24]}; // LSB Byte Need to send first
-      end else begin
-         if((rd_phase && sck_ndetect_d)) begin
-            case(cfg_spi_dmode) // data mode
-            P_SINGLE: begin
-               sdout[0]   <= RegSdOut[31];
-               sdout[3:1] <= 3'b111;
-               RegSdOut <= {RegSdOut[30:0], 1'b0};
-            end
-            P_DUAL: begin
-               sdout[0] <= RegSdOut[30];
-               sdout[1] <= RegSdOut[31];
-               sdout[3:2] <= 2'b11;
-               RegSdOut <= {RegSdOut[29:0], 2'b0};
-            end
-            P_QUAD: begin
-               sdout[0] <= RegSdOut[28];
-               sdout[1] <= RegSdOut[29];
-               sdout[2] <= RegSdOut[30];
-               sdout[3] <= RegSdOut[31];
-               RegSdOut <= {RegSdOut[27:0], 4'b0};
-            end
-            default: begin
-               sdout[0]   <= RegSdOut[31];
-               sdout[3:1] <= 3'b111;
-               RegSdOut <= {RegSdOut[30:0], 1'b0};
-            end
-            endcase
-         end
-     end
+		if((rd_phase && sck_ndetect_d)) begin
+			case(cfg_spi_dmode) // data mode
+			P_SINGLE: begin
+			   if(load_rdata) begin
+					sdout[0]   <= RegRData[31];
+					sdout[3:1] <= 3'b111;
+					RegSdOut <= {RegRData[30:0], 1'b0};				
+				end else begin
+					sdout[0]   <= RegSdOut[31];
+					sdout[3:1] <= 3'b111;
+					RegSdOut <= {RegSdOut[30:0], 1'b0};
+				end
+			end
+			P_DUAL: begin
+			   if(load_rdata) begin
+					sdout[0] <= RegRData[30];
+					sdout[1] <= RegRData[31];
+					sdout[3:2] <= 2'b11;
+					RegSdOut <= {RegRData[29:0], 2'b0};
+				end else begin
+					sdout[0] <= RegSdOut[30];
+					sdout[1] <= RegSdOut[31];
+					sdout[3:2] <= 2'b11;
+					RegSdOut <= {RegSdOut[29:0], 2'b0};
+				end
+			end
+			P_QUAD: begin
+			   if(load_rdata) begin
+					sdout[0] <= RegRData[28];
+					sdout[1] <= RegRData[29];
+					sdout[2] <= RegRData[30];
+					sdout[3] <= RegRData[31];
+					RegSdOut <= {RegRData[27:0], 4'b0};
+				end else begin
+					sdout[0] <= RegSdOut[28];
+					sdout[1] <= RegSdOut[29];
+					sdout[2] <= RegSdOut[30];
+					sdout[3] <= RegSdOut[31];
+					RegSdOut <= {RegSdOut[27:0], 4'b0};
+				end
+			end
+			default: begin
+				sdout[0]   <= RegSdOut[31];
+				sdout[3:1] <= 3'b111;
+				RegSdOut <= {RegSdOut[30:0], 1'b0};
+			end
+			endcase
+		end
    end
 end
 
 
+// Detect FSM Transition for debug purpose
+reg [2:0] spi_if_st_r;
+always @(negedge rst_n or posedge sys_clk)
+begin
+   if (!rst_n) begin
+      spi_st_trans <= 1'b0;
+	   spi_if_st_r  <= S_IDLE;
+	end else begin
+	   spi_if_st_r  <= spi_if_st;
+		if(spi_if_st_r != spi_if_st) begin
+		   spi_st_trans <= !spi_st_trans;
+		end
+	end
+end
 
 // SPI State Machine
 
@@ -321,6 +388,7 @@ begin
       cfg_wren     <= 1'b0;
       spi_cpol     <= 1'b0;
 		inst_trg     <= 1'b0;
+		load_rdata   <= 1'b0;
       spi_if_st    <= S_IDLE;
       cfg_spi_amode <= P_SINGLE; // Address Single Bit Mode
       cfg_spi_dmode <= P_SINGLE; // Data Single Bit Mode
@@ -340,10 +408,11 @@ begin
    end else begin
        case (spi_if_st)
           S_IDLE  : begin // Idle State
+	     load_rdata   <= 1'b0;
              reg_wr       <= 1'b0;
              reg_rd       <= 1'b0;
              sdout_oen    <= 1'b1;
-				 inst_trg     <= 1'b0;
+	     inst_trg     <= 1'b0;
              bitcnt       <= 6'b000111;
              if (ssn_ss == 1'b0 && !spi_cpol) begin // SCLK Active Low inactive phase
                 spi_if_st <= S_CMD ;
@@ -530,6 +599,7 @@ begin
                    if(cfg_spi_phase == P_READ) begin
                       spi_if_st  <= S_READ;
                       reg_rd     <= 1;
+		      load_rdata <= 1'b1;
                       sdout_oen  <= 1'b0;
                    end else if(cfg_spi_phase == P_WRITE) spi_if_st <= S_WRITE;
                 end else begin
@@ -579,6 +649,7 @@ begin
                 addr_inc     <= 0;
                 if (bitcnt   == 6'b0) begin
                    reg_rd     <= 1;
+		   load_rdata <= 1'b1;
                    sdout_oen  <= 1'b0;
                    case(cfg_spi_dmode) // data mode
                    P_SINGLE: bitcnt       <= 6'b011111;
@@ -587,6 +658,7 @@ begin
                    default:  bitcnt       <= 6'b011111;
                    endcase
                 end else begin
+		    load_rdata   <= 1'b0;
                     addr_inc     <= 0;
                     bitcnt       <= bitcnt  -1;
                 end
