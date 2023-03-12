@@ -120,16 +120,15 @@ void main()
     reg_gpio_out = 1; // OFF
 
     while (1){
-        reg_gpio_out = 0; // ON
-        send_packet_io0(2); // send 4 pulses at gpio[j]
-        for (i = 0; i < num_pulses; i++){
-            reg_mprj_datal = 0xFFFFFFFF;
-            reg_mprj_datah = 0x3F;
-            count_down(PULSE_WIDTH);  
-            reg_mprj_datah = 0x0;
-            reg_mprj_datal = 0x0;  
-            count_down(PULSE_WIDTH); 
-        }
+        reg_mprj_datal = 0xFFFFFFFF;
+        reg_mprj_datah = 0x3F;
+        reg_mprj_datah = 0x0;
+        reg_mprj_datal = 0x0;  
+        reg_mprj_datal = 0xFFFFFFFF;
+        reg_mprj_datah = 0x3F;
+        reg_mprj_datah = 0x0;
+        reg_mprj_datal = 0x0;  
+        count_down(PULSE_WIDTH); 
         reg_gpio_out = 1; // OFF
         delay(4000000);
     }

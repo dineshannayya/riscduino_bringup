@@ -205,6 +205,7 @@ def build_config(arg_gpio_h, arg_gpio_l, flag):
     # iterate through each IO in reverse order (e.g. IO[30] to IO[37])
     for k in reversed(range(NUM_IO)):
 
+        print(f"Dinesh - {k} : {gpio_h[k][1]}")
         # build upper IO stream
         if gpio_h[k][1] == H_DEPENDENT:
             stream_h = build_stream_dependent(stream_h, config_h[k])

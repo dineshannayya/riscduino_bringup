@@ -1,4 +1,4 @@
-# gpio_config_def.py file for part B1
+# gpio_config_def.py file for part B01
 # io_config -- version 1.1.0
 
 H_NONE        = 0  
