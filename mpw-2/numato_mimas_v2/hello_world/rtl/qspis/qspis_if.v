@@ -272,8 +272,7 @@ begin
      sdout          <= 4'b0;
   end else begin
 	  if(reg_ack) begin
-          RegSdOut <= reg_rdata;
-			 //RegSdOut <= reg_addr;
+          RegSdOut <= {reg_rdata[7:0],reg_rdata[15:8],reg_rdata[23:26],reg_rdata[31:24]}; // LSB Byte Need to send first
       end else begin
          if((rd_phase && sck_ndetect_d)) begin
             case(cfg_spi_dmode) // data mode
