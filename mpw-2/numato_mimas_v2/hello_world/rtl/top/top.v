@@ -31,6 +31,7 @@ inout [37:0]  mprj_io;
 
 
 wire                inst_trg           ;
+wire                spi_trig           ;
 
 
 wire  [3:0]        spi_si             ; // serial data in
@@ -57,6 +58,7 @@ wire          reset_n        ;
 reg           clk_1Mhz       ; // 1Mhz clock
 reg [7:0]     clk_dcnt       ; // clock div count
 wire          addr_trg       ;
+wire          spi_st_trans   ;
 
 
 assign      mprj_io[29:0]  = 30'hz;
@@ -71,7 +73,7 @@ assign spi_csn = mprj_io[31];
 
 assign mrn = reset_n;
 
-assign trigger = addr_trg; // inst_trg;
+assign trigger = spi_trig; // inst_trg;
 
 reset_sync u_reset_sync (
     .mclk        (sys_clk),
@@ -97,7 +99,9 @@ qspis_top u_qspis(
 			.sck_toggle       (sck_toggle),
 			.bitcnt           (bitcnt),
 			.inst_trg         (inst_trg),  
-         .addr_trg         (addr_trg),			
+         .addr_trg         (addr_trg),		
+         .spi_st_trans     (spi_st_trans),	
+         .spi_trig         (spi_trig),			
 
          // WB Master Port
          .wbm_cyc_o       (wbm_cyc_o ),  // strobe/request

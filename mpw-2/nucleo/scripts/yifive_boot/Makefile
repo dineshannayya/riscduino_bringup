@@ -153,6 +153,7 @@ hex:  ${PATTERN:=.hex}
 
 	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-gcc -I$(SCRIPTS_PATH) -I$(SCRIPTS_PATH)/common -I$(SCRIPTS_PATH)/generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,$(SCRIPTS_PATH)/common/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $(SCRIPTS_PATH)/common/crt0_vex.S $(SCRIPTS_PATH)/common/isr.c $<
 	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-objdump -s  config_io_o.elf > config_io_o.lst
+	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-objdump -D  config_io_o.elf > config_io_o.dump
 
 %.hex: %.elf
 	#$(TOOLCHAIN_PATH)riscv32-unknown-linux-gnu-objcopy -O verilog $< $@

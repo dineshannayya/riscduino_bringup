@@ -193,17 +193,17 @@ void main()
     reg_mprj_wbhost_reg0 = 0x00000A1F;
     //reg_mprj_wbhost_reg0 = 0x000001F;
 
-
-    while (reg_la0_data_in == 0x04000140 && reg_la1_data_in == 0x84000000) {
+   // Apply reset for PC = 0x200 or 0x1C00 
+    while ((reg_la0_data_in == 0x04000140  || reg_la0_data_in == 0x03800140 )&& reg_la1_data_in == 0x84000000) {
      reg_mprj_wbhost_reg0 = 0x00000A00; // Apply Reset
      //reg_mprj_wbhost_reg0 = 0x00; // Apply Reset
      delay_adjust++;
      delay_adjust = delay_adjust & 0xFFF; // 12 bit counter 
-     //reg_mprj_wbhost_clk_ctrl1 = clk_ctrl |  (delay_adjust & 0xFF) | ((delay_adjust << 4) & 0xF000);
+     reg_mprj_wbhost_clk_ctrl1 = clk_ctrl |  (delay_adjust & 0xFF) | ((delay_adjust << 4) & 0xF000);
      //reg_mprj_wbhost_clk_ctrl1 =   0x084868C2;
      //reg_mprj_wbhost_clk_ctrl1 =   0x0848F882; // 0x0200 - 0x1C0
-     reg_mprj_wbhost_clk_ctrl1 =   0x0848C882; // 0x0200 - 0x1C0
-     print_reg(reg_la0_data_in);
+     //reg_mprj_wbhost_clk_ctrl1 =   0x0848C882; // 0x0200 - 0x1C0
+     //print_reg(reg_la0_data_in);
     // Remove All Reset
      reg_mprj_wbhost_reg0 = 0x00000A1F;
      //reg_mprj_wbhost_reg0 = 0x1F;
