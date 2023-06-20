@@ -1,0 +1,5 @@
+
+AIM: To Blink the LED
+
+Run command: make clean flash
+Expectation: LED should blink caravel gpio pin
