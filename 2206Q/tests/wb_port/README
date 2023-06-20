@@ -1,0 +1,16 @@
+
+AIM: Read  User Project area Chip ID + Software signature Register 0/1/2.  Expected values are
+
+Chip Id: 0x82682501
+Signature-0: 0x82738343
+Signature-1: 0x07092022
+Signature-2: 0x00054000
+
+If the signature matches, then LED will blink continously
+
+Run command: make clean flash
+Expectation: 
+1. LED should blink caravel gpio pin
+2. Cross check your log with Reference: run.log
+2. Logic capture at IO[6] (caravel uart txd) should shows Signature in Hex Ref: wb_port.sal (Open with Saleae Logic Analyser) 
+

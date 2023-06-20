@@ -2,4 +2,8 @@
 AIM: To Blink the LED
 
 Run command: make clean flash
-Expectation: LED should blink caravel gpio pin
+Expectation: 
+1. LED should blink caravel gpio pin
+2. Cross check your log with Reference: run.log
+2. Logic capture at IO[6] (caravel uart txd) should show "Hello World !!" - Refer: caravel_blink_test.png
+
