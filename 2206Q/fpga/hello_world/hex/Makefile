@@ -63,6 +63,8 @@ hex:  ${BLOCKS:=.hex}
 	${GCC64_PREFIX}-objcopy -O verilog user_uart.elf user_uart.hex
 	${GCC64_PREFIX}-objdump -D user_uart.elf > user_uart.dump
 	rm crt.o user_uart.o
+	iverilog hex2mem.v -o hex2mem.vvp
+	vvp hex2mem.vvp | tee user_uart.mem
 
 # ---- Clean ----
 

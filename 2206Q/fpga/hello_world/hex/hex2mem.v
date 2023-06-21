@@ -1,4 +1,7 @@
-module test;
+/************************************************************
+  This code create .mem file for to initialize the fpga memory
+************************************************************/
+module hex2mem;
 
 reg [7:0] Mem[0:2047];
 

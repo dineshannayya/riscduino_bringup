@@ -16,62 +16,35 @@
 // SPDX-FileContributor: Dinesh Annayya <dinesha@opencores.org>
 // //////////////////////////////////////////////////////////////////////////
 #define SC_SIM_OUTPORT (0xf0000000)
+#include "int_reg_map.h"
 #define uint32_t  long
 
-#define reg_mprj_globl_reg0  (*(volatile uint32_t*)0x30000000)
-#define reg_mprj_globl_reg1  (*(volatile uint32_t*)0x30000004)
-#define reg_mprj_globl_reg2  (*(volatile uint32_t*)0x30000008)
-#define reg_mprj_globl_reg3  (*(volatile uint32_t*)0x3000000C)
-#define reg_mprj_globl_reg4  (*(volatile uint32_t*)0x30000010)
-#define reg_mprj_globl_reg5  (*(volatile uint32_t*)0x30000014)
-#define reg_mprj_globl_reg6  (*(volatile uint32_t*)0x30000018)
-#define reg_mprj_globl_reg7  (*(volatile uint32_t*)0x3000001C)
-#define reg_mprj_globl_reg8  (*(volatile uint32_t*)0x30000020)
-#define reg_mprj_globl_reg9  (*(volatile uint32_t*)0x30000024)
-#define reg_mprj_globl_reg10 (*(volatile uint32_t*)0x30000028)
-#define reg_mprj_globl_reg11 (*(volatile uint32_t*)0x3000002C)
-#define reg_mprj_globl_reg12 (*(volatile uint32_t*)0x30000030)
-#define reg_mprj_globl_reg13 (*(volatile uint32_t*)0x30000034)
-#define reg_mprj_globl_reg14 (*(volatile uint32_t*)0x30000038)
-#define reg_mprj_globl_reg15 (*(volatile uint32_t*)0x3000003C)
-
-#define reg_mprj_uart_reg0 (*(volatile uint32_t*)0x30010000)
-#define reg_mprj_uart_reg1 (*(volatile uint32_t*)0x30010004)
-#define reg_mprj_uart_reg2 (*(volatile uint32_t*)0x30010008)
-#define reg_mprj_uart_reg3 (*(volatile uint32_t*)0x3001000C)
-#define reg_mprj_uart_reg4 (*(volatile uint32_t*)0x30010010)
-#define reg_mprj_uart_reg5 (*(volatile uint32_t*)0x30010014)
-#define reg_mprj_uart_reg6 (*(volatile uint32_t*)0x30010018)
-#define reg_mprj_uart_reg7 (*(volatile uint32_t*)0x3001001C)
-#define reg_mprj_uart_reg8 (*(volatile uint32_t*)0x30010020)
 
 int main()
 {
-    // SDRAM Config-2
-    //reg_mprj_globl_reg5  = 0x100019E; 
 
-    // configure the user uart
-    reg_mprj_uart_reg0  = 0x7;
+   reg_glbl_cfg0 |= 0x1F; // Remove Reset for UART
+   reg_wbi_dcg   = 0x01;  // enable qpsim dynamic clock gating
 
-
-    // SDRAM Config-1
-    //reg_mprj_globl_reg4  = 0x2F172242;
+   reg_glbl_multi_func &=0x7FFFFFFF; // Disable UART Master Bit[31] = 0
+   reg_glbl_multi_func |=0x100; // Enable UART Multi func
+   reg_uart0_ctrl = 0x07;       // Enable Uart Access {3'h0,2'b00,1'b1,1'b1,1'b1}
 
     while(1) {
        // Check UART RX fifo has data, if available loop back the data
-       if(reg_mprj_uart_reg7 > 12) { 
-	   reg_mprj_uart_reg5 = 'H';
-	   reg_mprj_uart_reg5 = 'E';
-	   reg_mprj_uart_reg5 = 'L';
-	   reg_mprj_uart_reg5 = 'L';
-	   reg_mprj_uart_reg5 = 'O';
-	   reg_mprj_uart_reg5 = ' ';
-	   reg_mprj_uart_reg5 = 'W';
-	   reg_mprj_uart_reg5 = 'O';
-	   reg_mprj_uart_reg5 = 'R';
-	   reg_mprj_uart_reg5 = 'L';
-	   reg_mprj_uart_reg5 = 'D';
-	   reg_mprj_uart_reg5 = '\n';
+       if(reg_uart0_txfifo_stat > 12) { 
+	   reg_uart0_txdata = 'H';
+	   reg_uart0_txdata = 'E';
+	   reg_uart0_txdata = 'L';
+	   reg_uart0_txdata = 'L';
+	   reg_uart0_txdata = 'O';
+	   reg_uart0_txdata = ' ';
+	   reg_uart0_txdata = 'W';
+	   reg_uart0_txdata = 'O';
+	   reg_uart0_txdata = 'R';
+	   reg_uart0_txdata = 'L';
+	   reg_uart0_txdata = 'D';
+	   reg_uart0_txdata = '\n';
        }
     }
 
