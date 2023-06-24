@@ -161,19 +161,20 @@ void main()
 	reg_la3_oenb = reg_la3_iena = 0x00000000;    // [127:96]
 
 
-    reg_mprj_wbhost_reg4 = 0x6A0; // system strap
-    putdword(reg_mprj_wbhost_reg4);
+    reg_mprj_wbhost_reg5 = 0x6A00; // system strap
+    putdword(reg_mprj_wbhost_reg5);
+
+    putdword(reg_mprj_wbhost_reg2);
+    reg_mprj_wbhost_reg2 = 0x00879898;
 
     // Remove Wishbone Reset
     reg_mprj_wbhost_ctrl = 0x0;
     reg_mprj_wbhost_ctrl = 0x1;
 
-    // Enable Icache and Dcache
-    //reg_mprj_wbhost_reg2 = 0x00879898;
 
     // Remove Reset
 
-    putdword(reg_mprj_wbhost_reg4);
+    //putdword(reg_mprj_wbhost_reg4);
     putdword(reg_glbl_pad_strap);
     putdword(reg_glbl_strap_sticky);
     putdword(reg_glbl_system_strap);
