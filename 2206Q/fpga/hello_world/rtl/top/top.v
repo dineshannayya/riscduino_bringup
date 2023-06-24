@@ -61,15 +61,16 @@ wire          addr_trg       ;
 wire          spi_st_trans   ;
 
 
-assign      mprj_io[29:0]  = 30'hz;
-assign      mprj_io[37:36] = 2'hz;
+assign      mprj_io[27:0]  = 28'hz;
+assign      mprj_io[37]    = 1'hz;
 assign      tim3_ch2       =  clk_1Mhz;    
 
-assign      mprj_io[35:32] = (spi_oen == 1'b0) ? spi_so : 4'hz;
-assign      spi_si =  (spi_oen == 1'b1) ? mprj_io[35:32]: 4'b0;
+assign      mprj_io[36:33] = (spi_oen == 1'b0) ? spi_so : 4'hz;
+assign      spi_si =  (spi_oen == 1'b1) ? mprj_io[36:33]: 4'b0;
 
-assign spi_sck = mprj_io[30];
-assign spi_csn = mprj_io[31];
+assign spi_sck = mprj_io[28];
+assign spi_csn = mprj_io[29];
+assign mprj_io[32:30] = 3'hz;
 
 assign mrn = reset_n;
 
