@@ -10,8 +10,8 @@ module top (
 
 
         Switch,
-        LED,
-        trigger		  
+        LED
+        //trigger		  
 
      );
 
@@ -25,7 +25,7 @@ output       tim3_ch2; // Clock
 
 input [3:0]  Switch;
 output [7:0] LED   ;
-output       trigger;
+wire       trigger;
 
 inout [37:0]  mprj_io;
 
@@ -63,7 +63,7 @@ wire          spi_st_trans   ;
 
 assign      mprj_io[27:0]  = 28'hz;
 assign      mprj_io[37]    = 1'hz;
-assign      tim3_ch2       =  clk_1Mhz;    
+assign      tim3_ch2       =  trigger; // clk_1Mhz;    
 
 assign      mprj_io[36:33] = (spi_oen == 1'b0) ? spi_so : 4'hz;
 assign      spi_si =  (spi_oen == 1'b1) ? mprj_io[36:33]: 4'b0;

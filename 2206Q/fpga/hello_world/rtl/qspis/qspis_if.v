@@ -144,13 +144,13 @@ wire dummy_phase   = (spi_if_st == S_DUMMY );
 wire wr_phase      = (spi_if_st == S_WRITE);
 wire rd_phase      = (spi_if_st == S_READ);
 
-assign spi_trig = addr_trg;  // load_rdata;
+assign spi_trig = addr_trg; // addr_trg;  // load_rdata;
 
 // sclk pos and ned edge generation
-reg     sck_l0,sck_l1,sck_l2,sck_l3,sck_l4;
+reg     sck_l0,sck_l1,sck_l2;
 
-wire sck_pdetect = (!sck_l4 &&!sck_l3 && sck_l2 && sck_l1) ? 1'b1: 1'b0;
-wire sck_ndetect = (sck_l4 && sck_l3 && !sck_l2 && !sck_l1) ? 1'b1: 1'b0;
+wire sck_pdetect = (!sck_l2 && sck_l1) ? 1'b1: 1'b0;
+wire sck_ndetect = (sck_l2 && !sck_l1) ? 1'b1: 1'b0;
 reg  sck_pdetect_d;
 reg  sck_ndetect_d;
 
@@ -180,8 +180,6 @@ if (!rst_n) begin
       sck_l0 <= 1'b1;
       sck_l1 <= 1'b1;
       sck_l2 <= 1'b1;
-		sck_l3 <= 1'b1;
-		sck_l4 <= 1'b1;
       sck_pdetect_d <= 1'b0;
       sck_ndetect_d <= 1'b0;
 		sck_toggle   <= 1'b0;
@@ -190,12 +188,10 @@ if (!rst_n) begin
 		 sck_l0 <= sclk;
 		 sck_l1 <= sck_l0; // double sync
 		 sck_l2 <= sck_l1;
-		 sck_l3 <= sck_l2;
-		 sck_l4 <= sck_l3;
       sck_pdetect_d <= sck_pdetect;
       sck_ndetect_d <= sck_ndetect;
 		
-      if(sck_pdetect_d)  sck_toggle <= ~sck_toggle;
+      if(sck_pdetect)  sck_toggle <= ~sck_toggle;
    end
 end
 
@@ -216,10 +212,7 @@ if (!rst_n) begin
    end
    else begin
       ssn_l0 <= ssn;
-      ssn_l1 <= ssn_l0; // double sync
-      ssn_l2 <= ssn_l1; // double sync
-		ssn_ss <= (ssn_l1==1'b0 && ssn_l2 == 1'b0) ? 1'b0 : 
-                (ssn_l1==1'b1 && ssn_l2 == 1'b1) ? 1'b1 : ssn_ss;
+      ssn_ss <= ssn_l0; // double sync
    end
 end
 
