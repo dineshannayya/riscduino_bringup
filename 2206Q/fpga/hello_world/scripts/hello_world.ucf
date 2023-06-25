@@ -86,7 +86,7 @@ NET "mprj_io[18]"   LOC = P2   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FA
 NET "mrn"           LOC = P142 | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST;               # IO_L2P_0	   		Sch = GPIO-P5
 ###NET "i2c_scl"    LOC = P141 | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;                # IO_L2N_0           		Sch = GPIO-N5
 ##NET "i2c_sda"     LOC = P140 | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;                # IO_L3P_0	   		Sch = GPIO-P4
-NET "trigger"       LOC = P140 | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST;               # IO_L3P_0	   		Sch = GPIO-P4
+##NET "trigger"       LOC = P140 | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST;               # IO_L3P_0	   		Sch = GPIO-P4
 ##NET "gpio"        LOC = P139 | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;                # IO_L3N_0 	   		Sch = GPIO-N4
 ###NET "IO_P1[33]"  LOC = P138 | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;                # IO_L4P_0	   		Sch = GPIO-P3
 ###NET "IO_P1[34]"  LOC = P137 | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;                # IO_L4N_0   	   		Sch = GPIO-N3
@@ -117,10 +117,10 @@ NET "mprj_io[27]"  LOC = P78   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST
 
 NET "mprj_io[31]"  LOC = P82   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLUP;    # IO_L45N_1	   		Sch = GPIO-N29
 NET "mprj_io[32]"  LOC = P83   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLDOWN;  # IO_L45P_1			Sch = GPIO-P29 
-NET "mprj_io[33]"  LOC = P84   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLDOWN;  # IO_L43N_GCLK4_1     	        Sch = GPIO-N30 
-NET "mprj_io[34]"  LOC = P85   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLDOWN;  # IO_L43P_GCLK5_1		Sch = GPIO-P30 
-NET "mprj_io[35]"  LOC = P87   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLDOWN;  # IO_L42N_GCLK6_TRDY1_1         Sch = GPIO-N31 
-NET "mprj_io[36]"  LOC = P88   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLDOWN;  # IO_L42P_GCLK7_1		Sch = GPIO-P31 
+NET "mprj_io[33]"  LOC = P84   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLUP;  # IO_L43N_GCLK4_1     	        Sch = GPIO-N30 
+NET "mprj_io[34]"  LOC = P85   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLUP;  # IO_L43P_GCLK5_1		Sch = GPIO-P30 
+NET "mprj_io[35]"  LOC = P87   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLUP;  # IO_L42N_GCLK6_TRDY1_1         Sch = GPIO-N31 
+NET "mprj_io[36]"  LOC = P88   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLUP;  # IO_L42P_GCLK7_1		Sch = GPIO-P31 
 NET "mprj_io[37]"  LOC = P92   | IOSTANDARD = "LVCMOS33" | DRIVE = 8 | SLEW = FAST | PULLUP;    # IO_L41N_GCLK8_1    	        Sch = GPIO-N32
 
 #NET "caravel_sck" LOC = P93   | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;              # IO_L41P_GCLK9_IRDY1_1 	Sch = GPIO-P32
