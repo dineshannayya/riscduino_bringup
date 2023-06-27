@@ -23,7 +23,7 @@ BLOCKS := user_uart
 TOOLS?=/opt/riscv32i/
 
 ## SYNTACORE FIRMWARE
-SYNTACORE_FIRMWARE_PATH =./firmware
+YIFIVE_FIRMWARE_PATH =./firmware
 GCC64_PREFIX?=riscv64-unknown-elf
 
 ########################################################
@@ -46,6 +46,7 @@ GCC_PREFIX?=riscv32-unknown-elf
 
 .SUFFIXES:
 
+PATTERN = user_uart
 
 hex:  ${BLOCKS:=.hex}
 
@@ -57,11 +58,11 @@ hex:  ${BLOCKS:=.hex}
 ##############################################################################
 
 %.hex: 
-	${GCC64_PREFIX}-gcc -O2 -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las  -D__RVC_EXT -static -std=gnu99 -fno-common -fno-builtin-printf -DTCM=0 -Wa,-march=rv32imc -march=rv32imc -mabi=ilp32 -DFLAGS_STR=\""-O2 -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las "\"  -c -I./ -I$(SYNTACORE_FIRMWARE_PATH)  user_uart.c -o user_uart.o
-	${GCC64_PREFIX}-gcc -O2 -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las  -D__RVC_EXT -static -std=gnu99 -fno-common -fno-builtin-printf -DTCM=0 -Wa,-march=rv32imc -march=rv32imc -mabi=ilp32 -DFLAGS_STR=\""-O2 -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las "\"  -D__ASSEMBLY__=1 -c -I./ -I$(SYNTACORE_FIRMWARE_PATH)  $(SYNTACORE_FIRMWARE_PATH)/crt.S -o crt.o
-	${GCC64_PREFIX}-gcc -march=rv32imc -mabi=ilp32 -T $(SYNTACORE_FIRMWARE_PATH)/link.ld user_uart.o crt.o -nostartfiles -nostdlib -lc -lgcc -o user_uart.elf -N
-	${GCC64_PREFIX}-objcopy -O verilog user_uart.elf user_uart.hex
-	${GCC64_PREFIX}-objdump -D user_uart.elf > user_uart.dump
+	${GCC64_PREFIX}-gcc -O2 -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las  -D__RVC_EXT -static -std=gnu99 -fno-common -fno-builtin-printf -DTCM=0 -Wa,-march=rv32imc -march=rv32imc -mabi=ilp32 -DFLAGS_STR=\""-O2 -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las "\"  -c -I./ -I$(YIFIVE_FIRMWARE_PATH) ${PATTERN}.c -o ${PATTERN}.o
+	${GCC64_PREFIX}-gcc -O2 -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las  -D__RVC_EXT -static -std=gnu99 -fno-common -fno-builtin-printf -DTCM=0 -Wa,-march=rv32imc -march=rv32imc -mabi=ilp32 -DFLAGS_STR=\""-O2 -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las "\"  -D__ASSEMBLY__=1 -c -I./ -I$(YIFIVE_FIRMWARE_PATH)  $(YIFIVE_FIRMWARE_PATH)/crt.S -o crt.o
+	${GCC64_PREFIX}-gcc -o ${PATTERN}.elf -T $(YIFIVE_FIRMWARE_PATH)/link.ld ${PATTERN}.o crt.o -nostartfiles -nostdlib -lc -lgcc -march=rv32imc -mabi=ilp32 -N
+	${GCC64_PREFIX}-objcopy -O verilog ${PATTERN}.elf ${PATTERN}.hex
+	${GCC64_PREFIX}-objdump -D ${PATTERN}.elf > ${PATTERN}.dump
 	rm crt.o user_uart.o
 	iverilog hex2mem.v -o hex2mem.vvp
 	vvp hex2mem.vvp | tee user_uart.mem

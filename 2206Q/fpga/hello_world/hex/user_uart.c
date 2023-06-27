@@ -17,7 +17,9 @@
 // //////////////////////////////////////////////////////////////////////////
 #define SC_SIM_OUTPORT (0xf0000000)
 #include "int_reg_map.h"
-#define uint32_t  long
+#include "common_misc.h"
+#include "common_bthread.h"
+
 
 
 int main()
@@ -27,6 +29,14 @@ int main()
    reg_glbl_multi_func &=0x7FFFFFFF; // Disable UART Master Bit[31] = 0
    reg_glbl_multi_func |=0x100; // Enable UART Multi func
    reg_uart0_ctrl = 0x07;       // Enable Uart Access {3'h0,2'b00,1'b1,1'b1,1'b1}
+
+   // GLBL_CFG_MAIL_BOX used as mail box, each core update boot up handshake at 8 bit
+   // bit[7:0]   - core-0
+   // bit[15:8]  - core-1
+   // bit[23:16] - core-2
+   // bit[31:24] - core-3
+
+   reg_glbl_mail_box = 0x1 << (bthread_get_core_id() * 8); // Start of Main 
 
     while(1) {
        // Check UART RX fifo has data, if available loop back the data
