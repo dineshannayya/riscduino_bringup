@@ -1,25 +1,24 @@
 //////////////////////////////////////////////////////////////////////////////
-// SPDX-FileCopyrightText: Syntacore LLC © 2016-2021
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// SPDX-License-Identifier: Apache-2.0
-// SPDX-FileContributor: Syntacore LLC
-// //////////////////////////////////////////////////////////////////////////
-/// @file       <csr.h>
+// SPDX-FileCopyrightText: 2021, Dinesh Annayya                           ////
+//                                                                        ////
+// Licensed under the Apache License, Version 2.0 (the "License");        ////
+// you may not use this file except in compliance with the License.       ////
+// You may obtain a copy of the License at                                ////
+//                                                                        ////
+//      http://www.apache.org/licenses/LICENSE-2.0                        ////
+//                                                                        ////
+// Unless required by applicable law or agreed to in writing, software    ////
+// distributed under the License is distributed on an "AS IS" BASIS,      ////
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.///
+// See the License for the specific language governing permissions and    ////
+// limitations under the License.                                         ////
+// SPDX-License-Identifier: Apache-2.0                                    ////
+// SPDX-FileContributor: Dinesh Annayya <dinesha@opencores.org>           ////
+//////////////////////////////////////////////////////////////////////////////
 /// Architecture specific CSR's defs and inlines
 
-#ifndef SCR_CSR_H
-#define SCR_CSR_H
+#ifndef YCR_CSR_H
+#define YCR_CSR_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -126,4 +125,4 @@ static inline unsigned long __attribute__((const)) impid()
   return res;
 }
 
-#endif // SCR_CSR_H
+#endif // YCR_CSR_H

@@ -1,24 +1,23 @@
 /*
 //////////////////////////////////////////////////////////////////////////////
-// SPDX-FileCopyrightText: Syntacore LLC © 2016-2021
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// SPDX-License-Identifier: Apache-2.0
-// SPDX-FileContributor: Syntacore LLC
-// //////////////////////////////////////////////////////////////////////////
+// SPDX-FileCopyrightText: 2021, Dinesh Annayya                           ////
+//                                                                        ////
+// Licensed under the Apache License, Version 2.0 (the "License");        ////
+// you may not use this file except in compliance with the License.       ////
+// You may obtain a copy of the License at                                ////
+//                                                                        ////
+//      http://www.apache.org/licenses/LICENSE-2.0                        ////
+//                                                                        ////
+// Unless required by applicable law or agreed to in writing, software    ////
+// distributed under the License is distributed on an "AS IS" BASIS,      ////
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.///
+// See the License for the specific language governing permissions and    ////
+// limitations under the License.                                         ////
+// SPDX-License-Identifier: Apache-2.0                                    ////
+// SPDX-FileContributor: Dinesh Annayya <dinesha@opencores.org>           ////
+//////////////////////////////////////////////////////////////////////////////
 **/
 /*
-* @file       <link.ld>
 * @brief      bare metal tests' linker script
 */
 
@@ -26,8 +25,9 @@ OUTPUT_ARCH( "riscv" )
 ENTRY(_start)
 
 MEMORY {
-  ROM (rxx) : ORIGIN = 0x0, LENGTH = 64K
-  RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 64K
+  ROM (rxx) : ORIGIN = 0x0, LENGTH = 128K
+  RAM (rwx) : ORIGIN = 0x08000000, LENGTH = 64K
+  TCM (rwx) : ORIGIN = 0x0C480000, LENGTH = 2K
 }
 
 STACK_SIZE = 1024;
@@ -104,13 +104,13 @@ SECTIONS {
 
   /* End of uninitalized data segement */
 
-  .stack ORIGIN(RAM) + LENGTH(RAM) - STACK_SIZE : {
+  .stack ORIGIN(TCM) + LENGTH(TCM) - STACK_SIZE : {
     FILL(0);
     PROVIDE(__STACK_START__ = .);
     . += STACK_SIZE;
     PROVIDE(__C_STACK_TOP__ = .);
     PROVIDE(__STACK_END__ = .);
-  } >RAM
+  } >TCM
 
   /DISCARD/ : {
     *(.eh_frame .eh_frame.*)

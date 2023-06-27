@@ -166,6 +166,7 @@ void main()
 
     putdword(reg_mprj_wbhost_reg2);
     reg_mprj_wbhost_reg2 = 0x00879898;
+    reg_mprj_wbhost_reg3 = 0x08;// wbs clock divr-4
 
     // Remove Wishbone Reset
     reg_mprj_wbhost_ctrl = 0x0;

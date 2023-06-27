@@ -56,7 +56,11 @@ $(bld_dir)/%.elf: $(ld_script) $(c_objs) $(asm_objs)
 	$(RISCV_GCC) -o $@ -T $^ $(LDFLAGS)
 
 $(bld_dir)/%.hex: $(bld_dir)/%.elf
-	$(RISCV_OBJCOPY) $^ $@
+	$(RISCV_ROM_OBJCOPY) $^ $@
+	$(RISCV_RAM_OBJCOPY) $^ $@.ram
+	#assign 0x0800_0xxx  to 0x0000_0xxx to map to TCM Memory
+	sed -i 's/@08000/@00000/g' $@.ram
+
 
 $(bld_dir)/%.dump: $(bld_dir)/%.elf
 	$(RISCV_OBJDUMP) $^ > $@

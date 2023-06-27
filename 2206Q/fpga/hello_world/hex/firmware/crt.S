@@ -1,22 +1,20 @@
 //////////////////////////////////////////////////////////////////////////////
-// SPDX-FileCopyrightText: Syntacore LLC © 2016-2021
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// SPDX-License-Identifier: Apache-2.0
-// SPDX-FileContributor: Syntacore LLC
-// //////////////////////////////////////////////////////////////////////////
-/// @file       <crt.S>
-///
+// SPDX-FileCopyrightText: 2021, Dinesh Annayya                           ////
+//                                                                        ////
+// Licensed under the Apache License, Version 2.0 (the "License");        ////
+// you may not use this file except in compliance with the License.       ////
+// You may obtain a copy of the License at                                ////
+//                                                                        ////
+//      http://www.apache.org/licenses/LICENSE-2.0                        ////
+//                                                                        ////
+// Unless required by applicable law or agreed to in writing, software    ////
+// distributed under the License is distributed on an "AS IS" BASIS,      ////
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.///
+// See the License for the specific language governing permissions and    ////
+// limitations under the License.                                         ////
+// SPDX-License-Identifier: Apache-2.0                                    ////
+// SPDX-FileContributor: Dinesh Annayya <dinesha@opencores.org>           ////
+//////////////////////////////////////////////////////////////////////////////
 
 #include "riscv_csr_encoding.h"
 #include "sc_test.h"
@@ -24,8 +22,6 @@
 # define LREG lw
 # define SREG sw
 # define REGBYTES 4
-#define glbl_reg4  0x30000010 // SDRAM Config-1
-#define glbl_reg5  0x30000014 // SDRAM Config-2
 
     .globl _start
     .globl main
@@ -48,15 +44,6 @@ _start:
 #else
     zero_int_regs 1, 15
 #endif
-    // SDRAM Config-2
-    li    t0, glbl_reg5
-    li    t1, 0x100019E
-    sw    t1, (t0)
-
-    // SDRAM Config-1
-    li    t0, glbl_reg4
-    li    t1, 0x2F172242
-    sw    t1, (t0)
     # Global pointer init
     .option push
     .option norelax
@@ -73,7 +60,7 @@ _start:
 
     // Timer init
     li      t0, mtime_ctrl
-    li      t1, (1 << SCR1_MTIME_CTRL_EN)   // enable, use internal clock
+    li      t1, (1 << YCR_MTIME_CTRL_EN)   // enable, use internal clock
     sw      t1, (t0)
     li      t0, mtime_div
     li      t1, (100-1)                     // divide by 100

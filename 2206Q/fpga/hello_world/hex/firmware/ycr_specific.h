@@ -16,47 +16,23 @@
 // SPDX-FileContributor: Dinesh Annayya <dinesha@opencores.org>           ////
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef SC_TEST_H
-#define SC_TEST_H
+#ifndef __YCR__SPECIFIC
+#define __YCR__SPECIFIC
 
-#if defined(__ASSEMBLER__)
-.altmacro
+#define mcounten        0x7E0
 
-.macro zero_int_reg regn
-mv   x\regn, zero
-.endm
+// Memory-mapped registers
+#define mtime_ctrl      0x0C490000
+#define mtime_div       0x0C490004
+#define mtime           0x0C490008
+#define mtimeh          0x0C49000C
+#define mtimecmp        0x0C490010
+#define mtimecmph       0x0C490014
 
-.macro zero_int_regs reg_first, reg_last
-.set regn, \reg_first
-.rept \reg_last - \reg_first + 1
-zero_int_reg %(regn)
-.set regn, regn+1
-.endr
-.endm
+#define YCR_MTIME_CTRL_EN          0
+#define YCR_MTIME_CTRL_CLKSRC      1
 
-#define report_results(result) \
-li  a0, result;  \
-la t0, sc_exit;  \
-jr	 t0;
+#define YCR_MTIME_CTRL_WR_MASK     0x3
+#define YCR_MTIME_DIV_WR_MASK      0x3FF
 
-.pushsection sc_test_section, "ax"
-sc_exit: la t0, SIM_EXIT; jr t0;
-.balign 32
-.popsection
-#define sc_pass report_results(0x0)
-#define sc_fail report_results(0x1)
-
-#else
-
-extern void sc_exit(unsigned result, unsigned res0, unsigned res1, unsigned res2, unsigned res3)
-    __attribute__ ((noinline, noreturn));
-
-static inline void  __attribute__ ((noreturn))
-report_results(unsigned result, unsigned res0, unsigned res1, unsigned res2, unsigned res3)
-{
-    sc_exit(result, res0, res1, res2, res3);
-}
-
-#endif
-
-#endif // SC_TEST_H
+#endif // _YCR1__SPECIFIC
