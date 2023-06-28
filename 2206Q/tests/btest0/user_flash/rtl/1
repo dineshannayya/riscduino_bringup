@@ -1,0 +1,5 @@
+	git add   ../hex/Makefile
+	git add   ../hex/user_uart.c
+	git add   ../hex/user_uart.hex
+	git add   ../hex/user_uart.mem
+	git add   top/top.v
