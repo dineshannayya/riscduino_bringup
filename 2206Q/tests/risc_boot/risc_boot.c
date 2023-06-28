@@ -55,7 +55,7 @@ void putdword(uint32_t Data)
 	reg_uart_data = Data >> 16; // MSB [23:16];
 	reg_uart_data = Data >> 8;  // MSB [15:8];
 	reg_uart_data = Data;       // MSB [7:0];
-	delay(800000);
+	delay(100000);
 }
 
 
@@ -166,7 +166,7 @@ void main()
 
     putdword(reg_mprj_wbhost_reg2);
     reg_mprj_wbhost_reg2 = 0x00879898;
-    reg_mprj_wbhost_reg3 = 0x08;// wbs clock divr-4
+    reg_mprj_wbhost_reg3 = 0x88;// wbs clock divr-4
 
     // Remove Wishbone Reset
     reg_mprj_wbhost_ctrl = 0x0;
@@ -181,7 +181,7 @@ void main()
     putdword(reg_glbl_system_strap);
 
     // Remove Reset
-    reg_glbl_cfg0 = 0x000;
+    //reg_glbl_cfg0 = 0x000;
     reg_glbl_cfg0 = 0x11f;
     //putdword(reg_glbl_cfg1);
     //putdword(reg_mprj_wbhost_reg2);
@@ -201,6 +201,10 @@ void main()
     
     // blink the led if all checks passes
     while (bFail == 0) {
+        putdword(reg_la0_data_in);
+        putdword(reg_la1_data_in);
+        putdword(reg_la2_data_in);
+        putdword(reg_la3_data_in);
         if (reg_glbl_chip_id != 0x82682501)    bFail = 1; // check chip id
         if (reg_glbl_soft_reg_0 != 0x82738343) bFail = 1; // check signature
         if (reg_glbl_soft_reg_1 != 0x07092022) bFail = 1; // check date
