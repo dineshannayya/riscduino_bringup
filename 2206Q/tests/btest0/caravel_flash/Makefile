@@ -11,15 +11,17 @@ TOOLCHAIN_PREFIX=riscv64-unknown-elf
 
 # ---- Test patterns for project raven ----
 
+CARAVEL_MGMT_FIRMWAVE = ../../common/firmware/caravel_mgmt_core
+
 .SUFFIXES:
 
 PATTERN = hello_world
 
 hex:  ${PATTERN:=.hex}
 
-%.elf: %.c ../../caravel/sections.lds ../../caravel/crt0_vex.S
+%.elf: %.c $(CARAVEL_MGMT_FIRMWAVE)/sections.lds $(CARAVEL_MGMT_FIRMWAVE)/crt0_vex.S
 	#$(TOOLCHAIN_PATH)riscv32-unknown-elf-gcc -O0 -march=rv32i -Wl,-Bstatic,-T,../sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../start.s ../print_io.c $<
-	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-gcc -I./ -I../../caravel/ -I../../caravel/generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,../../caravel/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ ../../caravel/crt0_vex.S ../../caravel/isr.c ../../caravel/stub.c $<
+	$(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-gcc -I./ -I$(CARAVEL_MGMT_FIRMWAVE)/ -I$(CARAVEL_MGMT_FIRMWAVE)/generated/ -O0 -mabi=ilp32 -march=rv32i -D__vexriscv__ -Wl,-Bstatic,-T,$(CARAVEL_MGMT_FIRMWAVE)/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $(CARAVEL_MGMT_FIRMWAVE)/crt0_vex.S $(CARAVEL_MGMT_FIRMWAVE)/isr.c $(CARAVEL_MGMT_FIRMWAVE)/stub.c $<
 	${TOOLCHAIN_PATH}$(TOOLCHAIN_PREFIX)-objdump -D ${PATTERN}.elf > ${PATTERN}.lst
 
 %.hex: %.elf
@@ -33,10 +35,10 @@ client: client.c
 	gcc client.c -o client
 
 flash: ${PATTERN}.hex
-	python3 ../../caravel/util/caravel_hkflash.py ${PATTERN}.hex
+	python3 $(CARAVEL_MGMT_FIRMWAVE)/util/caravel_hkflash.py ${PATTERN}.hex
 
 flash2: ${PATTERN}.hex
-	python3 ../../caravel/util/caravel_flash.py ${PATTERN}.hex
+	python3 $(CARAVEL_MGMT_FIRMWAVE)/util/caravel_flash.py ${PATTERN}.hex
 
 # ---- Clean ----
 
