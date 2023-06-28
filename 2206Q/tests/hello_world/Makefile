@@ -13,7 +13,7 @@ TOOLCHAIN_PREFIX=riscv64-unknown-elf
 
 .SUFFIXES:
 
-PATTERN = risc_boot
+PATTERN = hello_world
 
 hex:  ${PATTERN:=.hex}
 
