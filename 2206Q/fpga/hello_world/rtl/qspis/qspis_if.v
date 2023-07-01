@@ -136,7 +136,7 @@ reg         cfg_wren           ; // Allow Write
 reg         dummy_enb          ; // Insert Dummy cycle
 reg         addr_inc           ; // Increment address by 4
 reg  [3:0]  sdin_l             ;
-
+reg  [23:0] addr_shift         ;
 
 wire cmd_phase     = (spi_if_st == S_CMD );
 wire adr_phase     = (spi_if_st == S_ADDR);
@@ -144,7 +144,7 @@ wire dummy_phase   = (spi_if_st == S_DUMMY );
 wire wr_phase      = (spi_if_st == S_WRITE);
 wire rd_phase      = (spi_if_st == S_READ);
 
-assign spi_trig = addr_trg; // addr_trg;  // load_rdata;
+assign spi_trig = addr_trg; //addr_shift[0]; // addr_trg;  // load_rdata;
 
 // sclk pos and ned edge generation
 reg     sck_l0,sck_l1,sck_l2;
@@ -191,7 +191,7 @@ if (!rst_n) begin
       sck_pdetect_d <= sck_pdetect;
       sck_ndetect_d <= sck_ndetect;
 		
-      if(sck_pdetect)  sck_toggle <= ~sck_toggle;
+      if(sck_pdetect)  sck_toggle <= sdin_l[3]; // ~sck_toggle;
    end
 end
 
@@ -252,9 +252,17 @@ begin
    end else if(addr_inc) begin
       reg_addr[23:0] <= reg_addr+4;
    end
-
-     
 end 
+
+// debug to monitor captured address
+always @(posedge sys_clk)
+begin
+   if(rd_phase & sck_pdetect) begin
+	   addr_shift <= {1'b0,addr_shift[22:0]};
+	end else if(dummy_phase) begin
+      addr_shift <= reg_addr[23:0];
+	end
+end
 
 always @(posedge sys_clk)
 begin
