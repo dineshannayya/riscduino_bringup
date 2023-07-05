@@ -188,7 +188,7 @@ void main()
 
     // Remove Reset
     //reg_glbl_cfg0 = 0x000;
-    reg_glbl_cfg0 = 0x21f;
+    reg_glbl_cfg0 = 0x01f;
     //putdword(reg_glbl_cfg1);
     //putdword(reg_mprj_wbhost_reg2);
     //putdword(reg_qspi_status);
