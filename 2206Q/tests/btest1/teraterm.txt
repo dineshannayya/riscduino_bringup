@@ -1,0 +1,10 @@
+teraterm Setting
+
+1. Under Serial Port config
+     A. Baud Rate: 9600, 
+     B. 1 Stop 
+     C. No Parity
+     Transmit delay:  0 msec/char 50 msec/line (Note: User Response takes 20msec)
+2. Under <Termainal Setup> :  
+      A. New-line: Receive & Transmit to <LF>
+      B. Enable <Local echo>

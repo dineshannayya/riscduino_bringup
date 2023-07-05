@@ -61,17 +61,24 @@ wire          addr_trg       ;
 wire          spi_st_trans   ;
 
 
-assign      mprj_io[27:0]  = 28'hz;
+assign      mprj_io[5:0]   = 6'hz;
+assign      mprj_io[27:10] = 18'hz;
 assign      mprj_io[37]    = 1'hz;
-assign      tim3_ch2       =  trigger; // clk_1Mhz;    
+assign      tim3_ch2       =  trigger; // clk_1Mhz; 
 
+assign      mprj_io[8] = mprj_io[6];
+assign      mprj_io[9] = mprj_io[7];
+   
+
+assign      mprj_io[36:28] = 9'hz;
+/***
 assign      mprj_io[36:33] = (spi_oen == 1'b0) ? spi_so : 4'hz;
 assign      spi_si =  (spi_oen == 1'b1) ? mprj_io[36:33]: 4'b0;
 
 assign spi_sck = mprj_io[28];
 assign spi_csn = mprj_io[29];
 assign mprj_io[32:30] = 3'hz;
-
+***/
 assign mrn = reset_n;
 
 assign trigger = spi_trig; // inst_trg;
