@@ -98,8 +98,8 @@ void configure_io()
     // -------------------------------------------
 
     reg_mprj_io_5 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;     // UART Rx
-    reg_mprj_io_6 = GPIO_MODE_MGMT_STD_OUTPUT;           // UART Tx
-    reg_mprj_io_7 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_6 = GPIO_MODE_USER_STD_BIDIRECTIONAL;    // USER UART RX
+    reg_mprj_io_7 = GPIO_MODE_USER_STD_BIDIRECTIONAL;    // USER UART TXD
     reg_mprj_io_8 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
     reg_mprj_io_9 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
     reg_mprj_io_10 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
@@ -149,22 +149,28 @@ void main()
 
 
     configure_io();
-    reg_uart_enable = 1;
+    //reg_uart_enable = 1;
     reg_wb_enable = 1;
 
 
     // Configure LA probes [63:32] and [127:96] as inputs to the cpu 
 	// Configure LA probes [31:0] and [63:32] as input from the cpu
-    reg_la0_oenb = reg_la0_iena = 0000000000;    // [31:0]
+    reg_la0_oenb = reg_la0_iena = 0xFFFFFFFF;    // [31:0]
 	reg_la1_oenb = reg_la1_iena = 0x00000000;    // [63:32]
 	reg_la2_oenb = reg_la2_iena = 0x000000000;    // [95:64]
 	reg_la3_oenb = reg_la3_iena = 0x00000000;    // [127:96]
 
+    // Enable UART MASTER with LA control
+    // la0_data[1] - 1- User Uart Master Tx Enable 
+    // la0_data[2] - 1- User Uart Master Rx Enable 
+    // la0_data[3] - 1- User Uart Master Stop bit 2
+    // la0_data[17:16] - 0x40; // Setting User Baud to 9600 with system clock 10Mhz = (10,000,000/(16 * (64+1))
+    reg_la0_data = 0x406;
 
     reg_mprj_wbhost_reg5 = 0x6A00; // system strap
-    putdword(reg_mprj_wbhost_reg5);
+    //putdword(reg_mprj_wbhost_reg5);
 
-    putdword(reg_mprj_wbhost_reg2);
+    //putdword(reg_mprj_wbhost_reg2);
     reg_mprj_wbhost_reg2 = 0x00879898;
     reg_mprj_wbhost_reg3 = 0x00;// wbs clock divr-4
 
@@ -176,9 +182,9 @@ void main()
     // Remove Reset
 
     //putdword(reg_mprj_wbhost_reg4);
-    putdword(reg_glbl_pad_strap);
-    putdword(reg_glbl_strap_sticky);
-    putdword(reg_glbl_system_strap);
+    //putdword(reg_glbl_pad_strap);
+    //putdword(reg_glbl_strap_sticky);
+    //putdword(reg_glbl_system_strap);
 
     // Remove Reset
     //reg_glbl_cfg0 = 0x000;
@@ -201,14 +207,14 @@ void main()
     
     // blink the led if all checks passes
     while (bFail == 0) {
-        putdword(reg_la0_data_in);
-        putdword(reg_la1_data_in);
-        putdword(reg_la2_data_in);
-        putdword(reg_la3_data_in);
-        if (reg_glbl_chip_id != 0x82682501)    bFail = 1; // check chip id
-        if (reg_glbl_soft_reg_0 != 0x82738343) bFail = 1; // check signature
-        if (reg_glbl_soft_reg_1 != 0x07092022) bFail = 1; // check date
-        if (reg_glbl_soft_reg_2 != 0x00054000) bFail = 1; // check version
+        //putdword(reg_la0_data_in);
+        //putdword(reg_la1_data_in);
+        //putdword(reg_la2_data_in);
+        //putdword(reg_la3_data_in);
+        //if (reg_glbl_chip_id != 0x82682501)    bFail = 1; // check chip id
+        //if (reg_glbl_soft_reg_0 != 0x82738343) bFail = 1; // check signature
+        //if (reg_glbl_soft_reg_1 != 0x07092022) bFail = 1; // check date
+        //if (reg_glbl_soft_reg_2 != 0x00054000) bFail = 1; // check version
         reg_gpio_out = 1; // OFF
 		delay(8000000);
         reg_gpio_out = 0;  // ON

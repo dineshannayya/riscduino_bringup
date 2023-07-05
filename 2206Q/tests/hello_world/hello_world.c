@@ -166,7 +166,7 @@ void main()
 
     putdword(reg_mprj_wbhost_reg2);
     reg_mprj_wbhost_reg2 = 0x00879898;
-    reg_mprj_wbhost_reg3 = 0x88;// wbs clock divr-4
+    reg_mprj_wbhost_reg3 = 0x00;// wbs clock divr-4
 
     // Remove Wishbone Reset
     reg_mprj_wbhost_ctrl = 0x0;
@@ -182,7 +182,7 @@ void main()
 
     // Remove Reset
     //reg_glbl_cfg0 = 0x000;
-    reg_glbl_cfg0 = 0x11f;
+    reg_glbl_cfg0 = 0x21f;
     //putdword(reg_glbl_cfg1);
     //putdword(reg_mprj_wbhost_reg2);
     //putdword(reg_qspi_status);
