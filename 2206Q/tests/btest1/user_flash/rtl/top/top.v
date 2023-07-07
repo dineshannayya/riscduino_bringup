@@ -62,7 +62,7 @@ wire          spi_st_trans   ;
 
 
 assign      mprj_io[5:0]   = 6'hz;
-assign      mprj_io[27:10] = 18'hz;
+assign      mprj_io[27:10] = 18'hz;
 assign      mprj_io[37]    = 1'hz;
 assign      tim3_ch2       =  trigger; // clk_1Mhz; 
 
@@ -70,15 +70,14 @@ assign      mprj_io[8] = mprj_io[6];
 assign      mprj_io[9] = mprj_io[7];
    
 
-assign      mprj_io[36:28] = 9'hz;
-/***
+//assign      mprj_io[36:28] = 9'hz;
+
 assign      mprj_io[36:33] = (spi_oen == 1'b0) ? spi_so : 4'hz;
 assign      spi_si =  (spi_oen == 1'b1) ? mprj_io[36:33]: 4'b0;
 
 assign spi_sck = mprj_io[28];
 assign spi_csn = mprj_io[29];
 assign mprj_io[32:30] = 3'hz;
-***/
 assign mrn = reset_n;
 
 assign trigger = spi_trig; // inst_trg;
@@ -127,7 +126,19 @@ qspis_top u_qspis(
 wire [3:0] mem_wr = {4{wbm_we_o}};
 
 
-
+`ifdef RTL_SIM
+   bram_bank #(
+             .AW(11),
+             .filename("user_uart.hex")
+               )  u_fifo (
+   
+                    .CLK (sys_clk),
+                    .WREN(mem_wr),
+                    .ADDR(wbm_adr_o[10:2]),
+                    .WDATA(wbm_dat_o),
+                    .RDATA(wbm_dat_i)
+          );
+`else
    BRAM_SINGLE_MACRO #(
       .BRAM_SIZE("18Kb"), // Target BRAM, "9Kb" or "18Kb" 
       .DEVICE("SPARTAN6"), // Target Device: "VIRTEX5", "VIRTEX6", "SPARTAN6" 
@@ -185,7 +196,8 @@ wire [3:0] mem_wr = {4{wbm_we_o}};
       .RST(!reset_n),     // 1-bit input reset
       .WE(mem_wr)        // Input write enable, width defined by write port depth
    );
-	
+
+`endif	
 	
 // Clock 1Mhz Generation
 initial

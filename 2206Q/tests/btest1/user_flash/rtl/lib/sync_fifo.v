@@ -23,7 +23,8 @@ module sync_fifo #(
    //  The forllowing code is only necessary if you wish to initialize the RAM 
    //  contents via an external file (use $readmemb for binary data)
    initial
-      $readmemh(PRG_HEX, PrgMem, 'h0, 'hFFF);
+      //$readmemh(PRG_HEX, PrgMem, 'h0, 'hFFF);
+      $readmemh(PRG_HEX, PrgMem);
   
    always @(posedge clock)
    begin 

@@ -43,10 +43,19 @@ module tb_top;
 	tri [3:0] spi_sio;
 	tri [37:0] mprj_io;
 
-  assign SDO = mprj_io[35:32];
-  assign mprj_io[30] = SCK;
-  assign mprj_io[31] = CSB;
-  assign mprj_io[35:32] = (spi_oeb) ? SDI : 4'bz;
+    reg        err_flag;
+
+  assign SDO = mprj_io[36:33];
+  assign mprj_io[28] = SCK;
+  assign mprj_io[29] = CSB;
+  assign mprj_io[36:33] = (spi_oeb) ? SDI : 4'bz;
+
+	`ifdef WFDUMP
+	   initial begin
+	   	  $dumpfile("simx.vcd");
+	   	  $dumpvars(0, tb_top);
+       end
+     `endif
   
 	// Instantiate the Unit Under Test (UUT)
 	top uut (
@@ -69,34 +78,60 @@ module tb_top;
 		CSB = 1;
       spi_oeb = 0;
 		Switch = 0;
+        err_flag = 0;
 
 		// Wait 100 ns for global reset to finish
 		#100;
 		 wait(reset_n == 1);
 
-       start_csb;
-       write_byte(8'hEB,2'b0, 4'b1); // CMD
-       write_byte(8'h00,2'b10, 4'b100); // ADDR[23:16]
-       write_byte(8'h02,2'b10, 4'b100); // ADDR[15:8]
-       write_byte(8'h00,2'b10, 4'b100); // ADDR[7:0]
-       write_byte(8'h00,2'b10, 4'b100); // DUMMY
-       read_byte(Rdata,2'b10, 4'b100); // DUMMY
-       read_byte(Rdata,2'b10, 4'b100); // DUMMY
-       read_byte(Rdata,2'b10, 4'b100); // DUMMY
-       read_byte(Rdata,2'b10, 4'b100); // DUMMY
-       read_byte(Rdata,2'b10, 4'b100); // DUMMY
-       read_byte(Rdata,2'b10, 4'b100); // DUMMY
-       read_byte(Rdata,2'b10, 4'b100); // DUMMY
-       read_byte(Rdata,2'b10, 4'b100); // DUMMY
-       read_byte(Rdata,2'b10, 4'b100); // DUMMY
-       read_byte(Rdata,2'b10, 4'b100); // DUMMY
-       end_csb;
         
+         $display("Testing: Fast Read Quad I/O (EBh)");
+         spi_read_cmd(8'hEB,24'h200,2'b00,2'b10,1'b1,4'b0010);
+
+         $display("Testing: Fast Read (0Bh)");
+         spi_read_cmd(8'h0B,24'h200,2'b00,2'b00,1'b0,4'b0001);
+
 		#10000;  $finish;
 		// Add stimulus here
 
 	end
 
+task spi_read_cmd;
+
+input [7:0] cmd;
+input [23:0] addr;
+input [1:0] iMode; // Init Mode
+input [1:0] fMode; // Final Mode
+input       mode;
+input [3:0] dbyte;
+
+integer i;
+begin
+       start_csb;
+       write_byte(cmd,iMode); // CMD
+       write_byte(addr[23:16],fMode); // ADDR[23:16]
+       write_byte(addr[15:8],fMode); // ADDR[15:8]
+       write_byte(addr[7:0],fMode); // ADDR[7:0]
+       if(mode)
+            write_byte(8'h00,fMode); // MODE
+       for(i =0; i < dbyte ; i = i+1) begin
+           read_byte(Rdata,fMode); // Dummy
+       end
+       read_cmp_byte(8'h93,fMode); // Data
+       read_cmp_byte(8'h00,fMode); // Data
+       read_cmp_byte(8'h00,fMode); // Data
+       read_cmp_byte(8'h00,fMode); // Data
+       read_cmp_byte(8'h13,fMode); // Data
+       read_cmp_byte(8'h01,fMode); // Data
+       read_cmp_byte(8'h00,fMode); // Data
+       read_cmp_byte(8'h00,fMode); // Data
+       read_cmp_byte(8'h93,fMode); // Data
+       read_cmp_byte(8'h01,fMode); // Data
+       read_cmp_byte(8'h00,fMode); // Data
+       read_cmp_byte(8'h00,fMode); // Data
+       end_csb;
+end
+endtask
 
     // First define tasks for SPI functions
 
@@ -121,11 +156,19 @@ module tb_top;
 	task write_byte;
 	input [7:0] odata;
    input [1:0] mode;
-   input [3:0] step;
+   reg [3:0] step;
    integer i;
 	begin
 		SCK = 1'b0;
-      spi_oeb = 1;
+        spi_oeb = 1;
+        step  = 1;
+        case(mode)
+           2'b00: step = 4'b0001;
+           2'b01: step = 4'b0010;
+           2'b10: step = 4'b0100;
+         endcase
+
+
 		for (i=7; i >= 0; i=i-step) begin
 		    #50;
                  case(mode)
@@ -153,13 +196,18 @@ module tb_top;
 	task read_byte;
 	output [7:0] idata;
    input [1:0] mode;
-   input [3:0] step;
+   reg [3:0] step;
    reg [7:0] idata;
    integer i;
 	begin
 		SCK = 1'b0;
 		SDI = 1'b0;
       spi_oeb = 0;
+        case(mode)
+           2'b00: step = 4'b0001;
+           2'b01: step = 4'b0010;
+           2'b10: step = 4'b0100;
+         endcase
 		for (i=7; i >= 0; i=i-step) begin
 		    #50;
            case(mode)
@@ -167,19 +215,63 @@ module tb_top;
 		           idata[i] = SDO[0];
               end
            2'b01: begin
-		           SDI[i]   = SDO[1];
-		           SDI[i-1] = SDO[0];
+		           idata[i]   = SDO[1];
+		           idata[i-1] = SDO[0];
               end
            2'b10: begin
-		           SDI[i]   = SDO[3];
-		           SDI[i-1] = SDO[2];
-		           SDI[i-2] = SDO[1];
-		           SDI[i-3] = SDO[0];
+		           idata[i]   = SDO[3];
+		           idata[i-1] = SDO[2];
+		           idata[i-2] = SDO[1];
+		           idata[i-3] = SDO[0];
                end
             endcase
             #50;  SCK = 1'b1;
             #100; SCK = 1'b0;
 		end
+	 end
+	endtask      
+
+	task read_cmp_byte;
+	input [7:0] cdata;
+    input [1:0] mode;
+    reg [3:0] step;
+    reg [7:0] idata;
+   integer i;
+	begin
+		SCK = 1'b0;
+		SDI = 1'b0;
+      spi_oeb = 0;
+        case(mode)
+           2'b00: step = 4'b0001;
+           2'b01: step = 4'b0010;
+           2'b10: step = 4'b0100;
+         endcase
+		for (i=7; i >= 0; i=i-step) begin
+		    #50;
+           case(mode)
+           2'b00: begin
+		           idata[i] = SDO[0];
+              end
+           2'b01: begin
+		           idata[i]   = SDO[1];
+		           idata[i-1] = SDO[0];
+              end
+           2'b10: begin
+		           idata[i]   = SDO[3];
+		           idata[i-1] = SDO[2];
+		           idata[i-2] = SDO[1];
+		           idata[i-3] = SDO[0];
+               end
+            endcase
+            #50;  SCK = 1'b1;
+            #100; SCK = 1'b0;
+		end
+        if(cdata == idata)
+           $display("SPI READ DATA : 0x%x => MATCHED",idata);
+        else begin
+           $display("SPI READ DATA : Exp: 0x%x Rxd: 0x%x => FAILED",cdata,idata);
+           err_flag = 1;
+        end
 	 end
 	endtask      
 endmodule

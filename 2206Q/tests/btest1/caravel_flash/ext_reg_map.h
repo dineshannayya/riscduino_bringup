@@ -89,6 +89,7 @@
 #define reg_uart1_rxfifo_stat  (*(volatile uint32_t*)0x30010120)  // Reg-8
 
 #define reg_qspi_glbl_ctrl     (*(volatile uint32_t*)0x30000000)  // reg_0  
+#define reg_qspi_dmem_cs0_rd_ctrl     (*(volatile uint32_t*)0x30000004)  // reg_1  
 #define reg_qspi_status        (*(volatile uint32_t*)0x30000030)  
 
 

@@ -13,7 +13,7 @@ module bram_bank #(
   input  wire [3:0]    WREN,
 
   // Outputs
-  output wire [31:0]   RDATA);
+  output reg [31:0]   RDATA);
 
 // -----------------------------------------------------------------------------
 // Constant Declarations
@@ -37,7 +37,9 @@ localparam AWT = (1<<(AW-2));
         BRAM2[ADDR] <= WDATA[23:16];
       if (WREN[3])
         BRAM3[ADDR] <= WDATA[31:24];
+        RDATA <= {BRAM3[ADDR],BRAM2[ADDR],BRAM1[ADDR],BRAM0[ADDR]};
     end
+
 
   integer i;
   reg [7:0] fileimage [0:((1<<AW)-1)];
@@ -51,6 +53,7 @@ localparam AWT = (1<<(AW-2));
       BRAM1[i] = fileimage[(4*i)+1];
       BRAM2[i] = fileimage[(4*i)+2];
       BRAM3[i] = fileimage[(4*i)+3];
+      $display("Memory Addr: 0x%x Data: 0x%x",i*4, {BRAM3[i],BRAM2[i],BRAM1[i],BRAM0[i]});
       end
 
   end
