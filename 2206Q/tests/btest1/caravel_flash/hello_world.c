@@ -174,38 +174,45 @@ void main()
     reg_mprj_wbhost_reg2 = 0x00879898;
     reg_mprj_wbhost_reg3 = 0x00;// wbs clock divr-4
 
-    // Remove Wishbone Reset
-    reg_mprj_wbhost_ctrl = 0x0;
-    reg_mprj_wbhost_ctrl = 0x1;
+    // Wait for 20 Second 
+	delay(200000000);
+    /****************************
+    If the User Firmware is progress, then bypass the configuration
+    Check MSB bit[31] = 1 indicate User Flashing is progress
+    *****************************/
+    if((reg_mprj_wbhost_ctrl & 0x80000000) == 0x0) {
+         // Remove Wishbone Reset
+         reg_mprj_wbhost_ctrl = 0x0;
+         reg_mprj_wbhost_ctrl = 0x1;
 
 
-    // Remove Reset
+         // Remove Reset
 
-    //putdword(reg_mprj_wbhost_reg4);
-    //putdword(reg_glbl_pad_strap);
-    //putdword(reg_glbl_strap_sticky);
-    //putdword(reg_glbl_system_strap);
+         //putdword(reg_mprj_wbhost_reg4);
+         //putdword(reg_glbl_pad_strap);
+         //putdword(reg_glbl_strap_sticky);
+         //putdword(reg_glbl_system_strap);
 
-    // Remove Reset
-    //reg_glbl_cfg0 = 0x000;
-    reg_glbl_cfg0 = 0x01f;
-    reg_qspi_dmem_cs0_rd_ctrl = 0x4080000B;
-    reg_glbl_cfg0 = 0x11f;
-    //putdword(reg_glbl_cfg1);
-    //putdword(reg_mprj_wbhost_reg2);
-    //putdword(reg_qspi_status);
-    //putdword(reg_glbl_cfg0);
-    //putdword(reg_glbl_cfg1);
-    //putdword(reg_la0_data_in);
-    //putdword(reg_la1_data_in);
-    //putdword(reg_la2_data_in);
-    //putdword(reg_la3_data_in);
+         // Remove Reset
+         //reg_glbl_cfg0 = 0x000;
+         reg_glbl_cfg0 = 0x01f;
+         reg_qspi_dmem_cs0_rd_ctrl = 0x4080000B;
+         reg_glbl_cfg0 = 0x11f;
+         //putdword(reg_glbl_cfg1);
+         //putdword(reg_mprj_wbhost_reg2);
+         //putdword(reg_qspi_status);
+         //putdword(reg_glbl_cfg0);
+         //putdword(reg_glbl_cfg1);
+         //putdword(reg_la0_data_in);
+         //putdword(reg_la1_data_in);
+         //putdword(reg_la2_data_in);
+         //putdword(reg_la3_data_in);
 
-    //putdword(reg_glbl_chip_id);
-    //putdword(reg_glbl_soft_reg_0);
-    //putdword(reg_glbl_soft_reg_1);
-    //putdword(reg_glbl_soft_reg_2);
-
+         //putdword(reg_glbl_chip_id);
+         //putdword(reg_glbl_soft_reg_0);
+         //putdword(reg_glbl_soft_reg_1);
+         //putdword(reg_glbl_soft_reg_2);
+    }
     
     // blink the led if all checks passes
     while (bFail == 0) {
