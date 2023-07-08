@@ -25,6 +25,8 @@
 int main()
 {
 
+ int iCnt;
+
    reg_glbl_cfg0 |= 0x1F;       // Remove Reset for UART
    reg_glbl_multi_func &=0x7FFFFFFF; // Disable UART Master Bit[31] = 0
    reg_glbl_multi_func |=0x100; // Enable UART Multi func
@@ -39,21 +41,27 @@ int main()
 
    reg_glbl_mail_box = 0x1 << (bthread_get_core_id() * 8); // Start of Main 
 
+    iCnt = 0;
     while(1) {
        // Check UART RX fifo has data, if available loop back the data
-       if(reg_uart0_txfifo_stat > 12) { 
-	   reg_uart0_txdata = 'H';
-	   reg_uart0_txdata = 'E';
-	   reg_uart0_txdata = 'L';
-	   reg_uart0_txdata = 'L';
-	   reg_uart0_txdata = 'O';
-	   reg_uart0_txdata = ' ';
-	   reg_uart0_txdata = 'W';
-	   reg_uart0_txdata = 'O';
-	   reg_uart0_txdata = 'R';
-	   reg_uart0_txdata = 'L';
-	   reg_uart0_txdata = 'D';
-	   reg_uart0_txdata = '\n';
+       if(reg_uart0_txfifo_stat == 16) { 
+	       reg_uart0_txdata = 'L';
+	       reg_uart0_txdata = 'O';
+	       reg_uart0_txdata = 'O';
+	       reg_uart0_txdata = 'P';
+	       reg_uart0_txdata = ' ';
+	       reg_uart0_txdata = 'C';
+	       reg_uart0_txdata = 'O';
+	       reg_uart0_txdata = 'U';
+	       reg_uart0_txdata = 'N';
+	       reg_uart0_txdata = 'T';
+	       reg_uart0_txdata = ':';
+	       reg_uart0_txdata = '0'+ ((iCnt >> 12) & 0x7);
+	       reg_uart0_txdata = '0'+ ((iCnt >> 8 ) & 0x7);
+	       reg_uart0_txdata = '0'+ ((iCnt >> 4 ) & 0x7);
+	       reg_uart0_txdata = '0'+ (iCnt & 0x7);
+	       reg_uart0_txdata = '\n';
+           iCnt++;
        }
     }
 

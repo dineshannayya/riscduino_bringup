@@ -88,9 +88,12 @@
 #define reg_uart1_txfifo_stat  (*(volatile uint32_t*)0x3001011C)  // Reg-7
 #define reg_uart1_rxfifo_stat  (*(volatile uint32_t*)0x30010120)  // Reg-8
 
-#define reg_qspi_glbl_ctrl     (*(volatile uint32_t*)0x30000000)  // reg_0  
-#define reg_qspi_dmem_cs0_rd_ctrl     (*(volatile uint32_t*)0x30000004)  // reg_1  
-#define reg_qspi_status        (*(volatile uint32_t*)0x30000030)  
+#define reg_qspi_glbl_ctrl         (*(volatile uint32_t*)0x30000000)  // reg_0  
+#define reg_qspi_dmem_g0_rd_ctrl  (*(volatile uint32_t*)0x30000004)  // reg_1  
+#define reg_qspi_dmem_g0_wr_ctrl  (*(volatile uint32_t*)0x30000008)  // reg_2  
+#define reg_qspi_dmem_g1_rd_ctrl   (*(volatile uint32_t*)0x3000000C)  // reg_3  
+#define reg_qspi_dmem_g1_wr_ctrl   (*(volatile uint32_t*)0x30000010)  // reg_4  
+#define reg_qspi_status            (*(volatile uint32_t*)0x30000030)  
 
 
 #define reg_mprj_wbhost_ctrl (*(volatile uint32_t*)0x30080000)

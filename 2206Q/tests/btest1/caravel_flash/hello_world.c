@@ -167,7 +167,7 @@ void main()
     // la0_data[17:16] - 0x40; // Setting User Baud to 9600 with system clock 10Mhz = (10,000,000/(16 * (64+1))
     reg_la0_data = 0x406;
 
-    reg_mprj_wbhost_reg5 = 0x6200; // system strap
+    reg_mprj_wbhost_reg5 = 0x6000; // system strap
     //putdword(reg_mprj_wbhost_reg5);
 
     //putdword(reg_mprj_wbhost_reg2);
@@ -196,8 +196,13 @@ void main()
          // Remove Reset
          //reg_glbl_cfg0 = 0x000;
          reg_glbl_cfg0 = 0x01f;
-         reg_qspi_dmem_cs0_rd_ctrl = 0x4080000B;
-         reg_glbl_cfg0 = 0x11f;
+         // Setting Serial Flash to Single Mode
+         reg_qspi_dmem_g0_rd_ctrl = 0x4080000B;
+ 
+         // Setting Serial SRAM Read control
+         reg_qspi_dmem_g1_rd_ctrl = 0x30800003;
+         
+         reg_glbl_cfg0 = 0x21f;
          //putdword(reg_glbl_cfg1);
          //putdword(reg_mprj_wbhost_reg2);
          //putdword(reg_qspi_status);

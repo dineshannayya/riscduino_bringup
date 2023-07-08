@@ -105,78 +105,35 @@ def uartm_wm_cmd(addr,data):
         sys.exit()
         return 0
 
-### Reading Device ID(0x9F)
-def user_flash_device_id():
-    #uartm_wm_cmd(0x30080000,0x00000000)
-    #uartm_wm_cmd(0x30080000,0x00000001)
-    #uartm_wm_cmd(0x30080004,0x00001000)
-    #uartm_wm_cmd(0x30020004,0x0000001F)
-    uartm_wm_cmd(0x3000001c,0x00000001)
-    uartm_wm_cmd(0x30000020,0x040c009f)
-    status,read_data =uartm_rm_cmd(0x3000002c)
-    print("SPI Flash Device ID:0x{:08x} ".format(read_data));
-    if(read_data != 0x001640ef):
-        print("ERROR: Invalid SPI Flash Device ID detected")
-        sys.exit()
+###########################
+### Configuring SRAM Access
+###########################
 
-
-#############################################
-#  Sector Erase Command            
-#############################################
-def user_flash_chip_erase():
-    print("Flash Chip Erase: In Progress")
+def user_sram_config():
     uartm_wm_cmd(0x30080004,0x00001000)
-    uartm_wm_cmd(0x3000001c,0x00000001)
-    uartm_wm_cmd(0x30000020,0x00000006)
-    uartm_wm_cmd(0x30000028,0x00000000)
-    uartm_wm_cmd(0x3000001c,0x00000001)
-    uartm_wm_cmd(0x30000020,0x002200d8)
-    uartm_wm_cmd(0x30000024,0x00000000)
-    uartm_wm_cmd(0x30000028,0x00000000)
-    uartm_wm_cmd(0x3000001c,0x00000001)
-    uartm_wm_cmd(0x30000020,0x040c0005)
-    read_data = 0xFF;
-    while (read_data != 0x00):
-        status,read_data =uartm_rm_cmd(0x3000002c)
-    print("Flash Chip Erasing: Done")
+    uartm_wm_cmd(0x3000000C,0x30800003) #fix the Reset Value SPI SRAM READ Config 
+    uartm_wm_cmd(0x30080004,0x00000800) # Setting Indirect Base Address to enable SRAM access
 
 
 ###########################
-### Write 4 Byte
+### SPI SRAM 4 Byte Write
 ###########################
-def user_flash_write_cmd():
-    uartm_wm_cmd(0x30080004,0x00001000);
-    uartm_wm_cmd(0x3000001c,0x00000001);
 
-def user_flash_write_data(addr,data):
-    print("Flash Write Addr: {:08x} Data:{:08x}" .format(addr,data))
-    uartm_wm_cmd(0x30000020,0x00000006);
-    uartm_wm_cmd(0x30000028,0x00000000);
-    #uartm_wm_cmd(0x3000001c,0x00000001);
-    uartm_wm_cmd(0x30000020,0x04270002);
-    uartm_wm_cmd(0x30000024,addr);
-    uartm_wm_cmd(0x30000028,data);
-    #uartm_wm_cmd(0x3000001c,0x00000001);
-    uartm_wm_cmd(0x30000020,0x040c0005);
-    read_data = 0xFF;
-    while (read_data != 0x00):
-        status,read_data =uartm_rm_cmd(0x3000002c)
+def user_sram_write_data(addr,data):
+    print("SRAM Write Addr: {:08x} Data:{:08x}" .format(addr,data))
+    uartm_wm_cmd(addr,data);
 
 
 #############################################
-#  Page Read through Direct Access  (0X0B)          
+#  SPI SRAM 4 Byte Read
 #############################################
-def user_flash_read_cmd():
-    uartm_wm_cmd(0x30080004,0x00001000);
-    uartm_wm_cmd(0x30000004,SPI_FLASH_READ_DATA_CMD);
-    uartm_wm_cmd(0x30080004,0x00000000);
 
-def user_flash_read_data(addr,exp_data):
+def user_sram_read_data(addr,exp_data):
     status,rxd_data =uartm_rm_cmd(addr)
     if(exp_data == rxd_data):
-        print("Flash Read Addr: {:08x} Data:{:08x} => Matched" .format(addr,exp_data))
+        print("SRAM Read Addr: {:08x} Data:{:08x} => Matched" .format(addr,exp_data))
     else:
-        print("Flash Read Addr: {:08x} Exp Data:{:08x}  Rxd Data:{:08x} => FAILED" .format(addr,exp_data,rxd_data))
+        print("SRAM Read Addr: {:08x} Exp Data:{:08x}  Rxd Data:{:08x} => FAILED" .format(addr,exp_data,rxd_data))
    
  
 #############################################
@@ -188,7 +145,8 @@ def user_reboot():
     uartm_wm_cmd(0x30080000,0x80000001);
     uartm_wm_cmd(0x30080004,0x00001000);
     uartm_wm_cmd(0x30020004,0x0000001F);
-    
+
+
 ########################################
 # User Risc Wake up
 ########################################
@@ -202,12 +160,11 @@ def user_risc_wakeup():
 
 
 ##############################
-# Flash Write
+# SRAM WRITE Write
 ##############################
-def user_flash_progam():
+def user_sram_program():
     global file_path;
-    print("User Flash Write Phase Started")
-    user_flash_write_cmd()
+    print("User SPI SRAM Write Phase Started")
     with open(file_path, mode='r') as f:
         x = f.readline()
         nbytes = 0;
@@ -229,7 +186,7 @@ def user_flash_progam():
                         ncnt = ncnt + 1
                         nbytes = nbytes+1
                         if(ncnt == 4):
-                            user_flash_write_data(addr,dataout)
+                            user_sram_write_data(addr,dataout)
                             addr = addr+4;
                             ncnt = 0;
                             dataout = 0x00
@@ -257,14 +214,12 @@ def user_flash_progam():
     print("\ntotal_bytes = {}".format(total_bytes))
 
 ####################################
-# Flash Read back and Verify#########
+# SRAM Read back and Verify#########
 ####################################
-def user_flash_verify():
+def user_sram_verify():
     global file_path;
     
-    print("Flash Read back and Verify")
-    user_flash_read_cmd()
-
+    print("SRAM Read back and Verify")
     with open(file_path, mode='r') as f:
         x = f.readline()
         nbytes = 0;
@@ -286,7 +241,7 @@ def user_flash_verify():
                         ncnt = ncnt + 1
                         nbytes = nbytes+1
                         if(ncnt == 4):
-                            user_flash_read_data(addr,dataout)
+                            user_sram_read_data(addr,dataout)
                             addr = addr+4;
                             ncnt = 0;
                             dataout = 0x00
@@ -315,14 +270,75 @@ def user_flash_verify():
 
 
 
-user_reboot(); 
-status,read_data = uartm_rm_cmd(0x30020000)  # User Chip ID
-print("Riscduino Chip ID:0x{:08x} ".format(read_data));
-user_flash_device_id()
-user_flash_chip_erase()
-user_flash_progam()
-user_flash_verify()
-
+#uartm_wm_cmd(0x30080000,0x80000000)
+#uartm_wm_cmd(0x30080000,0x80000001)
+#uartm_wm_cmd(0x30020004,0x00000003)
+#uartm_wm_cmd(0x30080004,0x00001000)
+#uartm_rm_cmd(0x30020000)
+#
+##send reset command to switch to SINGLE PHASE
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_CTRL1,{16'h0,1'b0,1'b0,4'b0000,P_MODE_SWITCH_IDLE,P_QUAD,P_QUAD,4'b0100});
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_CTRL2,{8'h0,2'b00,2'b00,P_FSM_C,8'h00,8'hFF});
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_WDATA,32'h0);
+#
+#
+##uartm_wm_cmd(0x3000001c,0x000000a4)
+##uartm_wm_cmd(0x30000020,0x000000ff)
+##uartm_wm_cmd(0x30000028,0x00000000)
+#
+##CS#2 SSPI Indiect Write DATA 
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_CTRL1,{16'h0,1'b0,1'b0,4'b0000,P_MODE_SWITCH_IDLE,P_SINGLE,P_SINGLE,4'b0100});
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_CTRL2,{8'h10,2'b00,2'b10,P_FSM_CAW,8'h00,8'h02});
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_ADDR,32'h00000000);
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_WDATA,32'h00112233);
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_WDATA,32'h44556677);
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_WDATA,32'h8899AABB);
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_WDATA,32'hCCDDEEFF);
+#
+#uartm_wm_cmd(0x3000001c,0x00000004)
+#uartm_wm_cmd(0x30000020,0x04270002)
+#uartm_wm_cmd(0x30000024,0x00000000)
+#uartm_wm_cmd(0x30000028,0xAA112233)
+#
+#uartm_wm_cmd(0x3000001c,0x00000004)
+#uartm_wm_cmd(0x30000020,0x04270002)
+#uartm_wm_cmd(0x30000024,0x00000004)
+#uartm_wm_cmd(0x30000028,0x44556677)
+#
+##CS#2 SSPI Indirect READ DATA 
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_CTRL1,{16'h0,1'b0,1'b0,4'b0000,P_MODE_SWITCH_IDLE,P_SINGLE,P_SINGLE,4'b0100});
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_CTRL2,{8'h10,2'b00,2'b10,P_FSM_CAR,8'h00,8'h03});
+##wb_user_core_write(`ADDR_SPACE_QSPI+`QSPIM_IMEM_ADDR,32'h00000000);
+##wb_user_core_read_check(`ADDR_SPACE_QSPI+`QSPIM_IMEM_RDATA,read_data,32'h00112233);
+##wb_user_core_read_check(`ADDR_SPACE_QSPI+`QSPIM_IMEM_RDATA,read_data,32'h44556677);
+##wb_user_core_read_check(`ADDR_SPACE_QSPI+`QSPIM_IMEM_RDATA,read_data,32'h8899AABB);
+##wb_user_core_read_check(`ADDR_SPACE_QSPI+`QSPIM_IMEM_RDATA,read_data,32'hCCDDEEFF);
+#
+#uartm_wm_cmd(0x3000001c,0x00000004)
+#uartm_wm_cmd(0x30000020,0x04230003)
+#uartm_wm_cmd(0x30000024,0x00000000)
+#uartm_rm_cmd(0x3000002c)
+#
+#uartm_wm_cmd(0x3000001c,0x00000004)
+#uartm_wm_cmd(0x30000020,0x04230003)
+#uartm_wm_cmd(0x30000024,0x00000004)
+#uartm_rm_cmd(0x3000002c)
+#
+#### Direct Read
+#uartm_wm_cmd(0x30080004,0x00001000)
+#uartm_wm_cmd(0x3000000C,0x30800003) #fix the Reset Value 
+#uartm_wm_cmd(0x30080004,0x00000800) # Setting Indirect Base Address
+#uartm_wm_cmd(0x00002000,0x00112233)
+#uartm_wm_cmd(0x00002004,0x44556677)
+#uartm_wm_cmd(0x00002008,0x8899AABB)
+#uartm_wm_cmd(0x0000200C,0xCCDDEEFF)
+#uartm_rm_cmd(0x00002000)
+#uartm_rm_cmd(0x00002004)
+#uartm_rm_cmd(0x00002008)
+#uartm_rm_cmd(0x0000200C)
+#
+#uartm_wm_cmd(0x30080004,0x00001000)
+#uartm_rm_cmd(0x30020000)
 
 
 #user_flash_write(0x000,0x11223344)
@@ -330,7 +346,10 @@ user_flash_verify()
 #user_flash_read(0x000,0x11223344)
 #user_flash_read(0x004,0x22334455)
 
-#user_risc_wakeup()
+user_reboot()
+user_sram_config()
+user_sram_program()
+user_sram_verify()
 
 
 port.close();
