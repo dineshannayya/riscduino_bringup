@@ -1,4 +1,4 @@
-/*
+/**
 //////////////////////////////////////////////////////////////////////////////
 // SPDX-FileCopyrightText: 2021, Dinesh Annayya                           ////
 //                                                                        ////
@@ -16,7 +16,7 @@
 // SPDX-License-Identifier: Apache-2.0                                    ////
 // SPDX-FileContributor: Dinesh Annayya <dinesha@opencores.org>           ////
 //////////////////////////////////////////////////////////////////////////////
-**/
+*/
 /*
 * @brief      bare metal tests' linker script
 */
@@ -25,18 +25,18 @@ OUTPUT_ARCH( "riscv" )
 ENTRY(_start)
 
 MEMORY {
-  ROM (rxx) : ORIGIN = 0x0, LENGTH = 128K
-  RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 128K
+  ROM (rxx) : ORIGIN = 0x0, LENGTH = 64K
+  TCM (rwx) : ORIGIN = 0x00480000, LENGTH = 4K
 }
 
-STACK_SIZE = 1024;
+STACK_SIZE = 256;
 
 CL_SIZE = 32;
 
 SECTIONS {
 
   /* code segment */
-  .text.init 0 : { 
+  .text.init ORIGIN(ROM) : { 
     FILL(0);
     . = 0x100 - 12;
     SIM_EXIT = .;
@@ -45,71 +45,85 @@ SECTIONS {
     LONG(0x6F);
     LONG(-1);
     . = 0x100;
-    PROVIDE(__TEXT_START__ = .);
-    *(.text.init) 
+    *crt_tcm.o(.text .text.*)
+    *(.text.init)
+    . = ALIGN(CL_SIZE);
   } >ROM
 
-  .text  : {
-    *crt.o(.text .text.*)
+  __reloc_start = .;
+
+  .text : {
+    PROVIDE(__TEXT_START__ = .);
     *(.text .text.*)
     *(sc_test_section)
     . = ALIGN(CL_SIZE);
      PROVIDE(__TEXT_END__ = .);
-  } >ROM
+  } >TCM AT>ROM
+
+
+  .rodata ALIGN(CL_SIZE) : {
+    __global_pointer$ = . + 0x800;
+    *(.rodata) *(.rodata.*) *(.gnu.linkonce.r.*)
+    . = ALIGN(CL_SIZE);
+    LONG(0x13);
+    . = ALIGN(CL_SIZE);
+  } >TCM AT>ROM
+
 
   /* data segment */
-  .data : {
+  .data ALIGN(CL_SIZE) : {
+    PROVIDE(__DATA_START__ = .);
     *(.data .data.*)
     . = ALIGN(CL_SIZE);
-  } >RAM
-
-  .sdata : {
-    __global_pointer$ = . + 0x800;
-    *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata*)
+  } >TCM 
+  
+  .sdata ALIGN(CL_SIZE) : {
     *(.sdata .sdata.* .gnu.linkonce.s.*)
     . = ALIGN(CL_SIZE);
-  } >RAM
+    PROVIDE(__DATA_END__ = .);
+  } >TCM
 
   /* thread-local data segment */
-  .tdata : {
+  .tdata ALIGN(CL_SIZE) : {
     PROVIDE(_tls_data = .);
     PROVIDE(_tdata_begin = .);
     *(.tdata .tdata.*)
     PROVIDE(_tdata_end = .);
     . = ALIGN(CL_SIZE);
-  } >RAM
+  } >TCM
 
-  .tbss : {
-    PROVIDE(__BSS_START__ = .);
+  .tbss ALIGN(CL_SIZE) : {
+    PROVIDE(_tbss_begin = .);
     *(.tbss .tbss.*)
     . = ALIGN(CL_SIZE);
     PROVIDE(_tbss_end = .);
-  } >RAM
+  } >TCM
 
   /* bss segment */
-  .sbss : {
+  .sbss ALIGN(CL_SIZE) : {
+    PROVIDE(__BSS_START__ = .);
     *(.sbss .sbss.* .gnu.linkonce.sb.*)
     *(.scommon)
-  } >RAM
+    . = ALIGN(CL_SIZE);
+  } >TCM
 
-  .bss : {
-    *(.bss .bss.*)
+  .bss ALIGN(CL_SIZE) : {
+    *(.dynbss) *(.bss .bss.* .gnu.linkonce.b.*) *(COMMON)
     . = ALIGN(CL_SIZE);
     PROVIDE(__BSS_END__ = .);
-  } >RAM
+  } >TCM
 
   _end = .;
   PROVIDE(__end = .);
 
   /* End of uninitalized data segement */
 
-  .stack ORIGIN(RAM) + LENGTH(RAM) - STACK_SIZE : {
-    FILL(0);
+  .stack ORIGIN(TCM) + LENGTH(TCM) - STACK_SIZE : {
     PROVIDE(__STACK_START__ = .);
     . += STACK_SIZE;
     PROVIDE(__C_STACK_TOP__ = .);
     PROVIDE(__STACK_END__ = .);
-  } >RAM
+  } >TCM
 
   /DISCARD/ : {
     *(.eh_frame .eh_frame.*)

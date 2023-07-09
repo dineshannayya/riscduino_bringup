@@ -38,7 +38,7 @@ GCC_PREFIX?=riscv32-unknown-elf
 
 .SUFFIXES:
 
-PATTERN = user_uart
+PATTERN = user_mcore_test2
 
 hex:  ${PATTERN:=.hex}
 
@@ -55,9 +55,6 @@ hex:  ${PATTERN:=.hex}
 	${GCC64_PREFIX}-gcc -o ${PATTERN}.elf -T $(YIFIVE_FIRMWARE_PATH)/link.ld ${PATTERN}.o crt.o -nostartfiles -nostdlib -lc -lgcc -march=rv32im -mabi=ilp32 -N
 	${GCC64_PREFIX}-objcopy -O verilog ${PATTERN}.elf ${PATTERN}.hex
 	${GCC64_PREFIX}-objdump -D ${PATTERN}.elf > ${PATTERN}.dump
-	rm crt.o user_uart.o
-	iverilog hex2mem.v -o hex2mem.vvp
-	vvp hex2mem.vvp | tee user_uart.mem
 
 flash: %.hex
 	python3 ../../common/firmware/riscduino/util/riscduino_flash.py ${PATTERN}.hex
@@ -66,6 +63,6 @@ flash: %.hex
 # ---- Clean ----
 
 clean:
-	rm -f *.elf *.hex *.bin *.log *.dump *.vvp
+	rm -f *.elf *.hex *.bin *.log *.dump *.vvp *.o
 
 .PHONY: clean hex all

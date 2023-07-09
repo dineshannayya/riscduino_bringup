@@ -196,7 +196,7 @@ void main()
     Check MSB bit[31] = 1 indicate User Flashing is progress
     *****************************/
     if((reg_mprj_wbhost_ctrl & 0x80000000) == 0x0) {
-         reg_glbl_cfg0 = 0x21f;
+         reg_glbl_cfg0 = 0x11f;
     }
     
     // blink the led if all checks passes
