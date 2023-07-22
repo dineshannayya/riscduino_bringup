@@ -1,4 +1,4 @@
-21625170706188999
+21628550767567046
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -83069,12 +83069,26 @@ Resistor Radial_Power series Radial pin pitch 7.37mm 10W length 16.1mm width 9mm
 2
 2
 Riscduino.Library
+RISCDUINO_QFN-64-1EP_9x9mm_P0.5mm_EP7.65x7.65mm_NEW
+QFN, 64 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2549-8-bit-AVR-Microcontroller-ATmega640-1280-1281-2560-2561_datasheet.pdf (page 415)), generated with kicad-footprint-generator ipc_noLead_generator.py
+QFN NoLead
+0
+81
+65
+Riscduino.Library
 Riscduino_UNO_R0_WithMountingHoles
 Arduino UNO R2, http://www.mouser.com/pdfdocs/Gravitech_Arduino_Nano3_0.pdf
 Arduino UNO R2
 0
 0
 0
+Riscduino.Library
+SW_SPST_EVPBF_TS4550TP
+Light Touch Switch
+
+0
+4
+2
 Rotary_Encoder
 RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm
 Alps rotary encoder, EC12E... with switch, vertical shaft, http://www.alps.com/prod/info/E/HTML/Encoder/Incremental/EC11/EC11E15204A3.html
