@@ -1,19 +1,31 @@
-"Source:","D:\vlsi\github\mpw_bringup\2206Q\riscduino_board\Riscduino_Uno_Rev1.0\Riscduino_Uno.kicad_sch"
-"Date:","15-07-2023 12:24:30"
-"Tool:","Eeschema (7.0.0)"
-"Generator:","C:\Program Files\KiCad\7.0\bin\scripting\plugins/bom_csv_grouped_by_value_with_fp.py"
-"Component Count:","44"
-"Ref","Qnty","Value","Cmp name","Footprint","Description","Vendor","DNP"
-"C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12","12","0.1uf","C","Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder","Unpolarized capacitor","",""
-"C13, C14, C15, C16","4","0.1uF","C","Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder","Unpolarized capacitor","",""
-"C17, C18","2","10 uF","C","Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder","Unpolarized capacitor","",""
-"C19","1","22 uF","C","Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder","Unpolarized capacitor","",""
-"JP1, JP2","2","Jumper_2_Bridged","Jumper_2_Bridged","Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical","Jumper, 2-pole, closed/bridged","",""
-"R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R21","15","10K","R","","Resistor","",""
-"R15","1","470 Ohm","R","","Resistor","",""
-"RV1","1","500 Ohm Trim Pot","R_Potentiometer_Trim","Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical","Trim-potentiometer","",""
-"U1","1","Riscduino","Caravel","Package_DFN_QFN:QFN-64-1EP_9x9mm_P0.5mm_EP7.65x7.65mm","","",""
-"U2, U3","2","W25Q32JVSS","W25Q32JVSS","Package_SO:SOIC-8_5.23x5.23mm_P1.27mm","32Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8","",""
-"U4","1","23LC1024-I/P ","W25Q32JVSS","Package_DIP:DIP-8_W7.62mm_LongPads","32Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8","",""
-"U5","1","LM1117MP-3.3","LM1117MP-3.3","Package_TO_SOT_SMD:SOT-223-3_TabPin2","800mA Low-Dropout Linear Regulator, 3.3V fixed output, SOT-223","",""
-"U6","1","LM1117LD-ADJ","LM1117LD-ADJ","Package_SON:WSON-8-1EP_4x4mm_P0.8mm_EP2.2x3mm","800mA Low-Dropout Linear Regulator, adjustable output, WSON-8","",""
+Id,Designator,Footprint,Quantity,Designation,Supplier and ref,Column1,_1
+1,"J8,J6,J7,J3",PinHeader_1x01_P2.54mm_Vertical,4,Conn_01x01,,,
+2,J2,PinHeader_1x06_P2.54mm_Vertical,1,Conn_01x06_Pin,,,
+3,"J1,J9",PinHeader_1x08_P2.54mm_Vertical,2,Conn_01x08_Pin,,,
+4,J11,PinHeader_1x10_P2.54mm_Vertical,1,Conn_01x10_Pin,,,
+6,"JP1,JP2",PinHeader_1x02_P2.54mm_Vertical,2,Jumper_2,,,
+9,TP1,PinHeader_1x01_P2.54mm_Vertical,1,TestPoint,,,
+8,J5,PinHeader_2x03_P2.54mm_Vertical,1,ISP,,,
+5,J4,PinHeader_2x04_P2.54mm_Vertical,1,Conn_02x04_Odd_Even,,,
+7,J10,USB_Micro-B_Molex-105017-0001,1,USB_B_Micro,,,
+10,"R2,R1,R4,R5,R7,R3,R6,R25,R26,R27,R28,R29,R30,R31,R22",R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,15,10K,,,
+11,"R12,R18,R19",R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,3,DNI,,,
+12,"R16,R15,R14,R23,R20,R21,R24",R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,7,470 Ohm,,,
+13,"R13,R17,R9,R10,R11,R8,R32",R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,7,0E,,,
+14,"C3,C21,C18,C16,C26,C23,C24,C25
+C10,C6,C19,C5,C8,C12,C2,C13,C7,C11,C9,C4,C1",C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,21,0.1uF,,,
+15,"C14,C22",C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,2,22uF,,,
+16,"C15,C17,C20",C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,2,10uF,,,
+17,"D2,D1,D3,D5",LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder,4,GREEN LED,,,
+18,D6,LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder,1,BLUE LED,,,
+19,D4,LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder,1,RED LED,,,
+20,U1,SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm,1,MAX1232ESA+T,,,
+21,U6,SOT-223-3_TabPin2,1,LM1117MP-3.3,,,
+22,"U3,U2",SOIC-8_5.23x5.23mm_P1.27mm,2,W25Q32JVSS,,,
+23,U7,SOT-223-3_TabPin2,1,LM1117S-ADJ,,,
+24,U8,SOIC-16_3.9x9.9mm_P1.27mm,1,CH340C,,,
+25,U5,RISCDUINO_QFN-64-1EP_9x9mm_P0.5mm_EP7.65x7.65mm_NEW,1,Riscduino,,,
+26,U4,DIP-8_W7.62mm_LongPads,1,23LC1024-I/P ,,,
+10,SW1,SW_SPST_EVPBF_TS4550TP,1,4Pin Round Button SPST Straight Tactile Switch SMD - TS4550TP,,,
+11,X1,Crystal_SMD_Abracon_ABM8G-4Pin_3.2x2.5mm,1,ASE-10.000MHZ-LC-T,,,
+12,RV1,Potentiometer_Bourns_3296W_Vertical,1,500 Ohm Trim Pot,,,
