@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Riscduino_Common")(type "KiCad")(uri "D:/vlsi/github/mpw_bringup/2206Q/riscduino_board/library/Riscduino_Common.kicad_sym")(options "")(descr ""))
+)
