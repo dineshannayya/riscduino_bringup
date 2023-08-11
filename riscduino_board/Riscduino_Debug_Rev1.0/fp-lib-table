@@ -1,4 +1,0 @@
-(fp_lib_table
-  (version 7)
-  (lib (name "Riscduino.Library")(type "KiCad")(uri "${KIPRJMOD}/Riscduino.Library.pretty")(options "")(descr ""))
-)
