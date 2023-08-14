@@ -32,7 +32,8 @@ int BuzzerValue=0x00;
 
   void setup() {
   // put your setup code here, to run once:
-  // Motor
+     Serial.begin(9600);
+     // Motor
     pinMode(RIGHT_MOTOR_P, OUTPUT);
     pinMode(RIGHT_MOTOR_N, OUTPUT);
     pinMode(LEFT_MOTOR_N, OUTPUT);
@@ -53,40 +54,44 @@ void loop() {
   int RightSensorVal = digitalRead(RIGHT_SENSOR);
 
  // When both Sensor Off , Then Stop Motor
- if(LeftSensorVal ==0 && RightSensorVal == 0){
+ if(LeftSensorVal ==0 && RightSensorVal == 1){
     digitalWrite(RIGHT_MOTOR_P, HIGH);
     digitalWrite(RIGHT_MOTOR_N, HIGH);
     digitalWrite(LEFT_MOTOR_N, HIGH);
     digitalWrite(LEFT_MOTOR_P, HIGH);
     BuzzerValue = LOW;
+    Serial.print("Both Sensor Off\n");
 
   }
 
       // Turn Right
- if(LeftSensorVal ==0 && RightSensorVal == 1){
+ if(LeftSensorVal ==1 && RightSensorVal == 1){
     digitalWrite(RIGHT_MOTOR_P, LOW);
     digitalWrite(RIGHT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_P, HIGH);
     BuzzerValue = HIGH;
+    Serial.print("Right Sensor On\n");
  }
 
         // Turn Left
- if(LeftSensorVal ==1 && RightSensorVal == 0){
+ if(LeftSensorVal ==0 && RightSensorVal == 0){
     digitalWrite(RIGHT_MOTOR_P, HIGH);
     digitalWrite(RIGHT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_P, LOW);
+    Serial.print("Left Sensor On\n");
     BuzzerValue = HIGH;
   }
 
   // Turn Move Forward
- if(LeftSensorVal ==1 && RightSensorVal == 1){
+ if(LeftSensorVal ==1 && RightSensorVal == 0){
     digitalWrite(RIGHT_MOTOR_P, HIGH);
     digitalWrite(RIGHT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_P, HIGH);
     BuzzerValue = ~BuzzerValue;
+    Serial.print("Both Sensor On\n");
   }
   digitalWrite(BUZZER, BuzzerValue);
 
