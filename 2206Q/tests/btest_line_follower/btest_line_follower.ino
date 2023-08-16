@@ -45,6 +45,13 @@ int BuzzerValue=0x00;
     pinMode(LEFT_SENSOR, INPUT);
     pinMode(RIGHT_SENSOR, INPUT);
 
+    // Stop Motor
+    digitalWrite(RIGHT_MOTOR_P, HIGH);
+    digitalWrite(RIGHT_MOTOR_N, HIGH);
+    digitalWrite(LEFT_MOTOR_N, HIGH);
+    digitalWrite(LEFT_MOTOR_P, HIGH);
+
+
 
 }
 
@@ -60,7 +67,7 @@ void loop() {
     digitalWrite(LEFT_MOTOR_N, HIGH);
     digitalWrite(LEFT_MOTOR_P, HIGH);
     BuzzerValue = LOW;
-    Serial.print("Both Sensor Off\n");
+    Serial.print("Right Sensor On\n");
 
   }
 
@@ -71,7 +78,7 @@ void loop() {
     digitalWrite(LEFT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_P, HIGH);
     BuzzerValue = HIGH;
-    Serial.print("Right Sensor On\n");
+    Serial.print("Left & Right Sensor On\n");
  }
 
         // Turn Left
@@ -80,7 +87,7 @@ void loop() {
     digitalWrite(RIGHT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_P, LOW);
-    Serial.print("Left Sensor On\n");
+    Serial.print("Left & Right Sensor Off\n");
     BuzzerValue = HIGH;
   }
 
@@ -91,7 +98,7 @@ void loop() {
     digitalWrite(LEFT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_P, HIGH);
     BuzzerValue = ~BuzzerValue;
-    Serial.print("Both Sensor On\n");
+    Serial.print("Left Sensor On\n");
   }
   digitalWrite(BUZZER, BuzzerValue);
 
