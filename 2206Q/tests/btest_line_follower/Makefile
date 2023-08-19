@@ -18,7 +18,7 @@
  
 # ---- Include Partitioned Makefiles ----
 #clone Riscduino Arduino Board from:  github.com/dineshannayya/riscduino_board/
-export RISCDUINO_BOARD ?=  /home/dinesha/workarea/opencore/git/riscduino_firmware/custom_board/riscduino
+export RISCDUINO_BOARD ?=  /home/dinesha/workarea/opencore/git/riscduino_firmware/custom_board/arduino
 #export RISCDUINO_BOARD ?=  D:\vlsi\github\riscduino_firmware\custom_board\riscduino
 
 #######################################################################
@@ -31,7 +31,7 @@ GCC64_PREFIX?=riscv64-unknown-elf
 
 .SUFFIXES:
 
-PATTERN = arduino_hello_world
+PATTERN = btest_line_follower
 GCC64_PREFIX?=riscv64-unknown-elf
 
 hex:  ${PATTERN:=.hex}
