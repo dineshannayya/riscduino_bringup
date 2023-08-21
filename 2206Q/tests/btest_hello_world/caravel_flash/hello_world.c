@@ -164,8 +164,10 @@ void main()
     // la0_data[1] - 1- User Uart Master Tx Enable 
     // la0_data[2] - 1- User Uart Master Rx Enable 
     // la0_data[3] - 1- User Uart Master Stop bit 2
-    // la0_data[17:16] - 0x40; // Setting User Baud to 9600 with system clock 10Mhz = (10,000,000/(16 * (64+1))
-    reg_la0_data = 0x406;
+    // la0_data[17:16] - 0x3F; // Setting User Baud to 9600 with system clock 10Mhz = (10,000,000/(16 * (63+2))
+    // la0_data[17:16] - 0x40; // Setting User Baud to 57600 with system clock 10Mhz = (10,000,000/(16 * (9+2))
+    reg_la0_data = 0x096;
+
 
     reg_mprj_wbhost_reg5 = 0x6000; // system strap
     //putdword(reg_mprj_wbhost_reg5);

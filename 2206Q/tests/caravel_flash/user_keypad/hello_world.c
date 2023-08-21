@@ -14,16 +14,33 @@
  * limitations under the License.
  * SPDX-License-Identifier: Apache-2.0
  */
+/***********************************************************************
+    Author: Dinesh Annayya
+    This Caravel C code will be used to wakeup the Riscduino core.
+    Caravel CPU does following action
+       1. Drive the Configuration for Uart Master for 57600 Baud Rate
+       2. Set the System Strap with Cache Bypass Mode, 
+       3. Flash SPI in Quad Bit Mode
+       4. SRAM SPI in Single Bit Mode
+ 
+    On Power Up, it will wait for 20 Second to see any external programming will
+    be configuring the riscduino. It will check reg_mprj_wbhost_ctrl  bit [31] =1; 
+    If there is no indication on this, then caravel cpu will remove the riscduino cpu.
+
+
+   Revision:
+    0.1   - 1 Jun 2023 , Dinesh A
+            Initial Verson
+    0.2  - 18 Aug 2023, Dinesh A
+           As Keypad test, need input pull row, we are using caravel function to configure the pads
+           digital_io[16:13] are declared as input with pull-up
+
+**************************************************************************/
 
 // This include is relative to $CARAVEL_PATH (see Makefile)
 #include <defs.h>
 #include <stub.h>
 #include "ext_reg_map.h"
-
-
-
-
-
 
 /*
 	Wishbone Test:
@@ -105,10 +122,10 @@ void configure_io()
     reg_mprj_io_10 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
     reg_mprj_io_11 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
     reg_mprj_io_12 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-    reg_mprj_io_13 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-    reg_mprj_io_14 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-    reg_mprj_io_15 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-    reg_mprj_io_16 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_13 = GPIO_MODE_USER_STD_INPUT_PULLUP;
+    reg_mprj_io_14 = GPIO_MODE_USER_STD_INPUT_PULLUP;
+    reg_mprj_io_15 = GPIO_MODE_USER_STD_INPUT_PULLUP;
+    reg_mprj_io_16 = GPIO_MODE_USER_STD_INPUT_PULLUP;
     reg_mprj_io_17 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
     reg_mprj_io_18 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
 
@@ -168,7 +185,8 @@ void main()
     // la0_data[17:16] - 0x40; // Setting User Baud to 57600 with system clock 10Mhz = (10,000,000/(16 * (9+2))
     reg_la0_data = 0x096;
 
-    reg_mprj_wbhost_reg5 = 0x6000; // system strap
+
+    reg_mprj_wbhost_reg5 = 0xA000; // system strap
     //putdword(reg_mprj_wbhost_reg5);
 
     //putdword(reg_mprj_wbhost_reg2);
@@ -182,9 +200,16 @@ void main()
      // Remove Reset
      reg_glbl_cfg0 = 0x01f;
 
+    /****************************************
+      To Enable the Quad Mode in SPI we need to
+      write Status Reg[2] bit [1] = 1
+    ******************************************/
+       reg_qspi_imem_ctrl1 =  0x00000001;
+       reg_qspi_imem_ctrl2 =  0x01010031;
+       reg_qspi_imem_wdata =  0x00000002;
 
-     // Setting Serial Flash to Single Mode
-     reg_qspi_dmem_g0_rd_ctrl = 0x4080000B;
+     // Setting Serial Flash to Quad Mode
+     reg_qspi_dmem_g0_rd_ctrl = 0x619800EB;
  
      // Setting Serial SRAM Read control
      reg_qspi_dmem_g1_rd_ctrl = 0x30800003;

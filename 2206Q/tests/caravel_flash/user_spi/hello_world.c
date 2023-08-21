@@ -14,16 +14,30 @@
  * limitations under the License.
  * SPDX-License-Identifier: Apache-2.0
  */
+/***********************************************************************
+    Author: Dinesh Annayya
+    This Caravel C code will be used to wakeup the Riscduino core.
+    Caravel CPU does following action
+       1. Drive the Configuration for Uart Master for 57600 Baud Rate
+       2. Set the System Strap with Cache Bypass Mode, 
+       3. Flash SPI in Single Bit Mode
+       4. SRAM SPI in Single Bit Mode
+ 
+    On Power Up, it will wait for 20 Second to see any external programming will
+    be configuring the riscduino. It will check reg_mprj_wbhost_ctrl  bit [31] =1; 
+    If there is no indication on this, then caravel cpu will remove the riscduino cpu.
+
+
+   Revision:
+    0.1   - 0.1 Jun 2023 , Dinesh A
+            Initial Verson
+
+**************************************************************************/
 
 // This include is relative to $CARAVEL_PATH (see Makefile)
 #include <defs.h>
 #include <stub.h>
 #include "ext_reg_map.h"
-
-
-
-
-
 
 /*
 	Wishbone Test:
@@ -167,6 +181,7 @@ void main()
     // la0_data[17:16] - 0x3F; // Setting User Baud to 9600 with system clock 10Mhz = (10,000,000/(16 * (63+2))
     // la0_data[17:16] - 0x40; // Setting User Baud to 57600 with system clock 10Mhz = (10,000,000/(16 * (9+2))
     reg_la0_data = 0x096;
+
 
     reg_mprj_wbhost_reg5 = 0x6000; // system strap
     //putdword(reg_mprj_wbhost_reg5);
