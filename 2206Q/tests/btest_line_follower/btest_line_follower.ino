@@ -26,7 +26,7 @@ Gnd = Gnd (0V)
 #define LEFT_MOTOR_P   12
 #define LEFT_SENSOR    17
 #define RIGHT_SENSOR   14
-#define BUZZER         4
+#define BUZZER         2
 
 int BuzzerValue=0x00;
 
@@ -51,7 +51,7 @@ int BuzzerValue=0x00;
     digitalWrite(LEFT_MOTOR_N, HIGH);
     digitalWrite(LEFT_MOTOR_P, HIGH);
 
-
+    digitalWrite(BUZZER, BuzzerValue);
 
 }
 
@@ -66,8 +66,8 @@ void loop() {
     digitalWrite(RIGHT_MOTOR_N, HIGH);
     digitalWrite(LEFT_MOTOR_N, HIGH);
     digitalWrite(LEFT_MOTOR_P, HIGH);
-    BuzzerValue = LOW;
-    Serial.print("Right Sensor On\n");
+    //BuzzerValue = LOW;
+    //Serial.print("Right Sensor On\n");
 
   }
 
@@ -77,8 +77,8 @@ void loop() {
     digitalWrite(RIGHT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_P, HIGH);
-    BuzzerValue = HIGH;
-    Serial.print("Left & Right Sensor On\n");
+    //BuzzerValue = HIGH;
+    //Serial.print("Left & Right Sensor On\n");
  }
 
         // Turn Left
@@ -87,8 +87,8 @@ void loop() {
     digitalWrite(RIGHT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_P, LOW);
-    Serial.print("Left & Right Sensor Off\n");
-    BuzzerValue = HIGH;
+    //Serial.print("Left & Right Sensor Off\n");
+    //BuzzerValue = HIGH;
   }
 
   // Turn Move Forward
@@ -97,9 +97,10 @@ void loop() {
     digitalWrite(RIGHT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_P, HIGH);
-    BuzzerValue = ~BuzzerValue;
-    Serial.print("Left Sensor On\n");
+    //BuzzerValue = ~BuzzerValue;
+    //Serial.print("Left Sensor On\n");
   }
+  BuzzerValue = ~BuzzerValue;
   digitalWrite(BUZZER, BuzzerValue);
 
 }
