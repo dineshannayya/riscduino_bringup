@@ -1,12 +1,13 @@
 /* @file CustomKeypad.pde
 @Author: Dinesh A
 @Project: Riscduiono
-@In Caravel flow, IO pad Pull/Down are controlled by caravel. We have modified caravel flash with 
-@digitial io[16:13] as input with pull. user can use only use these port for row port
 @Date: 19th Aug 2023
 @Revision: 0.1
 
-Dependency: Make Sure that you have installed KeyPad Library by MarkStanley,Alexander Brevig. Test for 3.1.1 Version
+Dependency: 
+1. Make Sure that you have installed KeyPad Library by MarkStanley,Alexander Brevig. Test for 3.1.1 Version
+2. Make Sure that you add External Pull up for Row Pins
+
 */
 
 
@@ -21,6 +22,7 @@ char hexaKeys[ROWS][COLS] = {
   { 'C', '9', '8', '7' },
   { 'D', '#', '0', '*' }
 };
+// Add External Pull-up for Row Pins
 byte rowPins[ROWS] = { 6, 5, 4, 3 };    //connect to the row pinouts of the keypad
 byte colPins[COLS] = { 11, 10, 8, 7 };  //connect to the column pinouts of the keypad
 
