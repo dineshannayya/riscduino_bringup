@@ -26,12 +26,9 @@ void loop() {
   for (int row = 0; row < numRows; row++) {
       
         digitalWrite(rowPins[row], LOW);
-        Serial.print("Toggling:");
-         Serial.println(row);
         delay(10);
         digitalWrite(rowPins[row], HIGH);
         delay(10);
-       
       }
 
 

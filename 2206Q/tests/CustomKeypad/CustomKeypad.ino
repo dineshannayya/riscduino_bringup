@@ -23,7 +23,7 @@ char hexaKeys[ROWS][COLS] = {
   { 'D', '#', '0', '*' }
 };
 // Add External Pull-up for Row Pins
-byte rowPins[ROWS] = { 6, 5, 4, 3 };    //connect to the row pinouts of the keypad
+byte rowPins[ROWS] = { 6, 5, 4, 3 };    //connect to the row pinouts of the keypad-Add Pullup here
 byte colPins[COLS] = { 11, 10, 8, 7 };  //connect to the column pinouts of the keypad
 
 //initialize an instance of class NewKeypad
