@@ -20,39 +20,73 @@ VB = Battery Supply
 VCC = Regulated 5V+
 Gnd = Gnd (0V)
 *************************************************************/
-#define RIGHT_MOTOR_P  9
-#define RIGHT_MOTOR_N  10
-#define LEFT_MOTOR_N   11
-#define LEFT_MOTOR_P   12
-#define LEFT_SENSOR    17
-#define RIGHT_SENSOR   14
-#define BUZZER         2
+//#include "wiring_digital.h"
 
-int BuzzerValue=0x00;
+#define RIGHT_MOTOR_P 9
+#define RIGHT_MOTOR_N 10
+#define LEFT_MOTOR_N 11
+#define LEFT_MOTOR_P 12
+#define LEFT_SENSOR 17
+#define RIGHT_SENSOR 14
+#define BUZZER 4
 
-  void setup() {
+int BuzzerValue = 0x00;
+/**
+// To avoid cycle gap between each motor config bit
+// We are wtite all the bit in one cycle
+void Motor_Write(uint32_t right_motor_p, 
+                 uint32_t right_motor_n,
+                 uint32_t left_motor_p, 
+                 uint32_t left_motor_n)
+{
+   
+    int Gpio_oData = gpioRead();
+
+  if (right_motor_p)
+    Gpio_oData |=  digitalPinToBitMask(RIGHT_MOTOR_P);
+  else
+    Gpio_oData &= ~digitalPinToBitMask(RIGHT_MOTOR_P);
+
+  if (right_motor_n)
+    Gpio_oData |=  digitalPinToBitMask(RIGHT_MOTOR_N);
+  else
+    Gpio_oData &= ~digitalPinToBitMask(RIGHT_MOTOR_N);
+
+  if (left_motor_p)
+    Gpio_oData |=  digitalPinToBitMask(LEFT_MOTOR_P);
+  else
+    Gpio_oData &= ~digitalPinToBitMask(LEFT_MOTOR_P);
+
+  if (left_motor_n)
+    Gpio_oData |=  digitalPinToBitMask(LEFT_MOTOR_N);
+  else
+    Gpio_oData &= ~digitalPinToBitMask(LEFT_MOTOR_N);
+
+    gpioWrite(Gpio_oData);
+
+}
+**/
+
+void setup() {
   // put your setup code here, to run once:
-     Serial.begin(9600);
-     // Motor
-    pinMode(RIGHT_MOTOR_P, OUTPUT);
-    pinMode(RIGHT_MOTOR_N, OUTPUT);
-    pinMode(LEFT_MOTOR_N, OUTPUT);
-    pinMode(LEFT_MOTOR_P, OUTPUT);
+  Serial.begin(9600);
+  // Motor
+  pinMode(RIGHT_MOTOR_P, OUTPUT);
+  pinMode(RIGHT_MOTOR_N, OUTPUT);
+  pinMode(LEFT_MOTOR_N, OUTPUT);
+  pinMode(LEFT_MOTOR_P, OUTPUT);
 
   // Buzer
-    pinMode(BUZZER, OUTPUT);
-    // Sensor
-    pinMode(LEFT_SENSOR, INPUT);
-    pinMode(RIGHT_SENSOR, INPUT);
+  pinMode(BUZZER, OUTPUT);
+  // Sensor
+  pinMode(LEFT_SENSOR, INPUT);
+  pinMode(RIGHT_SENSOR, INPUT);
 
-    // Stop Motor
-    digitalWrite(RIGHT_MOTOR_P, HIGH);
-    digitalWrite(RIGHT_MOTOR_N, HIGH);
-    digitalWrite(LEFT_MOTOR_N, HIGH);
-    digitalWrite(LEFT_MOTOR_P, HIGH);
-
-    digitalWrite(BUZZER, BuzzerValue);
-
+  // Stop Motor
+  digitalWrite(RIGHT_MOTOR_P, HIGH);
+  digitalWrite(RIGHT_MOTOR_N, HIGH);
+  digitalWrite(LEFT_MOTOR_N, HIGH);
+  digitalWrite(LEFT_MOTOR_P, HIGH);
 }
 
 void loop() {
@@ -60,47 +94,49 @@ void loop() {
   int LeftSensorVal = digitalRead(LEFT_SENSOR);
   int RightSensorVal = digitalRead(RIGHT_SENSOR);
 
- // When both Sensor Off , Then Stop Motor
- if(LeftSensorVal ==0 && RightSensorVal == 1){
+  // When both Sensor Off , Then Stop Motor
+  if (LeftSensorVal == 0 && RightSensorVal == 1) {
     digitalWrite(RIGHT_MOTOR_P, HIGH);
     digitalWrite(RIGHT_MOTOR_N, HIGH);
     digitalWrite(LEFT_MOTOR_N, HIGH);
     digitalWrite(LEFT_MOTOR_P, HIGH);
+    // Motor_Write(HIGH,HIGH,HIGH,HIGH);
     //BuzzerValue = LOW;
     //Serial.print("Right Sensor On\n");
-
   }
 
-      // Turn Right
- if(LeftSensorVal ==1 && RightSensorVal == 1){
+  // Turn Right
+  if (LeftSensorVal == 0 && RightSensorVal == 0) {
     digitalWrite(RIGHT_MOTOR_P, LOW);
     digitalWrite(RIGHT_MOTOR_N, LOW);
-    digitalWrite(LEFT_MOTOR_N, LOW);
-    digitalWrite(LEFT_MOTOR_P, HIGH);
-    //BuzzerValue = HIGH;
+    digitalWrite(LEFT_MOTOR_N, HIGH);
+    digitalWrite(LEFT_MOTOR_P, LOW);
+    // Motor_Write(LOW,LOW,LOW,HIGH);
+    // BuzzerValue = HIGH;
     //Serial.print("Left & Right Sensor On\n");
- }
+  }
 
-        // Turn Left
- if(LeftSensorVal ==0 && RightSensorVal == 0){
-    digitalWrite(RIGHT_MOTOR_P, HIGH);
-    digitalWrite(RIGHT_MOTOR_N, LOW);
+  // Turn Left
+  if (LeftSensorVal == 1 && RightSensorVal == 1) {
+    digitalWrite(RIGHT_MOTOR_P, LOW);
+    digitalWrite(RIGHT_MOTOR_N, HIGH);
     digitalWrite(LEFT_MOTOR_N, LOW);
     digitalWrite(LEFT_MOTOR_P, LOW);
+    //Motor_Write(LOW,HIGH,LOW,LOW);
     //Serial.print("Left & Right Sensor Off\n");
-    //BuzzerValue = HIGH;
+    // BuzzerValue = HIGH;
   }
 
   // Turn Move Forward
- if(LeftSensorVal ==1 && RightSensorVal == 0){
-    digitalWrite(RIGHT_MOTOR_P, HIGH);
-    digitalWrite(RIGHT_MOTOR_N, LOW);
-    digitalWrite(LEFT_MOTOR_N, LOW);
-    digitalWrite(LEFT_MOTOR_P, HIGH);
-    //BuzzerValue = ~BuzzerValue;
+  if (LeftSensorVal == 1 && RightSensorVal == 0) {
+    digitalWrite(RIGHT_MOTOR_P, LOW);
+    digitalWrite(RIGHT_MOTOR_N, HIGH);
+    digitalWrite(LEFT_MOTOR_N, HIGH);
+    digitalWrite(LEFT_MOTOR_P, LOW);
+    // Motor_Write(LOW,HIGH,LOW,HIGH);
+    // BuzzerValue = ~BuzzerValue;
     //Serial.print("Left Sensor On\n");
   }
   BuzzerValue = ~BuzzerValue;
   digitalWrite(BUZZER, BuzzerValue);
-
 }
