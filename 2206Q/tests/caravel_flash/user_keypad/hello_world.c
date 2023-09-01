@@ -108,24 +108,24 @@ void configure_io()
     // configuring these IO from their default values.
 
     reg_mprj_io_1 = GPIO_MODE_MGMT_STD_OUTPUT;
-    reg_mprj_io_2 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
-    reg_mprj_io_3 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
-    reg_mprj_io_4 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;
+    reg_mprj_io_2 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_3 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_4 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
 
     // -------------------------------------------
 
-    reg_mprj_io_5 = GPIO_MODE_MGMT_STD_INPUT_NOPULL;     // UART Rx
+    reg_mprj_io_5 = GPIO_MODE_USER_STD_BIDIRECTIONAL;     // UART Rx
     reg_mprj_io_6 = GPIO_MODE_USER_STD_BIDIRECTIONAL;    // USER UART RX
     reg_mprj_io_7 = GPIO_MODE_USER_STD_BIDIRECTIONAL;    // USER UART TXD
     reg_mprj_io_8 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-    reg_mprj_io_9 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-    reg_mprj_io_10 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_9 = GPIO_MODE_USER_STD_BIDIRECTIONAL; // D3
+    reg_mprj_io_10 = GPIO_MODE_USER_STD_BIDIRECTIONAL; // D4
     reg_mprj_io_11 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
     reg_mprj_io_12 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
-    reg_mprj_io_13 = GPIO_MODE_USER_STD_INPUT_PULLUP;
-    reg_mprj_io_14 = GPIO_MODE_USER_STD_INPUT_PULLUP;
-    reg_mprj_io_15 = GPIO_MODE_USER_STD_INPUT_PULLUP;
-    reg_mprj_io_16 = GPIO_MODE_USER_STD_INPUT_PULLUP;
+    reg_mprj_io_13 = GPIO_MODE_USER_STD_BIDIRECTIONAL; // D5
+    reg_mprj_io_14 = GPIO_MODE_USER_STD_BIDIRECTIONAL; // D6
+    reg_mprj_io_15 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
+    reg_mprj_io_16 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
     reg_mprj_io_17 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
     reg_mprj_io_18 = GPIO_MODE_USER_STD_BIDIRECTIONAL;
 
