@@ -66,6 +66,7 @@ int iSum;
 int i,j;
 int iTxData;
 int iRxData;
+int bFlag = 0;
 
 int_ptr = &int_reg_tcm;
 
@@ -100,10 +101,14 @@ for(j=0; j < iMemSize; j++) {
       Serial.print("=> RxData:");
       print_var(iRxData);      
       if(iTxData == iRxData) Serial.print("=> Matched");
-      else Serial.print("=> FAIL");
+      else { bFlag = 1; Serial.print("=> FAIL"); }
       Serial.println();
     }
+
+    if(bFlag == 0) Serial.println("TCM MEMORY TEST PASSED");
+    else Serial.println("TCM MEMORY TEST FAILED");
 }
+
 
 Serial.print("########### Testing TCM Memory in 32 Bit Aligned Read Back and Verify-2 ###########");
 Serial.println();
@@ -119,9 +124,12 @@ for(j=0; j < iMemSize; j++) {
       Serial.print("=> RxData:");
       print_var(iRxData);      
       if(iTxData == iRxData) Serial.print("=> Matched");
-      else Serial.print("=> FAIL");
+      else { bFlag = 1; Serial.print("=> FAIL"); }
       Serial.println();
     }
+
+    if(bFlag == 0) Serial.println("TCM MEMORY TEST PASSED");
+    else Serial.println("TCM MEMORY TEST FAILED");
 }
 
 
