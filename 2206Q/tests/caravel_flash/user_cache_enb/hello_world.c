@@ -185,8 +185,8 @@ void main()
     // la0_data[17:16] - 0x40; // Setting User Baud to 57600 with system clock 10Mhz = (10,000,000/(16 * (9+2))
     reg_la0_data = 0x096;
 
-
-    reg_mprj_wbhost_reg5 = 0xA000; // system strap
+    // Bit[13] - 0  Cache Enable
+    reg_mprj_wbhost_reg5 = 0x4000; // system strap
     //putdword(reg_mprj_wbhost_reg5);
 
     //putdword(reg_mprj_wbhost_reg2);
