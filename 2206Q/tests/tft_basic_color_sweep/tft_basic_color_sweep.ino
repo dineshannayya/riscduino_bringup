@@ -175,6 +175,8 @@ void TftPaint(int color){
 
 void PaintLcd(){
   TftPaint(63488);//RED Colour
+  TftPaint(0x07E0);//Green
+  TftPaint(0x001F);//Blue
   TftPaint(24567);//PAle Yellow
   }
 
