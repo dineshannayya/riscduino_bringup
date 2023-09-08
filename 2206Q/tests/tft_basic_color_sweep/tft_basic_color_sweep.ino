@@ -8,7 +8,7 @@
 //***************************************************
 // Reference: https://www.engineersgarage.com/displaying-text-on-tft-lcd/
 
-
+//#include <MCUFRIEND_kbv.h>
 void IndexRegister(char Com);//Specifying Index of register
 void InitializeTFT();//Initializing TFT
 
@@ -18,8 +18,46 @@ int Lcd_RS=A2;    //TFT Controlling Pins
 int Lcd_CS=A3;
 int Lcd_RST=A4;
 
+#define LCD_CS A3 // Chip Select goes to Analog 3
+#define LCD_CD A2 // Command/Data goes to Analog 2
+#define LCD_WR A1 // LCD Write goes to Analog 1
+#define LCD_RD A0 // LCD Read goes to Analog 0
+
+#define LCD_RESET A4 // Can alternately just connect to Arduino's reset pin
+
+//MCUFRIEND_kbv tft;
+
+#define TFT_BLACK       0x0000      /*   0,   0,   0 */
+#define TFT_NAVY        0x000F      /*   0,   0, 128 */
+#define TFT_DARKGREEN   0x03E0      /*   0, 128,   0 */
+#define TFT_DARKCYAN    0x03EF      /*   0, 128, 128 */
+#define TFT_MAROON      0x7800      /* 128,   0,   0 */
+#define TFT_PURPLE      0x780F      /* 128,   0, 128 */
+#define TFT_OLIVE       0x7BE0      /* 128, 128,   0 */
+#define TFT_LIGHTGREY   0xC618      /* 192, 192, 192 */
+#define TFT_DARKGREY    0x7BEF      /* 128, 128, 128 */
+#define TFT_BLUE        0x001F      /*   0,   0, 255 */
+#define TFT_GREEN       0x07E0      /*   0, 255,   0 */
+#define TFT_CYAN        0x07FF      /*   0, 255, 255 */
+#define TFT_RED         0xF800      /* 255,   0,   0 */
+#define TFT_MAGENTA     0xF81F      /* 255,   0, 255 */
+#define TFT_YELLOW      0xFFE0      /* 255, 255,   0 */
+#define TFT_WHITE       0xFFFF      /* 255, 255, 255 */
+#define TFT_ORANGE      0xFDA0      /* 255, 180,   0 */
+#define TFT_GREENYELLOW 0xB7E0      /* 180, 255,   0 */
+#define TFT_PINK        0xFC9F
+
+
 void setup()
 {
+
+
+Serial.begin(9600);
+//Serial.print("TFT size is ");
+//Serial.print(tft.width());
+//Serial.print("x");
+//Serial.println(tft.height());
+
 DDRD=B11111111;//Port-D as Output
 DDRB=B11111111;//Port-B as Output
 pinMode(Lcd_RD,OUTPUT);
@@ -28,7 +66,14 @@ pinMode(Lcd_RS,OUTPUT);
 pinMode(Lcd_CS,OUTPUT);
 pinMode(Lcd_RST,OUTPUT);
 
-Serial.begin(9600);
+//tft.reset();
+//uint16_t identifier = tft.readID();
+//Serial.print("TFT Identifer ");
+//Serial.println(identifier);
+
+
+
+
 digitalWrite(Lcd_WR,HIGH);
 digitalWrite(Lcd_RD,HIGH);//In Write Mode
 digitalWrite(Lcd_RST,HIGH);//No Reset, For reseting Lcd, make LOW
@@ -165,7 +210,7 @@ void TftPaint(int color){
   CommandData(color>>8);
   CommandData(color);
   
-    for(i=0;i<=319;i++){
+    for(i=0;i<319;i++){
       for(j=0;j<=239;j++){
         fastDisplay(color>>8);
         fastDisplay(color);
@@ -174,7 +219,24 @@ void TftPaint(int color){
 }
 
 void PaintLcd(){
-  TftPaint(63488);//RED Colour
+  TftPaint(TFT_BLACK);
+  TftPaint(TFT_NAVY);
+  TftPaint(TFT_DARKGREEN);
+  TftPaint(TFT_DARKCYAN);
+  TftPaint(TFT_MAROON);
+  TftPaint(TFT_PURPLE);
+  TftPaint(TFT_OLIVE);
+  TftPaint(TFT_LIGHTGREY);
+  TftPaint(TFT_DARKGREY);
+  TftPaint(TFT_BLUE);
+  TftPaint(TFT_GREEN);
+  TftPaint(TFT_CYAN);
+  TftPaint(TFT_RED);
+  TftPaint(TFT_MAGENTA);
+  TftPaint(TFT_YELLOW);
+  TftPaint(TFT_WHITE);
+  TftPaint(TFT_ORANGE);
+  TftPaint(TFT_GREENYELLOW);
   TftPaint(0x07E0);//Green
   TftPaint(0x001F);//Blue
   TftPaint(24567);//PAle Yellow
