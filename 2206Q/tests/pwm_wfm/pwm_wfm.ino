@@ -3,8 +3,8 @@ int brightness = 0;    // how bright the LED is
 int fadeAmount = 5;    // how many points to fade the LED by
 
 
-#define reg_pwm0_low_cfg   (*(volatile uint32_t*)0x10020104)
-#define reg_pwm0_high_cfg  (*(volatile uint32_t*)0x10020106)
+#define reg_pwm0_low_cfg   (*(volatile uint16_t*)0x10020104)
+#define reg_pwm0_high_cfg  (*(volatile uint16_t*)0x10020106)
 
 #define reg_pwm1_low_cfg   (*(volatile uint16_t*)0x10020108)
 #define reg_pwm1_high_cfg  (*(volatile uint16_t*)0x1002010A)
@@ -74,5 +74,5 @@ void loop() {
   if (brightness <= 0 || brightness >= 255) {
     fadeAmount = -fadeAmount;
   }  
-  delay(30);  // wait for 30 milliseconds to see the dimming effect
+  delay(500);  // wait for 30 milliseconds to see the dimming effect
 }

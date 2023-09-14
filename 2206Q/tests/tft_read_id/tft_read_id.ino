@@ -17,6 +17,75 @@
 #define LCD_D6 6
 #define LCD_D7 7
 
+   //LCD pins  |D7 |D6 |D5 |D4 |D3 |D2 |D1 |D0 | |RD |WR |RS |CS |RST|
+   //AVR   pin |PD7|PD6|PD5|PD4|PD3|PD2|PB1|PB0| |PC0|PC1|PC2|PC3|PC4|
+   //UNO pins  |7  |6  |5  |4  |3  |2  |9  |8  | |A0 |A1 |A2 |A3 |A4 |
+   #define RD_PORT PORTC
+   #define RD_PIN  0
+   #define WR_PORT PORTC
+   #define WR_PIN  1
+   #define CD_PORT PORTC
+   #define CD_PIN  2
+   #define CS_PORT PORTC
+   #define CS_PIN  3
+   #define RESET_PORT PORTC
+   #define RESET_PIN  4
+   
+   #define BMASK         0x03              //more intuitive style for mixed Ports
+   #define DMASK         0xFC              //does exactly the same as previous
+   #define write_8(x)    { PORTB = (PORTB & ~BMASK) | ((x) & BMASK); PORTD = (PORTD & ~DMASK) | ((x) & DMASK); }
+   #define read_8()      ( (PINB & BMASK) | (PIND & DMASK) )
+   #define setWriteDir() { DDRB |=  BMASK; DDRD |=  DMASK; }
+   #define setReadDir()  { DDRB &= ~BMASK; DDRD &= ~DMASK; }
+   #define write8(x)     { write_8(x); WR_STROBE; }
+   #define write16(x)    { uint8_t h = (x)>>8, l = x; write8(h); write8(l); }
+   #define READ_8(dst)   { RD_STROBE; dst = read_8(); RD_IDLE; }
+   #define READ_16(dst)  { uint8_t hi; READ_8(hi); READ_8(dst); dst |= (hi << 8); }
+   
+   #define PIN_LOW(p, b)        (p) &= ~(1<<(b))
+   #define PIN_HIGH(p, b)       (p) |= (1<<(b))
+   #define PIN_OUTPUT(p, b)     (p) |= (1<<(b))
+
+
+
+#define RD_ACTIVE  PIN_LOW(RD_PORT, RD_PIN)
+#define RD_IDLE    PIN_HIGH(RD_PORT, RD_PIN)
+#define RD_OUTPUT  PIN_OUTPUT(DDRC, RD_PIN)
+#define WR_ACTIVE  PIN_LOW(WR_PORT, WR_PIN)
+#define WR_IDLE    PIN_HIGH(WR_PORT, WR_PIN)
+#define WR_OUTPUT  PIN_OUTPUT(DDRC, WR_PIN)
+#define CD_IDLE  PIN_HIGH(CD_PORT, CD_PIN)
+#define CD_COMMAND PIN_LOW(CD_PORT, CD_PIN)
+#define CD_DATA    PIN_HIGH(CD_PORT, CD_PIN)
+#define CD_OUTPUT  PIN_OUTPUT(DDRC, CD_PIN)
+#define CS_ACTIVE  PIN_LOW(CS_PORT, CS_PIN)
+#define CS_IDLE    PIN_HIGH(CS_PORT, CS_PIN)
+#define CS_OUTPUT  PIN_OUTPUT(DDRC, CS_PIN)
+#define RESET_ACTIVE  PIN_LOW(RESET_PORT, RESET_PIN)
+#define RESET_IDLE    PIN_HIGH(RESET_PORT, RESET_PIN)
+#define RESET_OUTPUT  PIN_OUTPUT(DDRC, RESET_PIN)
+
+ // General macros.   IOCLR registers are 1 cycle when optimised.
+#define WR_STROBE { WR_ACTIVE; WR_IDLE; }       //PWLW=TWRL=50ns
+#define RD_STROBE RD_IDLE, RD_ACTIVE, RD_ACTIVE, RD_ACTIVE      //PWLR=TRDL=150ns, tDDR=100ns
+
+#define CTL_IDLE()   { RD_IDLE; WR_IDLE; CD_IDLE; CS_IDLE; RESET_IDLE; }
+#define CTL_INIT()   { RD_OUTPUT; WR_OUTPUT; CD_OUTPUT; CS_OUTPUT; RESET_OUTPUT; }
+#define WriteCmd(x)  { CD_COMMAND; write16(x); CD_DATA; }
+#define WriteData(x) { write16(x); }
+
+#define reg_gpio_dsel         (*(volatile uint32_t*)0x10020080)  // reg_0  - GPIO Direction Select
+#define reg_gpio_type         (*(volatile uint32_t*)0x10020084)  // reg_1  - GPIO TYPE - Static/Waveform
+#define reg_gpio_idata        (*(volatile uint32_t*)0x10020088)  // reg_2  - GPIO Data In
+#define reg_gpio_odata        (*(volatile uint32_t*)0x1002008C)  // reg_3  - GPIO Data Out
+#define reg_gpio_intr_stat    (*(volatile uint32_t*)0x10020090)  // reg_4  - GPIO Interrupt status
+#define reg_gpio_intr_clr     (*(volatile uint32_t*)0x10020090)  // reg_5  - GPIO Interrupt Clear
+#define reg_gpio_intr_set     (*(volatile uint32_t*)0x10020094)  // reg_6 - GPIO Interrupt Set
+#define reg_gpio_intr_mask    (*(volatile uint32_t*)0x10020098)  // reg_7 - GPIO Interrupt Mask
+#define reg_gpio_pos_intr     (*(volatile uint32_t*)0x1002009C)  // reg_8 - GPIO Posedge Interrupt
+#define reg_gpio_neg_intr     (*(volatile uint32_t*)0x100200A0)  // reg_9 - GPIO Neg Interrupt
+
+
 void setup()
 {
     Serial.begin(9600);
@@ -109,16 +178,37 @@ void readReg(uint16_t reg, uint8_t n, const char *msg)
 
 void lcdInit()
 {
-    pinMode(LCD_CS, OUTPUT);
+
+    Serial.print("GPIO Direction(Pre):");
+    Serial.println(reg_gpio_dsel) ;
+    Serial.print("GPIO Type(Pre):");
+    Serial.println(reg_gpio_type) ;
+    Serial.print("GPIO Output(Pre):");
+    Serial.println(reg_gpio_odata) ;
+    
+    
+/*
     digitalWrite(LCD_CS, HIGH);
-    pinMode(LCD_RS, OUTPUT);
     digitalWrite(LCD_RS, HIGH);
-    pinMode(LCD_WR, OUTPUT);
     digitalWrite(LCD_WR, HIGH);
-    pinMode(LCD_RD, OUTPUT);
     digitalWrite(LCD_RD, HIGH);
-    pinMode(LCD_RST, OUTPUT);
     digitalWrite(LCD_RST, HIGH);
+    pinMode(LCD_CS, OUTPUT);
+    pinMode(LCD_RS, OUTPUT);
+    pinMode(LCD_WR, OUTPUT);
+    pinMode(LCD_RD, OUTPUT);
+    pinMode(LCD_RST, OUTPUT);
+*/  
+    CTL_INIT();
+    CTL_IDLE();
+
+    Serial.print("GPIO Direction(Post):");
+    Serial.println(reg_gpio_dsel) ;
+    Serial.print("GPIO Type(Post):");
+    Serial.println(reg_gpio_type) ;
+    Serial.print("GPIO Output(Post):");
+    Serial.println(reg_gpio_odata) ;
+    
 }
 
 void lcdReset()
@@ -131,6 +221,7 @@ void lcdReset()
 
 void lcdWrite8(uint16_t data)
 {
+    /**
     digitalWrite(LCD_D0, data & 1);
     digitalWrite(LCD_D1, (data & 2) >> 1);
     digitalWrite(LCD_D2, (data & 4) >> 2);
@@ -139,11 +230,15 @@ void lcdWrite8(uint16_t data)
     digitalWrite(LCD_D5, (data & 32) >> 5);
     digitalWrite(LCD_D6, (data & 64) >> 6);
     digitalWrite(LCD_D7, (data & 128) >> 7);
+    **/
+    write16(data);
 }
 
 uint16_t lcdRead8()
 {
-    uint16_t result = digitalRead(LCD_D7);
+    uint16_t result;
+    /**
+    result = digitalRead(LCD_D7);
     result <<= 1;
     result |= digitalRead(LCD_D6);
     result <<= 1;
@@ -158,12 +253,16 @@ uint16_t lcdRead8()
     result |= digitalRead(LCD_D1);
     result <<= 1;
     result |= digitalRead(LCD_D0);
+    **/
+    READ_16(result);
 
     return result;
 }
 
 void lcdSetWriteDir()
 {
+  
+    /**
     pinMode(LCD_D0, OUTPUT);
     pinMode(LCD_D1, OUTPUT);
     pinMode(LCD_D2, OUTPUT);
@@ -172,11 +271,15 @@ void lcdSetWriteDir()
     pinMode(LCD_D5, OUTPUT);
     pinMode(LCD_D6, OUTPUT);
     pinMode(LCD_D7, OUTPUT);
+    **/
+    setWriteDir();
 }
 
 
 void lcdSetReadDir()
 {
+
+    /** 
     pinMode(LCD_D0, INPUT);
     pinMode(LCD_D1, INPUT);
     pinMode(LCD_D2, INPUT);
@@ -185,6 +288,9 @@ void lcdSetReadDir()
     pinMode(LCD_D5, INPUT);
     pinMode(LCD_D6, INPUT);
     pinMode(LCD_D7, INPUT);
+    **/
+  
+   setReadDir();
 }
 
 void lcdWriteData(uint16_t data)
@@ -231,6 +337,7 @@ void lcdWriteCommand(uint16_t command)
 uint8_t lcdReadData8()
 {
     uint8_t result;
+   
     lcdSetReadDir();
     digitalWrite(LCD_CS, LOW);
     digitalWrite(LCD_RS, HIGH);
@@ -243,6 +350,9 @@ uint8_t lcdReadData8()
     digitalWrite(LCD_RD, HIGH);
 
     delayMicroseconds(10);
+    digitalWrite(LCD_CS, HIGH);
+    
+    //READ_8(result);
 
     return result;
 }
@@ -253,6 +363,7 @@ uint16_t lcdReadData16()
     uint16_t result;
     result = lcdReadData8() << 8;
     result |= lcdReadData8();
+    //READ_16(result);
     return result;
 }
 
