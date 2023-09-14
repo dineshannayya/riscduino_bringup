@@ -34,7 +34,7 @@ void setup() {
   //Serial.println("PWN Test Started");
 
   		// config 1us based on system clock - 1000/100ns = 10 
-        reg_timer_cfg = 9;
+        reg_timer_cfg = 1;
       // Enable PWM Multi Functional Ports
         reg_glbl_multi_func |= 0x03F;
         //Serial.print("Glbl Multi Func:");
@@ -60,7 +60,7 @@ void setup() {
 void loop() {
   //analogWrite(led, brightness); // set the brightness of led
   reg_pwm0_high_cfg = brightness;
-  reg_pwm0_low_cfg = 255-brightness-1;
+  reg_pwm0_low_cfg = (255-brightness-1) & 0xFF;
   //Serial.print("pwm0 High Value:");
   //Serial.println(reg_pwm0_high_cfg);
   //Serial.print("pwm0 High Value:");
@@ -74,5 +74,5 @@ void loop() {
   if (brightness <= 0 || brightness >= 255) {
     fadeAmount = -fadeAmount;
   }  
-  delay(500);  // wait for 30 milliseconds to see the dimming effect
+  delay(100);  // wait for 30 milliseconds to see the dimming effect
 }
